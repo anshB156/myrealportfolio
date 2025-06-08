@@ -1,1 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizing Database Performance in Node.js Applications - Sarnab's Blog</title>
+    <meta name="description" content="A deep dive into database optimization techniques for Node.js, including connection pooling, query optimization, indexing, and caching strategies.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --background: 222 84% 5%;
+            --foreground: 210 40% 98%;
+            --muted: 215 14% 34%;
+            --muted-foreground: 215 14% 55%;
+            --card: 222 84% 5%;
+            --card-foreground: 210 40% 98%;
+            --border: 215 28% 17%;
+            --primary: 207 90% 54%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 215 28% 17%;
+            --secondary-foreground: 210 40% 98%;
+            --accent: 207 90% 54%;
+            --accent-foreground: 210 40% 98%;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215, 28%, 8%) 50%, hsl(var(--background)) 100%);
+            color: hsl(var(--foreground));
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .container-custom { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+        .article-container { max-width: 896px; margin: 0 auto; padding: 2rem 1rem; }
+        .article-content h2 { font-size: 2.25rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid hsl(var(--border)); color: hsl(var(--primary)); }
+        .article-content h3 { font-size: 1.5rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: hsl(var(--accent)); }
+        .article-content p { font-size: 1.125rem; line-height: 1.8; color: hsl(var(--muted-foreground)); margin-bottom: 1.5rem; }
+        .article-content ul { list-style-type: disc; padding-left: 2rem; margin-bottom: 1.5rem; }
+        .article-content li { font-size: 1.125rem; line-height: 1.8; color: hsl(var(--muted-foreground)); margin-bottom: 0.75rem; }
+        .article-content a { color: hsl(var(--primary)); text-decoration: underline; transition: color 0.3s ease; }
+        .article-content a:hover { color: hsl(var(--accent)); }
+        .article-content code:not(pre > code) { background: hsl(var(--secondary)); color: hsl(var(--primary)); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; font-family: 'Courier New', Courier, monospace; }
+        .code-block-wrapper { position: relative; margin: 2rem 0; }
+        .article-content pre { background-color: hsl(220, 25%, 10%); border: 1px solid hsl(var(--border)); border-radius: 0.5rem; padding: 1.5rem; overflow-x: auto; font-size: 0.95rem; line-height: 1.6; }
+        .copy-button { position: absolute; top: 0.75rem; right: 0.75rem; background: hsl(var(--secondary)); color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border)); padding: 0.25rem 0.75rem; border-radius: 0.25rem; cursor: pointer; transition: all 0.2s ease; font-size: 0.8rem; }
+        .copy-button:hover { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+        .copy-button:focus { outline: none; box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5); }
+        .nav-blur { backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); background: rgba(17, 24, 39, 0.85); border-bottom: 1px solid rgba(75, 85, 99, 0.3); }
+        .btn-primary { background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent))); color: hsl(var(--primary-foreground)); padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary:hover { box-shadow: 0 10px 25px -5px hsl(var(--accent) / 0.25); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <header class="sticky top-0 w-full z-50 nav-blur">
+        <nav class="container-custom flex justify-between items-center h-16">
+            <a href="index.html" class="text-2xl font-bold text-gradient">SB</a>
+            <a href="index.html" class="btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </nav>
+    </header>
 
+    <main class="article-container">
+        <div class="text-center my-8">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-gradient leading-tight">Optimizing Database Performance in Node.js Applications</h1>
+            <div class="text-lg text-gray-400 mt-4">
+                <span>By Sarnab Bhattacharjee</span> &bull;
+                <span>Published on May 15, 2025</span> &bull;
+                <span>14 min read</span>
+            </div>
+            <p class="max-w-3xl mx-auto mt-6 text-xl text-gray-400">
+                A deep dive into essential database optimization techniques for Node.js applications, including connection pooling, query optimization, indexing, and caching strategies.
+            </p>
+        </div>
+
+        <div class="article-content mt-12">
+            <p>
+                In any data-driven application, the database is often the most significant performance bottleneck. For a Node.js application, which excels at handling high-concurrency I/O operations, a slow database can negate its primary advantage. This guide covers crucial strategies to ensure your database interactions are fast, efficient, and scalable.
+            </p>
+
+            <h2>1. Master Connection Pooling</h2>
+            <p>
+                Establishing a new database connection for every incoming request is incredibly inefficient. The handshake process consumes valuable time and server resources. <strong>Connection pooling</strong> solves this by creating and maintaining a pool of reusable database connections. When your application needs to run a query, it "borrows" a connection from the pool and returns it when done.
+            </p>
+            <h3>Implementation Example (using `node-postgres`):</h3>
+            <p>Most mature database drivers for Node.js have built-in support for pooling. It's crucial to configure it correctly.</p>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-javascript">// db.js
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  user: 'db_user',
+  host: 'localhost',
+  database: 'api',
+  password: 'password',
+  port: 5432,
+  max: 20, // Set pool size
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+// Export a query function that uses the pool
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+};
+</code></pre>
+            </div>
+            <p>By creating a single, shared pool instance across your application, you prevent resource exhaustion and significantly reduce query latency.</p>
+
+            <h2>2. Write Efficient Queries and Use an ORM Wisely</h2>
+            <p>
+                The way you fetch data is just as important as how you connect to the database. Inefficient queries can bring your application to its knees.
+            </p>
+            <h3>Best Practices:</h3>
+            <ul>
+                <li><strong>Select Only What You Need:</strong> Avoid <code>SELECT *</code>. Explicitly list the columns you require to reduce the amount of data transferred between your database and application.</li>
+                <li><strong>Use Joins Effectively:</strong> Fetch related data in a single query using <code>JOIN</code>s instead of making multiple round trips to the database (the "N+1 query problem").</li>
+                <li><strong>Leverage Database Features:</strong> Use transactions for atomic operations and aggregations (<code>COUNT</code>, <code>SUM</code>) to perform calculations within the database itself.</li>
+            </ul>
+            <p>ORMs like <strong>Prisma</strong> or <strong>Sequelize</strong> can simplify database interactions, but it's vital to understand the SQL they generate. Use their logging features during development to inspect the generated queries and ensure they are efficient.</p>
+
+            <h2>3. The Power of Indexing</h2>
+            <p>
+                An index is a special data structure that allows the database to find rows matching a query without scanning the entire table. It's the single most effective way to speed up <code>SELECT</code> queries.
+            </p>
+            <h3>When to Add an Index:</h3>
+            <ul>
+                <li><strong>On Foreign Keys:</strong> Most database systems do this automatically, but it's good to verify.</li>
+                <li><strong>On Columns Used in `WHERE` Clauses:</strong> Any column you frequently use to filter data (e.g., <code>email</code>, <code>username</code>, <code>status</code>) is a prime candidate for an index.</li>
+                <li><strong>On Columns Used for Sorting (`ORDER BY`):</strong> Indexing these columns can dramatically speed up sorting operations.</li>
+            </ul>
+            <p>
+                You can use the <code>EXPLAIN ANALYZE</code> command in your database to see the query plan. If you see a "Sequential Scan" on a large table, it's a strong sign that you're missing an index.
+            </p>
+
+            <h2>4. Implement a Caching Strategy</h2>
+            <p>
+                For data that is frequently accessed but infrequently updated, caching can provide a massive performance boost by serving the data from memory instead of hitting the database.
+            </p>
+            <h3>Using an In-Memory Store like Redis</h3>
+            <p>Redis is an extremely fast in-memory key-value store, perfect for caching. The typical workflow is:</p>
+            <ol>
+                <li>When a request comes in, first check if the data exists in the Redis cache.</li>
+                <li>If it exists (a "cache hit"), return the data directly from Redis.</li>
+                <li>If it doesn't exist (a "cache miss"), query the database, store the result in Redis with an expiration time (TTL), and then return it to the client.</li>
+            </ol>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-javascript">const express = require('express');
+const redis = require('redis');
+const db = require('./db');
+
+const app = express();
+const redisClient = redis.createClient();
+await redisClient.connect();
+
+const DEFAULT_EXPIRATION = 3600; // 1 hour
+
+app.get('/products/:id', async (req, res) => {
+  const cacheKey = `products:${req.params.id}`;
+  
+  const cachedData = await redisClient.get(cacheKey);
+  if (cachedData) {
+    return res.json(JSON.parse(cachedData));
+  }
+
+  const { rows } = await db.query('SELECT * FROM products WHERE id = $1', [req.params.id]);
+  const product = rows[0];
+
+  redisClient.setEx(cacheKey, DEFAULT_EXPIRATION, JSON.stringify(product));
+  res.json(product);
+});
+</code></pre>
+            </div>
+            
+            <h2>Conclusion</h2>
+            <p>
+                Database optimization is a continuous process, not a one-time fix. By implementing connection pooling, writing efficient queries, leveraging proper indexing, and introducing a smart caching layer, you can build a Node.js backend that remains fast and responsive even as your data and user base grow. Always monitor your application's performance and be prepared to analyze and optimize your database interactions as new bottlenecks emerge.
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-black border-t border-gray-700 py-8 mt-12">
+        <div class="container-custom text-center text-gray-400">
+            <p>&copy; 2025 Sarnab Bhattacharjee. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="index.html#contact" class="hover:text-blue-400">Contact</a>
+                <span class="mx-2">&bull;</span>
+                <a href="https://github.com/anshB156" target="_blank" class="hover:text-blue-400">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.parentElement.querySelector('pre');
+            const code = pre.innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = 'Copied!';
+                setTimeout(() => {
+                    button.innerText = 'Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

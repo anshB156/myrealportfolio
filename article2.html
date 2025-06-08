@@ -1,1 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future of Web Development: AI and Automation - Sarnab's Blog</title>
+    <meta name="description" content="Exploring how artificial intelligence and automation tools are reshaping the web development landscape, from code generation to automated testing.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --background: 222 84% 5%;
+            --foreground: 210 40% 98%;
+            --muted: 215 14% 34%;
+            --muted-foreground: 215 14% 55%;
+            --card: 222 84% 5%;
+            --card-foreground: 210 40% 98%;
+            --border: 215 28% 17%;
+            --primary: 207 90% 54%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 215 28% 17%;
+            --secondary-foreground: 210 40% 98%;
+            --accent: 207 90% 54%;
+            --accent-foreground: 210 40% 98%;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215, 28%, 8%) 50%, hsl(var(--background)) 100%);
+            color: hsl(var(--foreground));
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .container-custom { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+        .article-container { max-width: 896px; margin: 0 auto; padding: 2rem 1rem; }
+        .article-content h2 { font-size: 2.25rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid hsl(var(--border)); color: hsl(var(--primary)); }
+        .article-content h3 { font-size: 1.5rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; color: hsl(var(--accent)); }
+        .article-content p { font-size: 1.125rem; line-height: 1.8; color: hsl(var(--muted-foreground)); margin-bottom: 1.5rem; }
+        .article-content ul { list-style-type: disc; padding-left: 2rem; margin-bottom: 1.5rem; }
+        .article-content li { font-size: 1.125rem; line-height: 1.8; color: hsl(var(--muted-foreground)); margin-bottom: 0.75rem; }
+        .article-content a { color: hsl(var(--primary)); text-decoration: underline; transition: color 0.3s ease; }
+        .article-content a:hover { color: hsl(var(--accent)); }
+        .article-content code:not(pre > code) { background: hsl(var(--secondary)); color: hsl(var(--primary)); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; font-family: 'Courier New', Courier, monospace; }
+        .code-block-wrapper { position: relative; margin: 2rem 0; }
+        .article-content pre { background-color: hsl(220, 25%, 10%); border: 1px solid hsl(var(--border)); border-radius: 0.5rem; padding: 1.5rem; overflow-x: auto; font-size: 0.95rem; line-height: 1.6; }
+        .copy-button { position: absolute; top: 0.75rem; right: 0.75rem; background: hsl(var(--secondary)); color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border)); padding: 0.25rem 0.75rem; border-radius: 0.25rem; cursor: pointer; transition: all 0.2s ease; font-size: 0.8rem; }
+        .copy-button:hover { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+        .copy-button:focus { outline: none; box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5); }
+        .nav-blur { backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); background: rgba(17, 24, 39, 0.85); border-bottom: 1px solid rgba(75, 85, 99, 0.3); }
+        .btn-primary { background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent))); color: hsl(var(--primary-foreground)); padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary:hover { box-shadow: 0 10px 25px -5px hsl(var(--accent) / 0.25); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <header class="sticky top-0 w-full z-50 nav-blur">
+        <nav class="container-custom flex justify-between items-center h-16">
+            <a href="index.html" class="text-2xl font-bold text-gradient">SB</a>
+            <a href="index.html" class="btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </nav>
+    </header>
 
+    <main class="article-container">
+        <div class="text-center my-8">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-gradient leading-tight">The Future of Web Development: AI and Automation</h1>
+            <div class="text-lg text-gray-400 mt-4">
+                <span>By Sarnab Bhattacharjee</span> &bull;
+                <span>Published on May 28, 2025</span> &bull;
+                <span>9 min read</span>
+            </div>
+            <p class="max-w-3xl mx-auto mt-6 text-xl text-gray-400">
+                Exploring how artificial intelligence and automation tools are reshaping the web development landscape and what it means for developers.
+            </p>
+        </div>
+
+        <div class="article-content mt-12">
+            <p>
+                The field of web development is in a constant state of flux, but the recent advancements in Artificial Intelligence (AI) represent a paradigm shift unlike any other. Tools that were once science fiction are now integrated directly into our code editors, streamlining workflows and automating tedious tasks. This article explores the current and future impact of AI and automation on web development, and how developers can adapt to thrive in this new era.
+            </p>
+
+            <h2>1. The Rise of the AI Coding Assistant</h2>
+            <p>
+                The most immediate impact of AI is the emergence of powerful coding assistants like <strong>GitHub Copilot</strong>, <strong>Tabnine</strong>, and Amazon's <strong>CodeWhisperer</strong>. These tools, powered by large language models (LLMs) trained on billions of lines of code, do far more than simple autocompletion.
+            </p>
+            <h3>Key Capabilities:</h3>
+            <ul>
+                <li><strong>Code Generation:</strong> They can write entire functions, components, or boilerplate code based on a simple comment or function signature.</li>
+                <li><strong>Bug Detection & Fixing:</strong> AI can analyze your code, identify potential bugs or security vulnerabilities, and suggest fixes.</li>
+                <li><strong>Language Translation:</strong> They can help translate a block of code from one programming language to another, for example, converting a Python utility function into JavaScript.</li>
+                <li><strong>Writing Tests:</strong> Generating unit tests, once a time-consuming task, can be significantly accelerated by asking an AI assistant to write test cases for a given function.</li>
+            </ul>
+            <p>These assistants act as a "pair programmer," boosting productivity by handling repetitive tasks and providing instant solutions to common problems. However, it's crucial to remember that they are tools, not replacements for understanding. The code they generate must be reviewed, understood, and tested by the developer.</p>
+
+            <h2>2. Automated UI/UX Design and Prototyping</h2>
+            <p>
+                AI is also making waves in the design phase. Tools are emerging that can generate UI mockups, design systems, and even functional prototypes from simple text descriptions or wireframes.
+            </p>
+            <ul>
+                <li><strong>Design to Code:</strong> Tools like <a href="#">Vercel's v0</a> or other upcoming platforms can take a visual design (from Figma or even a screenshot) and generate corresponding React or HTML/CSS code. This drastically shortens the gap between design and implementation.</li>
+                <li><strong>Generative UI:</strong> AI models can create multiple design variations for a component or page, allowing teams to quickly explore different layouts, color schemes, and styles.</li>
+                <li><strong>UX Analysis:</strong> AI can analyze user session recordings to identify points of friction, generate heatmaps, and provide data-driven insights on how to improve the user experience.</li>
+            </ul>
+
+            <h2>3. The Evolution of Testing and CI/CD</h2>
+            <p>
+                Automation has long been a cornerstone of modern DevOps, but AI is supercharging it.
+            </p>
+            <h3>Smarter and Faster Pipelines</h3>
+            <ul>
+                <li><strong>AI-Powered Test Generation:</strong> As mentioned, AI can write unit and integration tests, but it can also perform "visual regression testing" by learning what a UI is supposed to look like and flagging any unintended visual changes.</li>
+                <li><strong>Intelligent Test Execution:</strong> Instead of running the entire test suite on every commit, AI can predict which tests are most likely to be affected by a code change and run only that relevant subset, saving valuable pipeline minutes.</li>
+                <li><strong>Automated Deployment Strategies:</strong> AI can monitor application performance and user behavior after a deployment, automatically rolling back to a previous version if it detects a spike in errors or a drop in key business metrics.</li>
+            </ul>
+
+            <h2>4. The Changing Role of the Developer</h2>
+            <p>
+                With AI automating many of the manual aspects of coding, the developer's role is evolving from a "code writer" to an "architect" and "problem solver." The focus is shifting towards higher-level tasks that require critical thinking, creativity, and business acumen.
+            </p>
+            <h3>Skills for the Future:</h3>
+            <ul>
+                <li><strong>System Design:</strong> Understanding how to architect robust, scalable, and maintainable systems is more important than ever.</li>
+                <li><strong>Prompt Engineering:</strong> Knowing how to effectively communicate with AI models to get the desired output is becoming a crucial skill.</li>
+                <li><strong>Critical Code Review:</strong> The ability to critically evaluate AI-generated code for correctness, performance, and security is paramount.</li>
+                <li><strong>Domain Expertise:</strong> Understanding the business logic and user needs of the application you're building allows you to guide the AI effectively.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>
+                The integration of AI and automation into web development is not a threat, but an opportunity. It empowers developers to build more complex, powerful, and reliable applications faster than ever before. By embracing these tools, focusing on high-level architectural decisions, and continuously honing our problem-solving skills, we can not only remain relevant but become more effective and impactful in our roles. The future of web development is collaborative, with humans and AI working together to build the next generation of the web.
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-black border-t border-gray-700 py-8 mt-12">
+        <div class="container-custom text-center text-gray-400">
+            <p>&copy; 2025 Sarnab Bhattacharjee. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="index.html#contact" class="hover:text-blue-400">Contact</a>
+                <span class="mx-2">&bull;</span>
+                <a href="https://github.com/anshB156" target="_blank" class="hover:text-blue-400">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.parentElement.querySelector('pre');
+            const code = pre.innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = 'Copied!';
+                setTimeout(() => {
+                    button.innerText = 'Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

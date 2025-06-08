@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Scalable React Applications with TypeScript - Sarnab's Blog</title>
+    <meta name="description" content="A detailed guide on architecting large-scale React applications using TypeScript, focusing on component design, state management, and performance optimization.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        
+        :root {
+            --background: 222 84% 5%;
+            --foreground: 210 40% 98%;
+            --muted: 215 14% 34%;
+            --muted-foreground: 215 14% 55%;
+            --card: 222 84% 5%;
+            --card-foreground: 210 40% 98%;
+            --border: 215 28% 17%;
+            --primary: 207 90% 54%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 215 28% 17%;
+            --secondary-foreground: 210 40% 98%;
+            --accent: 207 90% 54%;
+            --accent-foreground: 210 40% 98%;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215, 28%, 8%) 50%, hsl(var(--background)) 100%);
+            color: hsl(var(--foreground));
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .container-custom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Article-Specific Styles */
+        .article-container {
+            max-width: 896px; /* Optimized for reading */
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .article-content h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid hsl(var(--border));
+            color: hsl(var(--primary));
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: hsl(var(--accent));
+        }
+
+        .article-content p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content li {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 0.75rem;
+        }
+
+        .article-content a {
+            color: hsl(var(--primary));
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .article-content a:hover {
+            color: hsl(var(--accent));
+        }
+
+        /* Inline Code and Code Block Styles */
+        .article-content code:not(pre > code) {
+            background: hsl(var(--secondary));
+            color: hsl(var(--primary));
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .article-content pre {
+            background-color: hsl(220, 25%, 10%);
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: hsl(var(--secondary));
+            color: hsl(var(--muted-foreground));
+            border: 1px solid hsl(var(--border));
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .copy-button:hover {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .copy-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5);
+        }
+
+        /* Nav and Footer Styles from Portfolio */
+        .nav-blur {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(17, 24, 39, 0.85);
+            border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            color: hsl(var(--primary-foreground));
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px -5px hsl(var(--accent) / 0.25);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sticky top-0 w-full z-50 nav-blur">
+        <nav class="container-custom flex justify-between items-center h-16">
+            <a href="index.html" class="text-2xl font-bold text-gradient">SB</a>
+            <a href="index.html" class="btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </nav>
+    </header>
+
+    <main class="article-container">
+        <div class="text-center my-8">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-gradient leading-tight">Building Scalable React Applications with TypeScript</h1>
+            <div class="text-lg text-gray-400 mt-4">
+                <span>By Sarnab Bhattacharjee</span> &bull;
+                <span>Published on June 8, 2025</span> &bull;
+                <span>12 min read</span>
+            </div>
+            <p class="max-w-3xl mx-auto mt-6 text-xl text-gray-400">
+                Learn best practices for architecting large-scale React applications using TypeScript, focusing on component design, state management, and performance optimization.
+            </p>
+        </div>
+
+        <div class="article-content mt-12">
+            <p>
+                As React applications grow from simple prototypes to complex, enterprise-level systems, the challenges of maintaining code quality, ensuring stability, and onboarding new developers multiply. This is where the combination of React and TypeScript shines. TypeScript, a typed superset of JavaScript, brings static typing to the table, allowing us to catch errors during development, not in production. In this guide, we'll explore a holistic approach to building scalable, robust, and maintainable React applications.
+            </p>
+
+            <h2>1. The Foundation: Why TypeScript?</h2>
+            <p>
+                Before diving into architecture, it's crucial to understand why TypeScript is a game-changer for scalability. Static types act as living documentation, making components and data structures self-explanatory. This significantly reduces bugs related to incorrect data types and improves developer confidence when refactoring.
+            </p>
+            <h3>Key Benefits:</h3>
+            <ul>
+                <li><strong>Type Safety:</strong> Catches common errors like typos and incorrect prop types at compile time.</li>
+                <li><strong>Improved Autocompletion:</strong> Your code editor can provide intelligent suggestions for props, state, and functions.</li>
+                <li><strong>Easier Refactoring:</strong> The compiler helps you find all instances that need to be updated after a change.</li>
+                <li><strong>Enhanced Readability:</strong> Explicit types make it easier for any developer to understand what a piece of code is supposed to do.</li>
+            </ul>
+            <p>Consider a simple `UserProfile` component. In plain JavaScript, you'd have to guess the shape of the `user` prop. With TypeScript, it's explicit.</p>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-tsx">// Defining the shape of our props with an interface
+interface UserProfileProps {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    isAdmin: boolean;
+  };
+}
+
+const UserProfile: React.FC&lt;UserProfileProps&gt; = ({ user }) => {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{user.name}&lt;/h1&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+      {user.isAdmin && &lt;span&gt;Admin User&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+};</code></pre>
+            </div>
+
+            <h2>2. Structuring for Growth: Component Architecture</h2>
+            <p>
+                A logical folder structure is the backbone of a scalable application. While there's no single "correct" way, a feature-based structure is often preferred over a type-based one (e.g., `components`, `hooks`, `pages`).
+            </p>
+            <h3>Feature-Based Directory Structure</h3>
+            <p>Organizing code by feature keeps related files together, making it easier to navigate and reason about specific parts of the application.</p>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-text">/src
+├── components/       # Shared, reusable UI components (Button, Input, Modal)
+├── features/
+│   ├── auth/
+│   │   ├── components/  # Components specific to auth (LoginForm, SignupForm)
+│   │   ├── hooks/       # Hooks like useAuth
+│   │   ├── index.ts     # Public API for this feature
+│   │   └── types.ts     # TypeScript types for the auth feature
+│   └── profile/
+│       └── ...
+├── hooks/            # Global, reusable hooks (useLocalStorage, useTheme)
+├── lib/              # API clients, utility functions
+└── pages/            # Next.js pages or React Router routes
+</code></pre>
+            </div>
+            <h3>Separating Logic from Presentation</h3>
+            <p>
+                A powerful pattern is to distinguish between "Container" components (which handle logic, data fetching, and state) and "Presentational" components (which only receive props and render UI). Custom hooks have made this even easier, allowing us to extract complex logic into reusable functions.
+            </p>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-tsx">// useUserData.ts - The custom hook (logic)
+import { useState, useEffect } from 'react';
+
+interface User { id: number; name: string; }
+
+export const useUserData = (userId: number) => {
+  const [user, setUser] = useState&lt;User | null&gt;(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`https://api.example.com/users/${userId}`)
+      .then(res => res.json())
+      .then(data => setUser(data))
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  return { user, loading };
+};
+
+// UserDisplay.tsx - The presentational component
+interface UserDisplayProps {
+  user: User | null;
+  loading: boolean;
+}
+
+const UserDisplay: React.FC&lt;UserDisplayProps&gt; = ({ user, loading }) => {
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (!user) return &lt;p&gt;User not found.&lt;/p&gt;;
+  return &lt;h1&gt;Welcome, {user.name}&lt;/h1&gt;;
+}
+
+// UserPage.tsx - The container putting it all together
+const UserPage = () => {
+    const { user, loading } = useUserData(1);
+    return &lt;UserDisplay user={user} loading={loading} /&gt;;
+}
+</code></pre>
+            </div>
+
+            <h2>3. Managing State at Scale</h2>
+            <p>
+                State management is one of the most complex aspects of a large React application. Choosing the right tool for the job is essential.
+            </p>
+            <h3>The Spectrum of State Management</h3>
+            <ul>
+                <li><strong>Local State (`useState`, `useReducer`):</strong> Perfect for state that is confined to a single component, like form inputs or a modal's open/closed status.</li>
+                <li><strong>Shared State (`Context API`):</strong> Ideal for passing data deep down the component tree without prop drilling (e.g., theme, user authentication status). Be cautious, as frequent updates to context can cause performance issues in large apps.</li>
+                <li><strong>Global State (External Libraries):</strong> For complex, app-wide state that is frequently updated from multiple locations, a dedicated library is necessary. Popular choices include:
+                    <ul>
+                        <li><strong>Redux Toolkit:</strong> The official, opinionated toolset for efficient Redux development. It simplifies store setup and eliminates boilerplate.</li>
+                        <li><strong>Zustand:</strong> A minimalist, hook-based library that offers a simpler API than Redux while still being very powerful.</li>
+                        <li><strong>TanStack Query (React Query):</strong> The best-in-class solution for managing server state (data fetching, caching, and synchronization). It handles loading, error, and caching states for you.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>For most scalable applications, a combination is best: TanStack Query for server state, and a global client state manager like Zustand or Redux Toolkit for things like UI state, notifications, and session data.</p>
+
+
+            <h2>4. Performance Optimization Techniques</h2>
+            <p>A scalable application must also be performant. As features are added, it's easy for performance to degrade. Here are key techniques to keep your app fast.</p>
+            
+            <h3>Memoization</h3>
+            <p>Prevent unnecessary re-renders using `React.memo` for components and the `useMemo` and `useCallback` hooks for values and functions.</p>
+            <ul>
+                <li><code>React.memo()</code>: A higher-order component that memoizes the rendered output of a functional component, preventing re-renders if its props haven't changed.</li>
+                <li><code>useCallback()</code>: Returns a memoized version of a callback function. This is critical when passing callbacks to memoized child components.</li>
+                <li><code>useMemo()</code>: Returns a memoized value from an expensive calculation. The calculation only re-runs when one of its dependencies has changed.</li>
+            </ul>
+
+            <h3>Code Splitting</h3>
+            <p>Don't force users to download your entire application at once. Use `React.lazy()` and Suspense to split your code at the route or component level. This dramatically improves initial load times.</p>
+            <div class="code-block-wrapper">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                <pre><code class="language-tsx">import React, { Suspense } from 'react';
+
+const AdminDashboard = React.lazy(() => import('./features/admin/AdminDashboard'));
+
+function App() {
+  return (
+    &lt;div&gt;
+      {/* Other components */}
+      &lt;Suspense fallback={&lt;div&gt;Loading Dashboard...&lt;/div&gt;}&gt;
+        &lt;AdminDashboard /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+            </div>
+            
+            <h3>Windowing for Large Lists</h3>
+            <p>If you need to render long lists of data (hundreds or thousands of items), rendering them all at once can freeze the browser. Use "windowing" or "virtualization" libraries like <code>react-window</code> or <code>react-virtualized</code> to only render the items currently visible in the viewport.</p>
+            
+            <h2>Conclusion</h2>
+            <p>
+                Building a scalable React application is not about a single tool or pattern, but a disciplined approach. By leveraging TypeScript for a solid foundation, implementing a thoughtful component architecture, choosing the right state management strategy for each use case, and keeping performance in mind from the start, you can create applications that are not only powerful and robust but also a pleasure to maintain and extend for years to come.
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-black border-t border-gray-700 py-8 mt-12">
+        <div class="container-custom text-center text-gray-400">
+            <p>&copy; 2025 Sarnab Bhattacharjee. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="index.html#contact" class="hover:text-blue-400">Contact</a>
+                <span class="mx-2">&bull;</span>
+                <a href="https://github.com/anshB156" target="_blank" class="hover:text-blue-400">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.parentElement.querySelector('pre');
+            const code = pre.innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = 'Copied!';
+                setTimeout(() => {
+                    button.innerText = 'Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

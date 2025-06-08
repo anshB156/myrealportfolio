@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Chen - Full Stack Developer Portfolio</title>
+    <meta name="description" content="Full Stack Developer specializing in React, Node.js, and modern web technologies. View my portfolio of innovative projects and technical expertise.">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Custom CSS Variables */
+        :root {
+            --background: 222 84% 5%;
+            --foreground: 210 40% 98%;
+            --muted: 215 14% 34%;
+            --muted-foreground: 215 14% 55%;
+            --popover: 222 84% 5%;
+            --popover-foreground: 210 40% 98%;
+            --card: 222 84% 5%;
+            --card-foreground: 210 40% 98%;
+            --border: 215 28% 17%;
+            --input: 215 28% 17%;
+            --primary: 207 90% 54%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 215 28% 17%;
+            --secondary-foreground: 210 40% 98%;
+            --accent: 207 90% 54%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 84% 60%;
+            --destructive-foreground: 210 40% 98%;
+            --ring: 207 90% 54%;
+            --radius: 0.5rem;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215, 28%, 8%) 50%, hsl(var(--background)) 100%);
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px hsl(var(--primary)); }
+            to { box-shadow: 0 0 30px hsl(271, 91%, 65%); }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        /* Utility Classes */
+        .container-custom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-padding {
+            padding: 4rem 0;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+            color: hsl(var(--primary-foreground));
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px -5px hsl(var(--accent) / 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 2px solid hsl(var(--primary));
+            color: hsl(var(--primary));
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            transform: translateY(-2px);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: hsl(var(--secondary));
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: hsl(var(--primary));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: hsl(271, 91%, 65%);
+        }
+
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            cursor: pointer;
+        }
+
+        /* Badge Styles */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        /* Skill Level Dots */
+        .skill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .skill-dot.active {
+            background: currentColor;
+        }
+
+        .skill-dot.inactive {
+            background: hsl(var(--muted-foreground) / 0.3);
+        }
+
+        /* Project Filter Buttons */
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: transparent;
+            color: hsl(var(--muted-foreground));
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: hsl(var(--accent) / 0.1);
+            color: hsl(var(--accent));
+        }
+
+        .filter-btn.active {
+            background: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 2rem 0;
+            }
+            
+            .container-custom {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav id="header" class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-sm">
+        <div class="container-custom">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-bold text-gradient">AC</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="text-white hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Home</a>
+                        <a href="#about" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">About</a>
+                        <a href="#projects" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Projects</a>
+                        <a href="#skills" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Skills</a>
+                        <a href="#blog" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Blog</a>
+                        <a href="#contact" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-black/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-white hover:text-blue-400 nav-link">Home</a>
+                <a href="#about" class="block px-3 py-2 text-gray-400 hover:text-blue-400 nav-link">About</a>
+                <a href="#projects" class="block px-3 py-2 text-gray-400 hover:text-blue-400 nav-link">Projects</a>
+                <a href="#skills" class="block px-3 py-2 text-gray-400 hover:text-blue-400 nav-link">Skills</a>
+                <a href="#blog" class="block px-3 py-2 text-gray-400 hover:text-blue-400 nav-link">Blog</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-400 hover:text-blue-400 nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
+            <div class="absolute top-40 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-20 left-1/2 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="relative z-10 container-custom w-full pt-16">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left animate-slideInLeft">
+                    <p class="text-blue-400 font-medium mb-4">👋 Hello, I'm</p>
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                        <span class="block">Alex</span>
+                        <span class="block text-gradient">Chen</span>
+                    </h1>
+                    <p class="text-xl sm:text-2xl text-gray-400 mb-8 leading-relaxed">
+                        Full Stack Developer crafting innovative digital experiences with modern technologies
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="btn-primary" onclick="downloadResume()">
+                            <i class="fas fa-download"></i>
+                            Download Resume
+                        </button>
+                        <a href="#projects" class="btn-secondary">
+                            View My Work
+                        </a>
+                    </div>
+                    <div class="flex justify-center lg:justify-start space-x-6 mt-8">
+                        <a href="https://github.com/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="mailto:alex.chen@example.com" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-2xl">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex justify-center lg:justify-end animate-slideInRight">
+                    <div class="relative">
+                        <div class="w-80 h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden border-4 border-blue-400/20 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800"
+                                 alt="Professional developer headshot"
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-gradient-to-r from-blue-500 to-purple-500 p-4 rounded-xl shadow-lg animate-glow">
+                            <i class="fas fa-code text-white text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="scrollToSection('about')" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 hover:text-blue-400 transition-colors duration-300">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding bg-gray-800/50">
+        <div class="container-custom">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6">About Me</h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Passionate about creating exceptional digital experiences through clean code and innovative solutions
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="animate-slideInLeft">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                             alt="Developer workspace with multiple monitors"
+                             class="w-full h-auto hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 animate-slideInRight">
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-blue-400">My Journey</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            With over 5 years of experience in full-stack development, I've had the privilege of working with startups and established companies to bring innovative ideas to life. My passion lies in creating scalable, user-centric applications that solve real-world problems.
+                        </p>
+                        <p class="text-gray-400 leading-relaxed">
+                            I believe in continuous learning and staying ahead of industry trends. My approach combines technical excellence with creative problem-solving, ensuring that every project delivers both functionality and exceptional user experience.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
+                            <div class="text-3xl font-bold text-blue-400 mb-2">50+</div>
+                            <div class="text-gray-400 text-sm">Projects Completed</div>
+                        </div>
+                        <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
+                            <div class="text-3xl font-bold text-blue-400 mb-2">5+</div>
+                            <div class="text-gray-400 text-sm">Years Experience</div>
+                        </div>
+                        <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
+                            <div class="text-3xl font-bold text-blue-400 mb-2">30+</div>
+                            <div class="text-gray-400 text-sm">Happy Clients</div>
+                        </div>
+                        <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
+                            <div class="text-3xl font-bold text-blue-400 mb-2">20+</div>
+                            <div class="text-gray-400 text-sm">Technologies</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <span class="bg-blue-400/10 text-blue-400 px-4 py-2 rounded-full text-sm font-medium">Problem Solver</span>
+                        <span class="bg-purple-400/10 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">Team Player</span>
+                        <span class="bg-green-400/10 text-green-400 px-4 py-2 rounded-full text-sm font-medium">Continuous Learner</span>
+                        <span class="bg-yellow-400/10 text-yellow-400 px-4 py-2 rounded-full text-sm font-medium">Innovation Driven</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section-padding">
+        <div class="container-custom">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6">Featured Projects</h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    A showcase of my recent work, demonstrating technical expertise and creative problem-solving
+                </p>
+            </div>
+
+            <!-- Project Filter -->
+            <div class="flex justify-center mb-12">
+                <div class="flex flex-wrap gap-2 bg-gray-800/50 p-2 rounded-xl">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web Apps</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile</button>
+                    <button class="filter-btn" data-filter="api">APIs</button>
+                    <button class="filter-btn" data-filter="ai">AI</button>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project cards will be dynamically inserted here -->
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="https://github.com/alexchen" target="_blank" class="btn-primary">
+                    <i class="fab fa-github"></i>
+                    View All Projects on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section-padding bg-gray-800/50">
+        <div class="container-custom">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6">Skills & Technologies</h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    A comprehensive toolkit of modern technologies and frameworks that I use to build exceptional applications
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+                <!-- Frontend Skills -->
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-laptop-code text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-400">Frontend</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">React</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Next.js</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">TypeScript</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Tailwind CSS</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-green-400/10 hover:border-green-400/30 transition-all duration-300 group">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-server text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 text-green-400">Backend</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Node.js</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Python</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Express.js</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">FastAPI</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Skills -->
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-purple-400/10 hover:border-purple-400/30 transition-all duration-300 group">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-database text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 text-purple-400">Database & Cloud</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">PostgreSQL</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">MongoDB</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Redis</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">AWS</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Skills -->
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-yellow-400/10 hover:border-yellow-400/30 transition-all duration-300 group">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-tools text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 text-yellow-400">Tools & Others</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Docker</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Kubernetes</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Git</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Figma</span>
+                                <div class="flex space-x-1">
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot active"></div>
+                                    <div class="skill-dot inactive"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-semibold text-center mb-8">Certifications & Learning</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-black/20 p-6 rounded-xl border border-blue-400/10 text-center">
+                        <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-blue-400"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">AWS Solutions Architect</h4>
+                        <p class="text-gray-400 text-sm mb-1">Amazon Web Services</p>
+                        <p class="text-gray-400 text-sm">In Progress</p>
+                    </div>
+                    <div class="bg-black/20 p-6 rounded-xl border border-blue-400/10 text-center">
+                        <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-blue-400"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">Google Cloud Professional</h4>
+                        <p class="text-gray-400 text-sm mb-1">Google Cloud</p>
+                        <p class="text-gray-400 text-sm">Certified 2023</p>
+                    </div>
+                    <div class="bg-black/20 p-6 rounded-xl border border-blue-400/10 text-center">
+                        <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-blue-400"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">Machine Learning Specialization</h4>
+                        <p class="text-gray-400 text-sm mb-1">Stanford Online</p>
+                        <p class="text-gray-400 text-sm">Certified 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section-padding">
+        <div class="container-custom">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6">Learning Journey</h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Sharing insights, tutorials, and lessons learned from my continuous exploration of new technologies
+                </p>
+            </div>
+
+            <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog posts will be dynamically inserted here -->
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="btn-primary" onclick="viewAllPosts()">
+                    <i class="fas fa-blog"></i>
+                    View All Articles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-gray-800/50">
+        <div class="container-custom">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6">Let's Work Together</h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Ready to bring your next project to life? Let's discuss how we can create something amazing together
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Information -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6">Get in Touch</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">
+                            I'm always interested in hearing about new opportunities, challenging projects, 
+                            and innovative ideas. Whether you're a startup looking to build your MVP or an 
+                            established company seeking to enhance your digital presence, let's connect.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-envelope text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Email</h4>
+                                <a href="mailto:alex.chen@example.com" class="text-gray-400 hover:text-blue-400 transition-colors">
+                                    alex.chen@example.com
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-phone text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Phone</h4>
+                                <a href="tel:+15551234567" class="text-gray-400 hover:text-blue-400 transition-colors">
+                                    +1 (555) 123-4567
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Location</h4>
+                                <p class="text-gray-400">San Francisco, CA</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Response Time</h4>
+                                <p class="text-gray-400">Usually within 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8">
+                        <h4 class="font-semibold mb-4">Follow Me</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/alexchen" target="_blank" class="w-12 h-12 bg-black/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300">
+                                <i class="fab fa-github text-xl"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/alexchen" target="_blank" class="w-12 h-12 bg-black/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300">
+                                <i class="fab fa-linkedin text-xl"></i>
+                            </a>
+                            <a href="https://twitter.com/alexchen" target="_blank" class="w-12 h-12 bg-black/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-black/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300">
+                                <i class="fab fa-dribbble text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10">
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium mb-2">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required class="form-input" placeholder="John">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium mb-2">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required class="form-input" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email Address *</label>
+                            <input type="email" id="email" name="email" required class="form-input" placeholder="john.doe@example.com">
+                        </div>
+
+                        <div>
+                            <label for="company" class="block text-sm font-medium mb-2">Company</label>
+                            <input type="text" id="company" name="company" class="form-input" placeholder="Your Company">
+                        </div>
+
+                        <div>
+                            <label for="projectType" class="block text-sm font-medium mb-2">Project Type</label>
+                            <select id="projectType" name="projectType" class="form-select">
+                                <option value="">Select a project type</option>
+                                <option value="web-app">Web Application</option>
+                                <option value="mobile-app">Mobile Application</option>
+                                <option value="api">API Development</option>
+                                <option value="consulting">Technical Consulting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="budget" class="block text-sm font-medium mb-2">Budget Range</label>
+                            <select id="budget" name="budget" class="form-select">
+                                <option value="">Select budget range</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
+                                <option value="10k-25k">$10,000 - $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k+">$50,000+</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Project Description *</label>
+                            <textarea id="message" name="message" required class="form-textarea" placeholder="Tell me about your project, goals, timeline, and any specific requirements..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-700 section-padding">
+        <div class="container-custom">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl font-bold text-gradient">Alex Chen</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Passionate about creating exceptional digital experiences through clean code and innovative solutions
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="https://twitter.com/alexchen" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="mailto:alex.chen@example.com" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">About</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Projects</a></li>
+                        <li><a href="#skills" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Skills</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Blog</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">Web Development</li>
+                        <li class="text-gray-400">Mobile Apps</li>
+                        <li class="text-gray-400">API Development</li>
+                        <li class="text-gray-400">Technical Consulting</li>
+                        <li class="text-gray-400">Code Review</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-gray-400 text-sm">
+                    © 2024 Alex Chen. All rights reserved.
+                </div>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Portfolio Data
+        const portfolioData = {
+            projects: [
+                {
+                    id: "1",
+                    title: "NextCommerce",
+                    description: "A full-stack e-commerce platform built with Next.js and Stripe integration. Features include real-time inventory management, advanced search filters, and secure payment processing.",
+                    challenge: "Building a scalable platform handling high traffic volumes",
+                    approach: "Implemented microservices architecture with Redis caching and optimized database queries",
+                    impact: "40% increase in conversion rates, 60% faster load times",
+                    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+                    category: "web",
+                    technologies: ["Next.js", "Node.js", "PostgreSQL", "Stripe", "Redis"],
+                    liveUrl: "https://nextcommerce.example.com",
+                    githubUrl: "https://github.com/alexchen/nextcommerce",
+                    featured: true
+                },
+                {
+                    id: "2",
+                    title: "TaskFlow Pro",
+                    description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and advanced analytics. Built for teams to maximize productivity.",
+                    challenge: "Real-time collaboration with offline capability",
+                    approach: "Used WebSocket connections with service workers for offline sync",
+                    impact: "50% improvement in team coordination",
+                    imageUrl: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+                    category: "web",
+                    technologies: ["React", "Socket.io", "MongoDB", "Redis"],
+                    liveUrl: "https://taskflow.example.com",
+                    githubUrl: "https://github.com/alexchen/taskflow",
+                    featured: true
+                },
+                {
+                    id: "3",
+                    title: "FitTracker",
+                    description: "A comprehensive fitness tracking mobile app with workout planning, progress monitoring, and social features. Includes wearable device integration and AI-powered recommendations.",
+                    challenge: "Seamless wearable integration and data synchronization",
+                    approach: "Built native bridges for HealthKit/Google Fit with ML model for recommendations",
+                    impact: "10K+ active users, 4.8 App Store rating",
+                    imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+                    category: "mobile",
+                    technologies: ["React Native", "Firebase", "TensorFlow", "HealthKit"],
+                    liveUrl: "https://fittracker.example.com",
+                    githubUrl: "https://github.com/alexchen/fittracker",
+                    featured: true
+                },
+                {
+                    id: "4",
+                    title: "CloudAPI Gateway",
+                    description: "A scalable microservices API gateway with built-in authentication, rate limiting, and monitoring. Handles 10M+ requests daily with 99.9% uptime.",
+                    challenge: "High-traffic load balancing and security",
+                    approach: "Implemented distributed caching and auto-scaling with Kubernetes",
+                    impact: "99.9% uptime, 70% faster response times",
+                    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+                    category: "api",
+                    technologies: ["Node.js", "Docker", "Kubernetes", "AWS"],
+                    githubUrl: "https://github.com/alexchen/cloudapi",
+                    featured: true
+                },
+                {
+                    id: "5",
+                    title: "AI Assistant Pro",
+                    description: "An intelligent chat platform powered by advanced AI models. Features natural language processing, multi-modal conversations, and enterprise-grade security.",
+                    challenge: "Real-time AI processing with low latency",
+                    approach: "Optimized model inference with GPU acceleration and caching strategies",
+                    impact: "90% customer satisfaction, 50% faster support",
+                    imageUrl: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+                    category: "ai",
+                    technologies: ["Python", "FastAPI", "OpenAI", "TensorFlow"],
+                    liveUrl: "https://aiassistant.example.com",
+                    githubUrl: "https://github.com/alexchen/ai-assistant",
+                    featured: false
+                }
+            ],
+            blogPosts: [
+                {
+                    id: "1",
+                    title: "Advanced React Patterns for Scalable Applications",
+                    excerpt: "Exploring compound components, render props, and custom hooks to build maintainable and reusable React applications...",
+                    content: "",
+                    category: "React",
+                    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-03-15",
+                    readTime: "5 min read",
+                    slug: "advanced-react-patterns"
+                },
+                {
+                    id: "2",
+                    title: "Building Resilient Microservices with Kubernetes",
+                    excerpt: "A comprehensive guide to deploying and managing microservices architecture using Kubernetes for production environments...",
+                    content: "",
+                    category: "DevOps",
+                    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-03-08",
+                    readTime: "8 min read",
+                    slug: "kubernetes-microservices"
+                },
+                {
+                    id: "3",
+                    title: "Integrating AI into Web Applications: A Practical Guide",
+                    excerpt: "Learn how to seamlessly integrate machine learning models into your web applications using modern AI APIs and frameworks...",
+                    content: "",
+                    category: "AI/ML",
+                    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-02-28",
+                    readTime: "12 min read",
+                    slug: "ai-web-integration"
+                },
+                {
+                    id: "4",
+                    title: "Web Performance Optimization: Beyond the Basics",
+                    excerpt: "Advanced techniques for optimizing Core Web Vitals, reducing bundle sizes, and improving user experience metrics...",
+                    content: "",
+                    category: "Performance",
+                    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-02-20",
+                    readTime: "6 min read",
+                    slug: "web-performance-optimization"
+                },
+                {
+                    id: "5",
+                    title: "Implementing Zero-Trust Security in Web Applications",
+                    excerpt: "A comprehensive approach to securing modern web applications using zero-trust principles and best practices...",
+                    content: "",
+                    category: "Security",
+                    imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-02-12",
+                    readTime: "10 min read",
+                    slug: "zero-trust-security"
+                },
+                {
+                    id: "6",
+                    title: "React Native vs Flutter: A Developer's Perspective",
+                    excerpt: "Comparing cross-platform mobile development frameworks based on real-world project experience and performance metrics...",
+                    content: "",
+                    category: "Mobile",
+                    imageUrl: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+                    publishedAt: "2024-02-05",
+                    readTime: "7 min read",
+                    slug: "react-native-vs-flutter"
+                }
+            ]
+        };
+
+        // DOM Elements
+        const projectsGrid = document.getElementById('projects-grid');
+        const blogGrid = document.getElementById('blog-grid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const contactForm = document.getElementById('contact-form');
+
+        // Initialize the portfolio
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProjects('all');
+            renderBlogPosts();
+            setupEventListeners();
+            updateScrolledHeader();
+        });
+
+        // Project rendering
+        function renderProjects(filter = 'all') {
+            const filteredProjects = filter === 'all' 
+                ? portfolioData.projects 
+                : portfolioData.projects.filter(project => project.category === filter);
+
+            projectsGrid.innerHTML = filteredProjects.map(project => `
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group card-hover">
+                    <div class="relative overflow-hidden">
+                        <img src="${project.imageUrl}" alt="${project.title}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div class="p-4 w-full">
+                                <div class="flex space-x-3">
+                                    ${project.liveUrl ? `
+                                        <a href="${project.liveUrl}" target="_blank" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-purple-500 transition-colors duration-300">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    ` : ''}
+                                    ${project.githubUrl ? `
+                                        <a href="${project.githubUrl}" target="_blank" class="bg-gray-700 text-white p-2 rounded-lg hover:bg-blue-500 transition-colors duration-300">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">
+                            ${project.title}
+                        </h3>
+                        <p class="text-gray-400 mb-4 text-sm leading-relaxed">
+                            ${project.description}
+                        </p>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div class="text-xs text-gray-400">
+                                <strong>Challenge:</strong> ${project.challenge}
+                            </div>
+                            <div class="text-xs text-gray-400">
+                                <strong>Impact:</strong> ${project.impact}
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            ${project.technologies.map(tech => `
+                                <span class="badge">${tech}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Blog posts rendering
+        function renderBlogPosts() {
+            blogGrid.innerHTML = portfolioData.blogPosts.map(post => `
+                <article class="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group card-hover">
+                    <div class="relative overflow-hidden">
+                        <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-blue-500/80 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                ${post.category}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex items-center text-gray-400 text-sm mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>${formatDate(post.publishedAt)}</span>
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>${post.readTime}</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">
+                            ${post.title}
+                        </h3>
+                        
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            ${post.excerpt}
+                        </p>
+                        
+                        <button onclick="readPost('${post.slug}')" class="text-blue-400 hover:text-purple-400 transition-colors duration-300 text-sm font-medium flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Event listeners setup
+        function setupEventListeners() {
+            // Project filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const filter = e.target.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    // Render filtered projects
+                    renderProjects(filter);
+                });
+            });
+
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = e.target.getAttribute('href');
+                    scrollToSection(target.substring(1));
+                    
+                    // Close mobile menu
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Contact form
+            contactForm.addEventListener('submit', handleContactForm);
+
+            // Scroll event for header
+            window.addEventListener('scroll', updateScrolledHeader);
+        }
+
+        // Utility functions
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function downloadResume() {
+            // Simulate resume download
+            alert('Resume download would start here. In a real implementation, this would trigger a file download.');
+        }
+
+        function readPost(slug) {
+            // Simulate blog post reading
+            alert(`Would navigate to blog post: ${slug}`);
+        }
+
+        function viewAllPosts() {
+            // Simulate viewing all posts
+            alert('Would navigate to full blog page');
+        }
+
+        function updateScrolledHeader() {
+            const header = document.getElementById('header');
+            const isScrolled = window.scrollY > 100;
+            
+            if (isScrolled) {
+                header.classList.remove('bg-black/90');
+                header.classList.add('bg-black/95', 'border-b', 'border-gray-700');
+            } else {
+                header.classList.remove('bg-black/95', 'border-b', 'border-gray-700');
+                header.classList.add('bg-black/90');
+            }
+        }
+
+        function handleContactForm(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Basic validation
+            const requiredFields = ['firstName', 'lastName', 'email', 'message'];
+            const missingFields = requiredFields.filter(field => !data[field]?.trim());
+            
+            if (missingFields.length > 0) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Simulate form submission
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const originalContent = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitButton.disabled = true;
+
+            setTimeout(() => {
+                alert('Message sent successfully! Thank you for reaching out. I\'ll get back to you within 24 hours.');
+                e.target.reset();
+                submitButton.innerHTML = originalContent;
+                submitButton.disabled = false;
+            }, 2000);
+        }
+
+        // Google Analytics (if you have a measurement ID)
+        function initGA() {
+            // Replace 'G-XXXXXXXXXX' with your actual Google Analytics Measurement ID
+            const measurementId = 'G-XXXXXXXXXX';
+            
+            if (measurementId === 'G-XXXXXXXXXX') {
+                console.warn('Google Analytics Measurement ID not set');
+                return;
+            }
+
+            // Add Google Analytics script
+            const script1 = document.createElement('script');
+            script1.async = true;
+            script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+            document.head.appendChild(script1);
+
+            // Initialize gtag
+            const script2 = document.createElement('script');
+            script2.innerHTML = `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${measurementId}');
+            `;
+            document.head.appendChild(script2);
+        }
+
+        // Initialize Google Analytics
+        // initGA(); // Uncomment this line and add your measurement ID above
+    </script>
+</body>
+</html>

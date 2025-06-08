@@ -1,26 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-93TMP8C9D0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-93TMP8C9D0');
-</script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarnab Bhattacharjee - Full Stack Developer Portfolio</title>
     <meta name="description" content="Full Stack Developer specializing in React, Node.js, and modern web technologies. View my portfolio of innovative projects and technical expertise.">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <style>
         :root {
             --background: 222 84% 5%;
@@ -44,7 +30,6 @@
             --ring: 207 90% 54%;
             --radius: 0.5rem;
         }
-
         .nav-blur {
             backdrop-filter: blur(16px) saturate(180%);
             -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -54,7 +39,6 @@
             transform: translateZ(0);
             will-change: backdrop-filter, background;
         }
-        
         .nav-transparent {
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -63,20 +47,16 @@
             transform: translateZ(0);
             will-change: backdrop-filter, background;
         }
-            
         * {
             box-sizing: border-box;
         }
-
         html {
             scroll-behavior: smooth;
         }
-        
         * {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(215, 28%, 8%) 50%, hsl(var(--background)) 100%);
@@ -87,17 +67,14 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-
         @keyframes float {
             0%, 100% { transform: translate3d(0, 0, 0); }
             50% { transform: translate3d(0, -10px, 0); }
         }
-
         @keyframes glow {
             from { box-shadow: 0 0 20px hsl(var(--primary)); }
             to { box-shadow: 0 0 30px hsl(271, 91%, 65%); }
         }
-
         @keyframes fadeInUp {
             from { 
                 opacity: 0;
@@ -108,7 +85,6 @@
                 transform: translate3d(0, 0, 0);
             }
         }
-
         @keyframes slideInLeft {
             from {
                 opacity: 0;
@@ -119,7 +95,6 @@
                 transform: translate3d(0, 0, 0);
             }
         }
-
         @keyframes slideInRight {
             from {
                 opacity: 0;
@@ -130,56 +105,45 @@
                 transform: translate3d(0, 0, 0);
             }
         }
-
         .animate-float {
             animation: float 3s ease-in-out infinite;
         }
-
         .animate-glow {
             animation: glow 2s ease-in-out infinite alternate;
         }
-
         .animate-fadeInUp {
             animation: fadeInUp 0.6s ease-out;
         }
-
         .animate-slideInLeft {
             animation: slideInLeft 0.8s ease-out;
         }
-
         .animate-slideInRight {
             animation: slideInRight 0.8s ease-out;
         }
-
         .container-custom {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 1rem;
         }
-
         .section-padding {
             padding: 4rem 0;
         }
-
         .text-gradient {
             background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .card-hover {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                       box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
             transform: translateZ(0);
         }
-
         .card-hover:hover {
             transform: scale(1.05) translateZ(0);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-
         .btn-primary {
             background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
             color: hsl(var(--primary-foreground));
@@ -187,7 +151,7 @@
             border-radius: 0.5rem;
             font-weight: 600;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                       box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             cursor: pointer;
             text-decoration: none;
@@ -197,12 +161,10 @@
             will-change: transform;
             transform: translateZ(0);
         }
-
         .btn-primary:hover {
             box-shadow: 0 10px 25px -5px hsl(var(--accent) / 0.25);
             transform: translateY(-2px) translateZ(0);
         }
-
         .btn-secondary {
             border: 2px solid hsl(var(--primary));
             color: hsl(var(--primary));
@@ -211,8 +173,8 @@
             border-radius: 0.5rem;
             font-weight: 600;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                       background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                       color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
@@ -221,30 +183,24 @@
             will-change: transform;
             transform: translateZ(0);
         }
-
         .btn-secondary:hover {
             background: hsl(var(--primary));
             color: hsl(var(--primary-foreground));
             transform: translateY(-2px) translateZ(0);
         }
-
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: hsl(var(--secondary));
         }
-
         ::-webkit-scrollbar-thumb {
             background: hsl(var(--primary));
             border-radius: 4px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: hsl(271, 91%, 65%);
         }
-
         .form-input {
             width: 100%;
             padding: 0.75rem;
@@ -254,13 +210,11 @@
             color: hsl(var(--foreground));
             transition: border-color 0.3s ease;
         }
-
         .form-input:focus {
             outline: none;
             border-color: hsl(var(--primary));
             box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
         }
-
         .form-textarea {
             width: 100%;
             padding: 0.75rem;
@@ -272,13 +226,11 @@
             min-height: 120px;
             transition: border-color 0.3s ease;
         }
-
         .form-textarea:focus {
             outline: none;
             border-color: hsl(var(--primary));
             box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
         }
-
         .form-select {
             width: 100%;
             padding: 0.75rem;
@@ -288,7 +240,6 @@
             color: hsl(var(--foreground));
             cursor: pointer;
         }
-
         .badge {
             display: inline-flex;
             align-items: center;
@@ -299,22 +250,18 @@
             background: hsl(var(--secondary));
             color: hsl(var(--secondary-foreground));
         }
-
         .skill-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             margin-right: 4px;
         }
-
         .skill-dot.active {
             background: currentColor;
         }
-
         .skill-dot.inactive {
             background: hsl(var(--muted-foreground) / 0.3);
         }
-
         .filter-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -324,22 +271,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .filter-btn:hover {
             background: hsl(var(--accent) / 0.1);
             color: hsl(var(--accent));
         }
-
         .filter-btn.active {
             background: hsl(var(--accent));
             color: hsl(var(--accent-foreground));
         }
-
         @media (max-width: 768px) {
             .section-padding {
                 padding: 2rem 0;
             }
-            
             .container-custom {
                 padding: 0 1rem;
             }
@@ -353,7 +296,6 @@
                 <div class="flex-shrink-0">
                     <span class="text-2xl font-bold text-gradient">SB</span>
                 </div>
-
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#home" class="text-white hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Home</a>
@@ -364,13 +306,11 @@
                         <a href="#contact" class="text-gray-400 hover:text-blue-400 transition-colors duration-300 font-medium nav-link">Contact</a>
                     </div>
                 </div>
-
                 <button id="mobile-menu-btn" class="md:hidden text-white">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
-
         <div id="mobile-menu" class="md:hidden hidden bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50">
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="#home" class="block px-3 py-2 text-white hover:text-blue-400 nav-link">Home</a>
@@ -382,7 +322,6 @@
             </div>
         </div>
     </nav>
-
     <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
         <div class="absolute inset-0 opacity-10">
@@ -390,7 +329,6 @@
             <div class="absolute top-40 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 1s;"></div>
             <div class="absolute bottom-20 left-1/2 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 2s;"></div>
         </div>
-
         <div class="relative z-10 container-custom w-full pt-16">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left animate-slideInLeft">
@@ -426,7 +364,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="flex justify-center lg:justify-end animate-slideInRight">
                     <div class="relative">
                         <div class="w-80 h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden border-4 border-blue-400/20 shadow-2xl">
@@ -441,12 +378,10 @@
                 </div>
             </div>
         </div>
-
         <button onclick="scrollToSection('about')" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 hover:text-blue-400 transition-colors duration-300">
             <i class="fas fa-chevron-down text-2xl"></i>
         </button>
     </section>
-
     <section id="about" class="section-padding bg-gray-800/50">
         <div class="container-custom">
             <div class="text-center mb-16 animate-fadeInUp">
@@ -455,7 +390,6 @@
                     Passionate about creating exceptional digital experiences through clean code and proper solutions
                 </p>
             </div>
-
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div class="animate-slideInLeft">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -465,7 +399,6 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                 </div>
-
                 <div class="space-y-6 animate-slideInRight">
                     <div class="space-y-4">
                         <h3 class="text-2xl font-semibold text-blue-400">My Journey</h3>
@@ -476,7 +409,6 @@
                             I believe in continuous learning and staying ahead of industry trends. My approach combines technical excellence with creative problem-solving, ensuring that every project delivers both functionality and exceptional user experience.
                         </p>
                     </div>
-
                     <div class="grid grid-cols-2 gap-6">
                         <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
                             <div class="text-3xl font-bold text-blue-400 mb-2">5+</div>
@@ -495,7 +427,6 @@
                             <div class="text-gray-400 text-sm">Technologies</div>
                         </div>
                     </div>
-
                     <div class="flex flex-wrap gap-4">
                         <span class="bg-blue-400/10 text-blue-400 px-4 py-2 rounded-full text-sm font-medium">Problem Solver</span>
                         <span class="bg-purple-400/10 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">Team Player</span>
@@ -506,7 +437,6 @@
             </div>
         </div>
     </section>
-
     <section id="projects" class="section-padding">
         <div class="container-custom">
             <div class="text-center mb-16 animate-fadeInUp">
@@ -515,7 +445,6 @@
                     A showcase of my recent work, demonstrating technical expertise and creative problem-solving
                 </p>
             </div>
-
             <div class="flex justify-center mb-12">
                 <div class="flex flex-wrap gap-2 bg-gray-800/50 p-2 rounded-xl">
                     <button class="filter-btn active" data-filter="all">All</button>
@@ -525,10 +454,8 @@
                     <button class="filter-btn" data-filter="ai">AI</button>
                 </div>
             </div>
-
             <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
-
             <div class="text-center mt-12">
                 <a href="https://github.com/anshB156" target="_blank" class="btn-primary">
                     <i class="fab fa-github"></i>
@@ -537,7 +464,6 @@
             </div>
         </div>
     </section>
-
     <section id="skills" class="section-padding bg-gray-800/50">
         <div class="container-custom">
             <div class="text-center mb-16 animate-fadeInUp">
@@ -546,7 +472,6 @@
                     A comprehensive toolkit of modern technologies and frameworks that I use to build exceptional applications
                 </p>
             </div>
-
             <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
                 <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group">
                     <div class="text-center">
@@ -598,7 +523,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-green-400/10 hover:border-green-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -649,7 +573,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-purple-400/10 hover:border-purple-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -700,7 +623,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-orange-400/10 hover:border-orange-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -754,7 +676,6 @@
             </div>
         </div>
     </section>
-
     <section id="blog" class="section-padding">
         <div class="container-custom">
             <div class="text-center mb-16 animate-fadeInUp">
@@ -763,10 +684,8 @@
                     Sharing insights, tutorials, and thoughts on modern web development and technology trends
                 </p>
             </div>
-
             <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
-
             <div class="text-center mt-12">
                 <button class="btn-primary" onclick="viewAllPosts()">
                     <i class="fas fa-blog"></i>
@@ -775,7 +694,6 @@
             </div>
         </div>
     </section>
-
     <section id="contact" class="section-padding bg-gray-800/50">
         <div class="container-custom">
             <div class="text-center mb-16 animate-fadeInUp">
@@ -784,7 +702,6 @@
                     Ready to bring your next project to life? Let's discuss how we can create something amazing together
                 </p>
             </div>
-
             <div class="grid lg:grid-cols-2 gap-16">
                 <div class="space-y-8">
                     <div>
@@ -795,7 +712,6 @@
                             established company seeking to enhance your digital presence, let's connect.
                         </p>
                     </div>
-
                     <div class="space-y-6">
                         <div class="flex items-center space-x-4">
                             <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center">
@@ -838,7 +754,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="pt-8">
                         <h4 class="font-semibold mb-4">Follow Me</h4>
                         <div class="flex space-x-4">
@@ -852,12 +767,11 @@
                                 <i class="fab fa-twitter text-xl"></i>
                             </a>
                             <a href="#" class="w-12 h-12 bg-black/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-400/20 transition-all duration-300">
-                                <i class="fab fa-dribbble text-xl"></i>
+                                <i class="fab fa-facebook text-xl"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10">
                     <form id="contact-form" class="space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
@@ -870,17 +784,14 @@
                                 <input type="text" id="lastName" name="lastName" required class="form-input" placeholder="Bhat">
                             </div>
                         </div>
-
                         <div>
                             <label for="email" class="block text-sm font-medium mb-2">Email Address *</label>
                             <input type="email" id="email" name="email" required class="form-input" placeholder="example@gmail.com">
                         </div>
-
                         <div>
                             <label for="company" class="block text-sm font-medium mb-2">Company</label>
                             <input type="text" id="company" name="company" class="form-input" placeholder="Your Company">
                         </div>
-
                         <div>
                             <label for="projectType" class="block text-sm font-medium mb-2">Project Type</label>
                             <select id="projectType" name="projectType" class="form-select">
@@ -892,7 +803,6 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
-
                         <div>
                             <label for="budget" class="block text-sm font-medium mb-2">Budget Range</label>
                             <select id="budget" name="budget" class="form-select">
@@ -903,12 +813,10 @@
                                 <option value="50k+">$50,000+</option>
                             </select>
                         </div>
-
                         <div>
                             <label for="message" class="block text-sm font-medium mb-2">Project Description *</label>
                             <textarea id="message" name="message" required class="form-textarea" placeholder="Tell me in brief about your project, goals, timeline, and any specific requirements you want from me..."></textarea>
                         </div>
-
                         <button type="submit" class="w-full btn-primary">
                             <i class="fas fa-paper-plane"></i>
                             Send Message
@@ -918,7 +826,6 @@
             </div>
         </div>
     </section>
-
     <footer class="bg-black border-t border-gray-700 section-padding">
         <div class="container-custom">
             <div class="grid md:grid-cols-4 gap-8">
@@ -944,7 +851,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2">
@@ -955,7 +861,6 @@
                         <li><a href="#contact" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Contact</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4 class="font-semibold mb-4">Services</h4>
                     <ul class="space-y-2">
@@ -967,7 +872,6 @@
                     </ul>
                 </div>
             </div>
-
             <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <div class="text-gray-400 text-sm">
                     © 2025 Sarnab Bhattacharjee. All rights reserved.
@@ -980,7 +884,6 @@
             </div>
         </div>
     </footer>
-
     <script>
         const portfolioData = {
             projects: [
@@ -1077,7 +980,8 @@
                     category: "Tutorial",
                     publishedAt: "2028-03-15",
                     readTime: "8 min read",
-                    slug: "scalable-react-typescript"
+                    slug: "scalable-react-typescript",
+                    url: "article1.html"
                 },
                 {
                     title: "The Future of Web Development: AI and Automation",
@@ -1099,19 +1003,16 @@
                 }
             ]
         };
-
         const projectsGrid = document.getElementById('projects-grid');
         const blogGrid = document.getElementById('blog-grid');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const contactForm = document.getElementById('contact-form');
-
         function renderProjects(filter = 'all') {
             const filteredProjects = filter === 'all' 
                 ? portfolioData.projects 
                 : portfolioData.projects.filter(project => project.category === filter);
-
             projectsGrid.innerHTML = filteredProjects.map(project => `
                 <div class="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group card-hover">
                     <div class="relative overflow-hidden">
@@ -1131,7 +1032,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">
                             ${project.title}
@@ -1139,7 +1039,6 @@
                         <p class="text-gray-400 mb-4 text-sm leading-relaxed">
                             ${project.description}
                         </p>
-                        
                         <div class="space-y-3 mb-4">
                             <div class="text-xs text-gray-400">
                                 <strong>Challenge:</strong> ${project.challenge}
@@ -1148,7 +1047,6 @@
                                 <strong>Impact:</strong> ${project.impact}
                             </div>
                         </div>
-                        
                         <div class="flex flex-wrap gap-2">
                             ${project.technologies.map(tech => `
                                 <span class="badge">${tech}</span>
@@ -1158,7 +1056,6 @@
                 </div>
             `).join('');
         }
-
         function renderBlogPosts() {
             blogGrid.innerHTML = portfolioData.blogPosts.map(post => `
                 <article class="bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group card-hover">
@@ -1170,7 +1067,6 @@
                             </span>
                         </div>
                     </div>
-                    
                     <div class="p-6">
                         <div class="flex items-center text-gray-400 text-sm mb-3">
                             <i class="fas fa-calendar mr-2"></i>
@@ -1179,54 +1075,47 @@
                             <i class="fas fa-clock mr-1"></i>
                             <span>${post.readTime}</span>
                         </div>
-                        
                         <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">
                             ${post.title}
                         </h3>
-                        
                         <p class="text-gray-400 text-sm leading-relaxed mb-4">
                             ${post.excerpt}
                         </p>
-                        
-                        <button onclick="readPost('${post.slug}')" class="text-blue-400 hover:text-purple-400 transition-colors duration-300 text-sm font-medium flex items-center">
-                            Read More <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
+                        ${post.url
+                            ? `<a href="${post.url}" class="text-blue-400 hover:text-purple-400 transition-colors duration-300 text-sm font-medium flex items-center">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                               </a>`
+                            : `<button onclick="readPost('${post.slug}')" class="text-blue-400 hover:text-purple-400 transition-colors duration-300 text-sm font-medium flex items-center">
+                                    Read More <i class="fas fa-arrow-right ml-1"></i>
+                               </button>`
+                        }
                     </div>
                 </article>
             `).join('');
         }
-
         function setupEventListeners() {
             filterButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const filter = e.target.dataset.filter;
-                    
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     e.target.classList.add('active');
-                    
                     renderProjects(filter);
                 });
             });
-
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
-
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = e.target.getAttribute('href');
                     scrollToSection(target.substring(1));
-                    
                     mobileMenu.classList.add('hidden');
                 });
             });
-
             contactForm.addEventListener('submit', handleContactForm);
-
             window.addEventListener('scroll', requestTick, { passive: true });
         }
-
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1237,7 +1126,6 @@
                 });
             }
         }
-
         function formatDate(dateString) {
             return new Date(dateString).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -1245,25 +1133,19 @@
                 day: 'numeric'
             });
         }
-
         function downloadResume() {
             alert('So, yeah unfortunately I dont have a resume ready yet.Sorry!!!');
         }
-
         function readPost(slug) {
             alert(`This will in future navigate to blog post: ${slug}`);
         }
-
         function viewAllPosts() {
-            alert('his will in future navigate to full blog page');
+            alert('This will in future navigate to full blog page');
         }
-
         let ticking = false;
-        
         function updateScrolledHeader() {
             const header = document.getElementById('header');
             const isScrolled = window.scrollY > 50;
-            
             if (isScrolled) {
                 header.classList.remove('nav-transparent');
                 header.classList.add('nav-blur');
@@ -1271,43 +1153,33 @@
                 header.classList.remove('nav-blur');
                 header.classList.add('nav-transparent');
             }
-            
             ticking = false;
         }
-        
         function requestTick() {
             if (!ticking) {
                 requestAnimationFrame(updateScrolledHeader);
                 ticking = true;
             }
         }
-
         function handleContactForm(e) {
             e.preventDefault();
-            
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-            
             const requiredFields = ['firstName', 'lastName', 'email', 'message'];
             const missingFields = requiredFields.filter(field => !data[field]?.trim());
-            
             if (missingFields.length > 0) {
                 alert('Please fill in all required fields.');
                 return;
             }
-
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(data.email)) {
                 alert('Please enter a valid email address.');
                 return;
             }
-
             const submitButton = e.target.querySelector('button[type="submit"]');
             const originalContent = submitButton.innerHTML;
-            
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitButton.disabled = true;
-
             setTimeout(() => {
                 alert('Message sent successfully! Thank you for reaching out. I\'ll get back to you within 24 hours.');
                 e.target.reset();
@@ -1315,13 +1187,11 @@
                 submitButton.disabled = false;
             }, 2000);
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             renderProjects();
             renderBlogPosts();
             setupEventListeners();
         });
-
         updateScrolledHeader();
     </script>
 </body>

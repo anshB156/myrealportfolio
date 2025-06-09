@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolaraPicks - Forge Your Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #D90027; 
+            --color-glow: rgba(217, 0, 39, 0.75);
+            --color-bg: #0A0A0A;
+            --color-surface: #141414;
+            --color-border: #262626;
+            --color-success: #00A34A;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Teko', sans-serif;
+            background-color: var(--color-bg);
+            color: #F3F4F6;
+            background-image:
+                linear-gradient(var(--color-border) 1px, transparent 1px),
+                linear-gradient(to right, var(--color-border) 1px, var(--color-bg) 1px);
+            background-size: 40px 40px;
+        }
+        .font-display { font-family: 'Roboto Condensed', sans-serif; }
+        .font-body { font-family: 'Teko', sans-serif; }
+        .glass-nav {
+            background-color: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .hero-bg {
+            background: radial-gradient(ellipse at bottom, rgba(10,10,10,0.8), var(--color-bg) 80%), url('https://img.freepik.com/free-photo/young-handsome-man-posing-quarry_1303-28636.jpg?semt=ais_hybrid&w=740') no-repeat center center;
+            background-size: cover;
+        }
+        .btn { transition: all 0.3s ease-in-out; cursor: pointer; }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            box-shadow: 0 0 20px var(--color-glow);
+        }
+        .btn-primary:hover:not(:disabled) { background-color: #FF1A47; transform: scale(1.05); }
+        .btn:disabled { filter: grayscale(80%); opacity: 0.5; cursor: not-allowed; }
+        .card {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            opacity: 0; 
+            transform: translateY(50px); 
+        }
+        .card:hover { border-color: var(--color-primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 15px var(--color-glow);
+        }
+       
+        .overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            z-index: 40; opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+        }
+        .overlay.visible { opacity: 1; visibility: visible; }
+        .drawer, .modal {
+            position: fixed; z-index: 50;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+        .drawer {
+            top: 0; right: 0; bottom: 0; width: 90%; max-width: 450px;
+            background-color: var(--color-bg); border-left: 1px solid var(--color-border);
+            transform: translateX(100%);
+        }
+        .modal {
+            top: 50%; left: 50%; width: 90%; max-width: 800px;
+            background-color: var(--color-surface); border: 1px solid var(--color-border);
+            transform: translate(-50%, -45%) scale(0.95);
+        }
+        .visible { opacity: 1; visibility: visible; }
+        .drawer.visible { transform: translateX(0); }
+        .modal.visible { transform: translate(-50%, -50%) scale(1); }
+
+      
+        #cart-button.pulsate { animation: pulsate 0.5s ease; }
+        @keyframes pulsate { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .stock-glow-in { text-shadow: 0 0 8px var(--color-success); color: var(--color-success); }
+        .stock-glow-out { text-shadow: 0 0 8px var(--color-primary); color: var(--color-primary); }
+    </style>
+</head>
+<body class="font-body tracking-wider">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <header class="glass-nav sticky top-0 z-30">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-4xl font-display font-bold uppercase tracking-widest text-white">SolaraPicks</a>
+            <button id="cart-button" class="btn btn-secondary relative px-4 py-2 rounded-md font-body text-xl">
+                Cart <span id="cart-count" class="font-display ml-2 font-bold text-base bg-white text-black rounded-full px-2">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-bg h-[90vh] flex items-center justify-center text-center relative overflow-hidden">
+            <div class="relative px-6 z-10">
+                <h2 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-widest text-white" style="text-shadow: 0 0 30px rgba(0,0,0,0.8);">Enhence Your Identity</h2>
+                <a href="#collection" id="explore-btn" class="btn btn-primary inline-block mt-10 px-10 py-4 rounded-md text-2xl font-body uppercase tracking-wider">Explore Products</a>
+            </div>
+        </section>
+
+        <section id="collection" class="py-20 sm:py-28">
+            <div class="container mx-auto px-6">
+                <div id="collection-header" class="text-center mb-12 opacity-0">
+                     <h3 class="font-display text-5xl font-bold tracking-wider text-white">Our Best Collection</h3>
+                     <div class="w-24 h-1 bg-primary mx-auto mt-4"></div>
+                </div>
+                <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="overlay" class="overlay"></div>
+    
+    <div id="modal-container" class="modal rounded-lg"></div>
+
+    <div id="checkout-modal-container" class="modal rounded-lg"></div>
+
+    <div id="cart-drawer" class="drawer flex flex-col">
+        <div class="flex-shrink-0 flex justify-between items-center p-6 border-b border-gray-800">
+            <h4 class="font-display text-2xl font-bold text-white">Your Cart</h4>
+            <button id="close-cart-button" class="text-4xl text-gray-500 hover:text-white transition-colors">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-grow p-6 overflow-y-auto space-y-6"></div>
+        <div class="flex-shrink-0 p-6 border-t border-gray-800 bg-black/50">
+            <div class="flex justify-between items-center text-xl font-body text-white mb-4">
+                <span>Subtotal</span>
+                <span id="cart-subtotal" class="font-display font-bold text-2xl">$0.00</span>
+            </div>
+            <button id="checkout-button" class="btn btn-primary w-full py-4 rounded-md font-body uppercase text-xl tracking-wider disabled:opacity-50" disabled>
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-surface border-t border-border mt-16 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <h4 class="font-display text-2xl font-bold uppercase tracking-wider text-white">SolaraPicks</h4>
+                    <p class="mt-4 text-lg text-gray-400">Uncompromising quality meets iconic design. We are dedicated to providing apparel that defines your edge and enhences your identity.</p>
+                </div>
+                <div>
+                    <h5 class="font-display text-xl font-bold uppercase text-white">Quick Links</h5>
+                    <ul class="mt-4 space-y-2 text-lg">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="#collection" class="text-gray-400 hover:text-primary transition-colors">Collection</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-display text-xl font-bold uppercase text-white">Contact</h5>
+                    <ul class="mt-4 space-y-2 text-lg text-gray-400">
+                        <li>Email: <a href="mailto:contact@solarapicks.dev" class="hover:text-primary">bansh8561@gmail.com</a></li>
+                        <li>Phone: +880 0183110***</li>
+                        <li class="flex justify-center md:justify-start space-x-4 mt-4">
+                            <a href="#" class="text-2xl hover:text-primary transition-colors">IG</a>
+                            <a href="#" class="text-2xl hover:text-primary transition-colors">FB</a>
+                            <a href="#" class="text-2xl hover:text-primary transition-colors">X</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-16 border-t border-border pt-8 text-center text-gray-500">
+                <p>&copy; 2025 SolaraPicks. Born from intensive coding. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+   
+    const products = [
+        { id: 1, name: 'Peace', price: 45.00, category: 'graphic', image: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?q=80&w=800&auto=format&fit=crop', desc: 'A heavyweight cotton tee featuring a high-density cybernetic graphic print.', stock: 10, reviews: [{rating: 5, text: "Incredible quality!"}, {rating: 4, text: "Great fit."}] },
+        { id: 2, name: 'OutCast', price: 38.00, category: 'vintage', image: 'https://images.unsplash.com/photo-1527719327859-c6ce80353573?q=80&w=800&auto=format&fit=crop', desc: 'Faded wash retro-tech design on an ultra-soft, premium blend fabric.', stock: 5, reviews: [{rating: 5, text: "Love the vintage feel."}] },
+        { id: 3, name: 'Roaded', price: 50.00, category: 'minimal', image: 'https://images.unsplash.com/photo-1554568218-0f1715e72254?q=80&w=800&auto=format&fit=crop', desc: 'Subtle yet sharp. A minimalist grid design embroidered on a structured tee.', stock: 0, reviews: [{rating: 5, text: "Clean and sharp."}] },
+        { id: 4, name: 'Givenchy', price: 35.00, category: 'minimal', image: 'https://images.unsplash.com/photo-1505632958218-4f23394784a6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVuJTIwdHNoaXJ0fGVufDB8fDB8fHww', desc: 'The essential black tee, perfected. Heavyweight fabric with a flawless fit.', stock: 20, reviews: [] },
+    ];
+
+    let cart = [];
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+
+    
+    const renderProducts = () => {
+        const grid = $('#product-grid');
+        grid.innerHTML = '';
+        products.forEach(p => {
+            const outOfStock = p.stock === 0;
+            grid.innerHTML += `
+                <div class="card rounded-lg" data-product-id="${p.id}">
+                    <div class="absolute top-4 left-4 text-sm px-2 py-1 rounded-md font-bold uppercase tracking-wider ${outOfStock ? 'stock-glow-out' : 'stock-glow-in'}">${outOfStock ? 'Out of Stock' : 'In Stock'}</div>
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-96 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h4 class="font-display text-2xl font-bold text-white">${p.name}</h4>
+                        <p class="mt-2 text-2xl font-body text-primary font-semibold">$${p.price.toFixed(2)}</p>
+                        <button class="btn btn-secondary w-full mt-4 py-3 text-lg quick-view-btn" data-product-id="${p.id}">Quick View</button>
+                    </div>
+                </div>`;
+        });
+       
+        gsap.to(".card", {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: "#product-grid",
+                start: "top 80%",
+            }
+        });
+    };
+    
+   
+    const renderCart = () => {
+        const itemsContainer = $('#cart-items');
+        itemsContainer.innerHTML = '';
+        if (cart.length === 0) {
+            itemsContainer.innerHTML = `<p class="text-gray-400 text-lg">Your arsenal is empty.</p>`;
+        } else {
+            cart.forEach(item => {
+                itemsContainer.innerHTML += `
+                    <div class="flex items-center gap-4">
+                        <img src="${item.image}" class="h-20 w-20 rounded-md object-cover border border-gray-700">
+                        <div class="flex-grow">
+                            <p class="font-display font-semibold text-white text-xl">${item.name}</p>
+                            <div class="flex items-center gap-3 mt-1">
+                                <button class="cart-quantity-btn" data-id="${item.id}" data-change="-1">-</button>
+                                <span class="text-lg">${item.quantity}</span>
+                                <button class="cart-quantity-btn" data-id="${item.id}" data-change="1">+</button>
+                                <button class="cart-remove-btn text-primary text-sm ml-auto" data-id="${item.id}">Remove</button>
+                            </div>
+                        </div>
+                        <p class="font-display font-bold text-white text-xl">$${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>`;
+            });
+        }
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        $('#cart-count').textContent = totalItems;
+        $('#cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        $('#checkout-button').disabled = cart.length === 0;
+    };
+    
+    const renderModal = (product) => {
+        $('#modal-container').innerHTML = `
+            <div class="p-2 h-[80vh] flex flex-col">
+                <button class="absolute top-4 right-4 text-4xl text-gray-500 hover:text-white transition-colors close-modal-btn">&times;</button>
+                <div class="grid md:grid-cols-2 gap-8 p-8 flex-grow overflow-y-auto">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover rounded-lg">
+                    <div>
+                        <h3 class="font-display text-4xl font-bold text-white">${product.name}</h3>
+                        <p class="text-primary text-4xl font-body my-4">$${product.price.toFixed(2)}</p>
+                        
+                        <div class="border-b border-border mb-4">
+                            <button class="modal-tab-btn active" data-tab="details">Details</button>
+                            <button class="modal-tab-btn" data-tab="reviews">Reviews (${product.reviews.length})</button>
+                        </div>
+                        
+                        <div id="modal-tab-content"></div>
+                        
+                    </div>
+                </div>
+            </div>`;
+        renderModalTab('details', product); 
+    };
+    
+    const renderModalTab = (tabName, product) => {
+        const contentEl = $('#modal-tab-content');
+        if (tabName === 'details') {
+            contentEl.innerHTML = `
+                <p class="text-gray-300 text-lg leading-relaxed mb-6">${product.desc}</p>
+                <button class="btn btn-primary w-full py-4 text-xl add-to-cart-btn" data-product-id="${product.id}" ${product.stock === 0 ? 'disabled' : ''}>
+                    ${product.stock === 0 ? 'Out of Stock' : 'Add to Arsenal'}
+                </button>`;
+        } else if (tabName === 'reviews') {
+            let reviewsHTML = '<div class="space-y-4">';
+            if (product.reviews.length > 0) {
+                product.reviews.forEach(review => {
+                    reviewsHTML += `
+                        <div class="border-b border-border pb-2">
+                            <p class="font-display font-bold">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
+                            <p class="text-gray-300 text-lg mt-1">${review.text}</p>
+                        </div>`;
+                });
+            } else {
+                reviewsHTML += '<p class="text-gray-400">No reviews yet.</p>';
+            }
+            reviewsHTML += '</div>';
+            contentEl.innerHTML = reviewsHTML;
+        }
+    };
+
+    const renderCheckoutModal = () => {
+        $('#checkout-modal-container').innerHTML = `
+            <div class="p-8">
+                 <button class="absolute top-4 right-4 text-4xl text-gray-500 hover:text-white transition-colors close-checkout-btn">&times;</button>
+                 <h3 class="font-display text-3xl font-bold text-white mb-6">Finalize Order</h3>
+                 <div class="space-y-4">
+                    <input type="email" placeholder="Email Address" class="input-field w-full p-3 rounded-md text-lg bg-surface border border-border">
+                    <input type="text" placeholder="Full Name" class="input-field w-full p-3 rounded-md text-lg bg-surface border border-border">
+                    <div class="p-3 rounded-md bg-surface border border-border">
+                        <p class="text-gray-400">Card details (visual simulation)</p>
+                    </div>
+                    <button id="place-order-btn" class="btn btn-primary w-full py-4 text-xl">Place Order</button>
+                 </div>
+            </div>`;
+    }
+
+    const toggleOverlay = (show) => $('.overlay').classList.toggle('visible', show);
+    const toggleModal = (modal, show) => {
+        toggleOverlay(show);
+        modal.classList.toggle('visible', show);
+    };
+
+    const addToCart = (productId) => {
+        const product = products.find(p => p.id === productId);
+        if (product.stock === 0) return;
+
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) existingItem.quantity++;
+        else cart.push({ ...product, quantity: 1 });
+        
+        renderCart();
+        $('#cart-button').classList.add('pulsate');
+        setTimeout(() => $('#cart-button').classList.remove('pulsate'), 500);
+    };
+    
+    
+    document.body.addEventListener('click', e => {
+        if (e.target.matches('.quick-view-btn')) {
+            const product = products.find(p => p.id === parseInt(e.target.dataset.productId));
+            renderModal(product);
+            toggleModal($('#modal-container'), true);
+        }
+        if (e.target.matches('.add-to-cart-btn')) {
+            addToCart(parseInt(e.target.dataset.productId));
+        }
+        if (e.target.matches('.close-modal-btn')) {
+            toggleModal($('#modal-container'), false);
+        }
+        if (e.target.matches('.modal-tab-btn')) {
+            $$('.modal-tab-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            const product = products.find(p => p.id === parseInt($('.add-to-cart-btn').dataset.productId));
+            renderModalTab(e.target.dataset.tab, product);
+        }
+        if (e.target.matches('.cart-quantity-btn')) {
+            const productId = parseInt(e.target.dataset.id);
+            const change = parseInt(e.target.dataset.change);
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity === 0) cart = cart.filter(i => i.id !== productId);
+                renderCart();
+            }
+        }
+        if (e.target.matches('.cart-remove-btn')) {
+            const productId = parseInt(e.target.dataset.id);
+            cart = cart.filter(i => i.id !== productId);
+            renderCart();
+        }
+        if (e.target.matches('#checkout-button')) {
+            toggleModal($('#cart-drawer'), false);
+            renderCheckoutModal();
+            toggleModal($('#checkout-modal-container'), true);
+        }
+        if (e.target.matches('.close-checkout-btn') || e.target.matches('#place-order-btn')) {
+            toggleModal($('#checkout-modal-container'), false);
+        }
+    });
+
+    $('#cart-button').addEventListener('click', () => toggleModal($('#cart-drawer'), true));
+    $('#close-cart-button').addEventListener('click', () => toggleModal($('#cart-drawer'), false));
+    $('.overlay').addEventListener('click', () => {
+        toggleModal($('#cart-drawer'), false);
+        toggleModal($('#modal-container'), false);
+        toggleModal($('#checkout-modal-container'), false);
+    });
+
+   
+    gsap.from(".hero-bg h2, .hero-bg p, .hero-bg a", {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out",
+        delay: 0.5
+    });
+
+    gsap.to("#collection-header", {
+        opacity: 1,
+        scrollTrigger: {
+            trigger: "#collection-header",
+            start: "top 85%",
+        }
+    });
+
+   
+    renderProducts();
+    renderCart();
+});
+</script>
+</body>
+</html>

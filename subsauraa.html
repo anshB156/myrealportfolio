@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURAA - Subscription Plans</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #d1d1d1;
+            --background-color: #0c0c0f;
+            --card-background: #1a1a1f;
+            --accent-color: #00aaff;
+            --pro-accent-color: #ff47a6;
+            --glow-color: rgba(0, 170, 255, 0.5);
+            --pro-glow-color: rgba(255, 71, 166, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: radial-gradient(circle at 10% 20%, rgba(31, 38, 87, 0.3), transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(138, 51, 126, 0.3), transparent 40%);
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff47a6, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            font-weight: 300;
+        }
+
+        .subscription-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .subscription-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 380px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .subscription-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .subscription-card.free {
+            box-shadow: 0 0 20px var(--glow-color);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .subscription-card.pro {
+            box-shadow: 0 0 35px var(--pro-glow-color);
+            border-left: 5px solid var(--pro-accent-color);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .subscription-card.pro .card-header h2 {
+            color: var(--pro-accent-color);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--secondary-color);
+        }
+
+        .features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .features li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .features li::before {
+            content: '✓';
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 0.8rem;
+        }
+
+        .subscription-card.pro .features li::before {
+            color: var(--pro-accent-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .button-free {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+        }
+
+        .button-free:hover {
+            background-color: #33bbff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.5);
+        }
+
+        .button-pro {
+            background-color: var(--pro-accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(255, 71, 166, 0.4);
+        }
+
+        .button-pro:hover {
+            background-color: #ff6ac1;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 71, 166, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="header">
+            <h1>AURAA</h1>
+            <p>Unlock Your Potential. Choose Your Reality.</p>
+        </div>
+
+        <div class="subscription-wrapper">
+            <div class="subscription-card free">
+                <div class="card-header">
+                    <h2>Free</h2>
+                    <p class="price">0 BDT<span>/month</span></p>
+                </div>
+                <ul class="features">
+                    <li>Basic AI Chatbot Access</li>
+                    <li>Standard Response Speed</li>
+                    <li>Limited Conversation History</li>
+                    <li>Community Forum Support</li>
+                    <li>Daily General Insight</li>
+                </ul>
+                <a href="https://anshb156.github.io/auraa-chatbot-frontend/" class="cta-button button-free">Continue with Free</a>
+            </div>
+
+            <div class="subscription-card pro">
+                <div class="card-header">
+                    <h2>Pro</h2>
+                    <p class="price">1200 BDT<span>/month</span></p>
+                </div>
+                <ul class="features">
+                    <li>Advanced Contextual AI Assistant</li>
+                    <li>Lightning-Fast Priority Responses</li>
+                    <li>Unlimited Conversation History</li>
+                    <li>24/7 Priority Email & Chat Support</li>
+                    <li>Personalized, In-Depth Daily Insights</li>
+                    <li>Exclusive Access to Beta Features</li>
+                    <li>Voice-to-Text & Text-to-Voice</li>
+                </ul>
+                <a href="checkout.html" class="cta-button button-pro">Go Pro</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!---task html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow Pro</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --background-primary: #1a1d21;
+            --background-secondary: #2c3038;
+            --background-modal: #212529;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border-color: #495057;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --drag-over-bg: rgba(13, 110, 253, 0.15);
+        }
+
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--background-secondary); }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 15px 25px;
+            background-color: var(--background-secondary);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 { color: var(--primary-color); margin: 0; font-size: 2.2em; font-weight: 600; }
+        
+        #status-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--background-primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        #notification-status { font-weight: 500; cursor: pointer; }
+        #notification-status:hover { text-decoration: underline; }
+        #notification-status.enabled { color: var(--success); cursor: default; }
+        #notification-status.enabled:hover { text-decoration: none; }
+        #notification-status.denied { color: var(--danger); cursor: not-allowed; }
+        #notification-status.denied:hover { text-decoration: none; }
+
+        .status-button {
+            background: none; border: 1px solid var(--primary-color); color: var(--primary-color);
+            padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s, color 0.2s;
+        }
+        .status-button:hover { background-color: var(--primary-color); color: #fff; }
+
+        #addTaskBtn {
+            background-color: var(--primary-color); color: #fff; border: none; padding: 12px 24px;
+            border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500; transition: background-color 0.3s, transform 0.2s;
+        }
+        #addTaskBtn:hover { background-color: #0b5ed7; transform: translateY(-2px); }
+
+        .task-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; margin-top: 25px; }
+        .task-column { background-color: var(--background-secondary); border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-color); border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 80vh; }
+        .task-column h2 { text-align: center; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding: 15px; margin: 0; font-weight: 500; }
+        .task-list { padding: 15px; flex-grow: 1; overflow-y: auto; transition: background-color 0.2s; border-radius: 0 0 12px 12px; }
+        .task-list.drag-over { background-color: var(--drag-over-bg); }
+
+        @keyframes breathing-glow { 0% { box-shadow: 0 0 4px -2px var(--warning); } 50% { box-shadow: 0 0 12px 0px var(--warning); } 100% { box-shadow: 0 0 4px -2px var(--warning); } }
+        #inprogress-list .task-card { animation: breathing-glow 2.5s infinite ease-in-out; }
+        
+        .task-card {
+            background-color: var(--background-primary); border-radius: 8px; padding: 18px; margin-bottom: 15px;
+            box-shadow: 0 2px 5px var(--shadow-color); cursor: grab; border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s; position: relative;
+        }
+        .task-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px var(--shadow-color); }
+        .task-card.dragging { opacity: 0.4; }
+
+        .card-action-btn {
+            position: absolute; top: 10px; right: 10px; background-color: #ffffff22; color: #fff;
+            border: none; border-radius: 50%; width: 30px; height: 30px;
+            cursor: pointer; font-size: 18px; line-height: 30px; text-align: center;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .card-action-btn:hover { background-color: var(--success); transform: scale(1.1); }
+        
+        .task-card h3 { margin: 0 35px 12px 0; font-size: 1.2em; font-weight: 600; }
+        .task-card p { margin: 0 0 15px 0; color: var(--text-secondary); font-size: 0.95em; }
+        .task-card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .due-date { font-size: 0.85em; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+        .due-date.overdue { color: var(--danger); font-weight: 600; }
+        .due-date svg { flex-shrink: 0; }
+        .priority { padding: 4px 12px; border-radius: 15px; font-size: 0.8em; font-weight: 700; }
+        .priority.high { background-color: var(--danger); color: #fff; }
+        .priority.medium { background-color: var(--warning); color: #000; }
+        .priority.low { background-color: var(--success); color: #fff; }
+        
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); animation: fade-in 0.3s; }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background-color: var(--background-modal); margin: 8% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 550px; box-shadow: 0 5px 20px rgba(0,0,0,0.7); animation: slide-down 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); border: 1px solid var(--border-color); }
+        @keyframes slide-down { from { transform: translateY(-60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 25px; }
+        .modal-header h2 { margin: 0; color: var(--primary-color); font-weight: 600; }
+        .close-btn { color: #aaa; font-size: 35px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .close-btn:hover, .close-btn:focus { color: #fff; }
+        #taskForm { display: flex; flex-direction: column; }
+        #taskForm label { margin-bottom: 8px; font-weight: 500; color: var(--text-secondary); }
+        #taskForm input, #taskForm textarea, #taskForm select { margin-bottom: 20px; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; width: 100%; box-sizing: border-box; background-color: var(--background-secondary); color: var(--text-primary); }
+        #taskForm input:focus, #taskForm textarea:focus, #taskForm select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25); }
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+        #formButtons { display: flex; justify-content: space-between; gap: 12px; }
+        #taskForm button { color: #fff; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: 500; transition: opacity 0.3s; }
+        #saveTaskBtn { background-color: var(--primary-color); flex-grow: 1; }
+        #deleteTaskBtn { background-color: var(--danger); display: none; }
+
+        .analytics-section { background-color: var(--background-secondary); padding: 25px; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .analytics-section h2 { text-align: center; color: var(--primary-color); margin-top: 0; }
+        #taskChartContainer { position: relative; height: 320px; max-width: 420px; margin: 20px auto 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TaskFlow Pro</h1>
+        <div id="status-bar">
+            <span id="notification-status"></span>
+            <button id="test-notification-btn" class="status-button" style="display:none;">Test Notifier</button>
+        </div>
+        <button id="addTaskBtn">Add New Task</button>
+    </header>
+    <div class="container">
+        <div class="task-board" id="taskBoard">
+            <div class="task-column"> <h2>To Do</h2> <div class="task-list" id="todo-list" data-status="todo"></div> </div>
+            <div class="task-column"> <h2>In Progress</h2> <div class="task-list" id="inprogress-list" data-status="inprogress"></div> </div>
+            <div class="task-column"> <h2>Done</h2> <div class="task-list" id="done-list" data-status="done"></div> </div>
+        </div>
+        <div class="analytics-section">
+            <h2>Task Analytics</h2>
+            <div id="taskChartContainer"><canvas id="taskChart"></canvas></div>
+        </div>
+    </div>
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"> <h2 id="modalTitle">Add Task</h2> <span class="close-btn">&times;</span> </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <label for="taskTitle">Title</label>
+                <input type="text" id="taskTitle" required>
+                <label for="taskDesc">Description</label>
+                <textarea id="taskDesc" rows="4"></textarea>
+                <label for="taskDueDate">Due Date & Time</label>
+                <input type="datetime-local" id="taskDueDate">
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority"> <option value="low">Low</option> <option value="medium">Medium</option> <option value="high">High</option> </select>
+                <div id="formButtons"> <button type="button" id="deleteTaskBtn">Delete</button> <button type="submit" id="saveTaskBtn">Save Task</button> </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const taskModal = document.getElementById('taskModal');
+        const taskForm = document.getElementById('taskForm');
+        const taskLists = document.querySelectorAll('.task-list');
+        const taskBoard = document.getElementById('taskBoard');
+        const notificationStatusEl = document.getElementById('notification-status');
+        const testNotificationBtn = document.getElementById('test-notification-btn');
+
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let chart;
+
+        const saveAndRender = () => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderUI();
+        };
+
+        const createTaskCard = (task) => {
+            const card = document.createElement('div');
+            card.className = 'task-card';
+            card.draggable = true;
+            card.dataset.id = task.id;
+
+            let dueDateHtml = '';
+            if (task.dueDate) {
+                const dueDate = new Date(task.dueDate);
+                const isOverdue = dueDate < new Date() && task.status !== 'done';
+                const formattedDate = dueDate.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+                dueDateHtml = `<div class="due-date ${isOverdue ? 'overdue' : ''}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/></svg><span>${formattedDate}</span></div>`;
+            }
+            
+            const doneButtonHtml = task.status !== 'done' ? `<button class="card-action-btn mark-done-btn" title="Mark as Done">✔</button>` : '';
+
+            card.innerHTML = `
+                ${doneButtonHtml}
+                <h3>${task.title}</h3>
+                <p>${task.description || ''}</p>
+                <div class="task-card-footer">
+                    ${dueDateHtml}
+                    <span class="priority ${task.priority}">${task.priority}</span>
+                </div>`;
+            return card;
+        };
+
+        const renderUI = () => {
+            taskLists.forEach(list => list.innerHTML = '');
+            tasks.forEach(task => {
+                const list = document.getElementById(`${task.status}-list`);
+                if (list) list.appendChild(createTaskCard(task));
+            });
+            updateAnalytics();
+        };
+        
+        const updateAnalytics = () => {
+            if (typeof Chart === 'undefined') return;
+            const ctx = document.getElementById('taskChart').getContext('2d');
+            Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim();
+            const counts = tasks.reduce((p, c) => { p[c.status] = (p[c.status] || 0) + 1; return p; }, {});
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'doughnut', data: { labels: ['To Do', 'In Progress', 'Done'], datasets: [{ data: [counts.todo || 0, counts.inprogress || 0, counts.done || 0], backgroundColor: ['#dc3545', '#ffc107', '#198754'], borderColor: getComputedStyle(document.documentElement).getPropertyValue('--background-secondary').trim(), borderWidth: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        };
+
+        const openModal = (task = null) => {
+            taskForm.reset();
+            const modalTitle = document.getElementById('modalTitle');
+            const deleteTaskBtn = document.getElementById('deleteTaskBtn');
+            if (task) {
+                modalTitle.innerText = 'Edit Task';
+                deleteTaskBtn.style.display = 'block';
+                document.getElementById('taskId').value = task.id;
+                document.getElementById('taskTitle').value = task.title;
+                document.getElementById('taskDesc').value = task.description;
+                document.getElementById('taskDueDate').value = task.dueDate || '';
+                document.getElementById('taskPriority').value = task.priority;
+            } else {
+                modalTitle.innerText = 'Add New Task';
+                deleteTaskBtn.style.display = 'none';
+            }
+            taskModal.style.display = 'block';
+        };
+
+        const updateNotificationStatus = () => {
+            if (!('Notification' in window)) {
+                notificationStatusEl.textContent = 'Notifications Not Supported';
+                notificationStatusEl.className = 'denied';
+                return;
+            }
+            const permission = Notification.permission;
+            if (permission === 'granted') {
+                notificationStatusEl.textContent = 'Notifications: Enabled';
+                notificationStatusEl.className = 'enabled';
+                notificationStatusEl.onclick = null;
+                testNotificationBtn.style.display = 'inline-block';
+            } else if (permission === 'denied') {
+                notificationStatusEl.textContent = 'Notifications: Blocked';
+                notificationStatusEl.className = 'denied';
+                notificationStatusEl.onclick = null;
+                testNotificationBtn.style.display = 'none';
+            } else {
+                notificationStatusEl.textContent = 'Enable Notifications';
+                notificationStatusEl.className = '';
+                testNotificationBtn.style.display = 'none';
+                notificationStatusEl.onclick = () => {
+                    Notification.requestPermission().then(updateNotificationStatus);
+                };
+            }
+        };
+
+        function showNotification(title, options) {
+            if (Notification.permission === 'granted') {
+                new Notification(title, options);
+            }
+        }
+
+        function checkReminders() {
+            let tasksModified = false;
+            tasks.forEach(task => {
+                if (task.dueDate && !task.notified && task.status !== 'done') {
+                    if (new Date(task.dueDate) <= new Date()) {
+                        showNotification('Task Overdue!', { body: `Your task "${task.title}" is now overdue.` });
+                        task.notified = true;
+                        tasksModified = true;
+                    }
+                }
+            });
+            if (tasksModified) {
+                saveAndRender();
+            }
+        }
+
+      
+        document.getElementById('addTaskBtn').addEventListener('click', () => openModal());
+        document.querySelector('.close-btn').addEventListener('click', () => taskModal.style.display = 'none');
+        window.addEventListener('click', (e) => { if (e.target === taskModal) taskModal.style.display = 'none'; });
+
+        testNotificationBtn.addEventListener('click', () => showNotification('Test Notification', {body: 'The notification system is working!'}));
+
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const taskId = document.getElementById('taskId').value;
+            const taskData = {
+                id: taskId || `task-${Date.now()}`, title: document.getElementById('taskTitle').value, description: document.getElementById('taskDesc').value,
+                priority: document.getElementById('taskPriority').value, dueDate: document.getElementById('taskDueDate').value || null,
+            };
+            if (taskId) {
+                const existingTask = tasks.find(t => t.id === taskId);
+                if (existingTask.dueDate !== taskData.dueDate) taskData.notified = false;
+                Object.assign(existingTask, taskData);
+            } else {
+                taskData.status = 'todo';
+                taskData.notified = false;
+                tasks.push(taskData);
+            }
+            taskModal.style.display = 'none';
+            saveAndRender();
+        });
+
+        document.getElementById('deleteTaskBtn').addEventListener('click', () => {
+            tasks = tasks.filter(t => t.id !== document.getElementById('taskId').value);
+            taskModal.style.display = 'none';
+            saveAndRender();
+        });
+        
+     
+        taskBoard.addEventListener('click', (e) => {
+            const card = e.target.closest('.task-card');
+            if (!card) return;
+            
+           
+            if (e.target.classList.contains('mark-done-btn')) {
+                const task = tasks.find(t => t.id === card.dataset.id);
+                if (task) {
+                    task.status = 'done';
+                    saveAndRender();
+                }
+                return; 
+            }
+
+            
+            if (!e.target.closest('button')) {
+                 openModal(tasks.find(t => t.id === card.dataset.id));
+            }
+        });
+
+      
+        taskBoard.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('task-card')) {
+                e.dataTransfer.setData('text/plain', e.target.dataset.id);
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => e.target.classList.add('dragging'), 0);
+            }
+        });
+        taskBoard.addEventListener('dragend', (e) => { if (e.target.classList.contains('task-card')) e.target.classList.remove('dragging'); });
+        
+        taskLists.forEach(list => {
+            list.addEventListener('dragover', (e) => { e.preventDefault(); list.classList.add('drag-over'); });
+            list.addEventListener('dragleave', () => list.classList.remove('drag-over'));
+            list.addEventListener('drop', (e) => {
+                e.preventDefault();
+                list.classList.remove('drag-over');
+                const taskId = e.dataTransfer.getData('text/plain');
+                const task = tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.status = list.dataset.status;
+                    saveAndRender();
+                }
+            });
+        });
+
+        saveAndRender();
+        updateNotificationStatus();
+        setInterval(checkReminders, 30000);
+    });
+    </script>
+</body>
+</html>

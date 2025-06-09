@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>achi.html</title>
+    <style>
+        :root {
+            --primary-color: #0d0d0d;
+            --secondary-color: #1a1a1a;
+            --accent-color: #00ffcc;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .profile-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a1a, #0d0d0d);
+            z-index: -1;
+        }
+
+        .profile-holder {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--accent-color), #8a2be2);
+            animation: rotate-glow 5s linear infinite;
+        }
+
+        @keyframes rotate-glow {
+            0% {
+                transform: rotate(0deg);
+                box-shadow: 0 0 20px var(--accent-color), 0 0 30px #8a2be2;
+            }
+            50% {
+                box-shadow: 0 0 40px var(--accent-color), 0 0 50px #8a2be2;
+            }
+            100% {
+                transform: rotate(360deg);
+                box-shadow: 0 0 20px var(--accent-color), 0 0 30px #8a2be2;
+            }
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+        }
+
+        .profile-title {
+            margin-top: 20px;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        .certificates-section {
+            padding: 100px 5%;
+            background-color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .certificates-title {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+        }
+
+        .certificate-card {
+            background-color: var(--primary-color);
+            border-radius: 15px;
+            margin-bottom: 50px;
+            width: 80%;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .certificate-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .certificate-image-container {
+            width: 100%;
+            height: 0;
+            padding-bottom: 70.7%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .certificate-card:hover .certificate-image {
+            transform: scale(1.05);
+        }
+
+        .certificate-details {
+            padding: 30px;
+        }
+
+        .certificate-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .certificate-issuer {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .certificate-description {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .profile-title {
+                font-size: 2rem;
+            }
+
+            .certificates-title {
+                font-size: 2.5rem;
+            }
+
+            .certificate-card {
+                width: 95%;
+            }
+
+            .certificate-title {
+                font-size: 1.5rem;
+            }
+
+            .certificate-issuer {
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-background"></div>
+        <div class="profile-content">
+            <div class="profile-holder">
+                <img src="profi.img" alt="My Profile Image" class="profile-image">
+            </div>
+            <h1 class="profile-title">My Achievements</h1>
+        </div>
+        <div class="scroll-down">Scroll Down</div>
+    </div>
+
+    <section class="certificates-section">
+        <h2 class="certificates-title">Certificates</h2>
+        <div class="certificate-card">
+            <div class="certificate-image-container">
+                <img src="certificate1.jpg" alt="Certificate 1" class="certificate-image">
+            </div>
+            <div class="certificate-details">
+                <h3 class="certificate-title">Certificate of Web Development</h3>
+                <p class="certificate-issuer">Issued by: Tech Academy</p>
+                <p class="certificate-description">Completed an intensive course on full-stack web development, covering HTML, CSS, JavaScript, and modern frameworks.</p>
+            </div>
+        </div>
+        <div class="certificate-card">
+            <div class="certificate-image-container">
+                <img src="certificate2.jpg" alt="Certificate 2" class="certificate-image">
+            </div>
+            <div class="certificate-details">
+                <h3 class="certificate-title">Advanced JavaScript Certification</h3>
+                <p class="certificate-issuer">Issued by: Code Institute</p>
+                <p class="certificate-description">Mastered advanced JavaScript concepts including asynchronous programming, data structures, and algorithms.</p>
+            </div>
+        </div>
+        <div class="certificate-card">
+            <div class="certificate-image-container">
+                <img src="certificate3.jpg" alt="Certificate 3" class="certificate-image">
+            </div>
+            <div class="certificate-details">
+                <h3 class="certificate-title">Responsive Web Design</h3>
+                <p class="certificate-issuer">Issued by: Design Masters</p>
+                <p class="certificate-description">Acquired skills to create websites that adapt seamlessly to various screen sizes and devices, ensuring a great user experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const certificateCards = document.querySelectorAll('.certificate-card');
+
+            const revealOnScroll = () => {
+                const triggerBottom = window.innerHeight / 5 * 4;
+
+                certificateCards.forEach(card => {
+                    const cardTop = card.getBoundingClientRect().top;
+
+                    if (cardTop < triggerBottom) {
+                        card.classList.add('visible');
+                    } else {
+                        card.classList.remove('visible');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+
+</body>
+</html>

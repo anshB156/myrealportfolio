@@ -3,283 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTracker - All-in-One Fitness Platform</title>
+    <title>FitTracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for theming */
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --background-color: #f4f7f6;
-            --surface-color: #ffffff;
-            --text-color: #333;
-            --border-color: #dee2e6;
-            --danger-color: #dc3545;
+            --primary-glow: #00f2ff;
+            --secondary-glow: #a132ff;
+            --danger-color: #ff3c5f;
             --success-color: #28a745;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            --background-color: #12121f;
+            --surface-color: rgba(30, 30, 50, 0.6);
+            --text-color: #e0e0e0;
+            --text-muted-color: #8a8a9e;
+            --border-color: rgba(138, 138, 158, 0.3);
+            
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
-        /* Basic Reset and Typography */
+        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: var(--font-family);
             background-color: var(--background-color);
+            background-image: radial-gradient(circle at 1% 1%, var(--secondary-glow), transparent 30%), radial-gradient(circle at 99% 99%, var(--primary-glow), transparent 40%);
+            background-attachment: fixed;
             color: var(--text-color);
             line-height: 1.6;
+            animation: fadeIn 0.8s ease-out;
         }
 
         h1, h2, h3, h4 {
             line-height: 1.2;
             margin-bottom: 1rem;
+            font-weight: 600;
+            color: #fff;
         }
+        h2 { text-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
 
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-        }
+       
+        .hidden { display: none !important; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; }
 
         .card {
             background: var(--surface-color);
-            border-radius: 8px;
+            border-radius: 16px;
             padding: 1.5rem;
             box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease-out forwards;
         }
 
-        /* Button Styles */
+        
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
-            transition: background-color 0.3s ease, transform 0.1s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
             color: #fff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(161, 50, 255, 0.6);
         }
 
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: #fff;
-        }
+        .btn-secondary { background-color: var(--surface-color); color: #fff; border: 1px solid var(--primary-glow); }
+        .btn-secondary:hover { background-color: var(--primary-glow); color: var(--background-color); }
+        .btn:active { transform: scale(0.98); }
+        .btn-block { display: block; width: 100%; }
+
         
-        .btn-success {
-            background-color: var(--success-color);
-            color: #fff;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-block {
-            display: block;
-            width: 100%;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 400; color: var(--text-muted-color); }
         .form-control {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        /* Authentication Page Layout */
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .auth-form {
-            width: 100%;
-            max-width: 400px;
-            padding: 2rem;
-            background: var(--surface-color);
             border-radius: 8px;
-            box-shadow: var(--shadow);
+            font-size: 1rem;
+            background-color: rgba(0,0,0,0.2);
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+        
+        
+        .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .auth-form { width: 100%; max-width: 400px; text-align: center; }
+        .auth-form h1 { font-size: 2.5rem; text-shadow: 0 0 15px var(--primary-glow); margin-bottom: 2rem; }
+        .auth-link { margin-top: 1.5rem; }
+        .auth-link a { color: var(--primary-glow); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .auth-link a:hover { text-decoration: underline; }
+        .error-message { color: var(--danger-color); text-align: center; margin-bottom: 1rem; font-weight: 600; }
 
-        .auth-form h1 {
-            text-align: center;
-        }
         
-        .auth-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        
-        .auth-link a {
-            color: var(--primary-color);
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        .auth-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .error-message {
-            color: var(--danger-color);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        /* Main App Layout */
         #app-page header {
-            background-color: var(--primary-color);
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 1rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: var(--shadow);
-        }
-
-        #app-page header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        #app-page nav {
-            background-color: var(--surface-color);
-            padding: 0.5rem 0;
-            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        #app-page nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
+        #app-page header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; text-shadow: 0 0 8px var(--primary-glow); }
+        #app-page nav { background: rgba(18, 18, 31, 0.8); backdrop-filter: blur(5px); padding: 0.5rem 0; position: sticky; top: 70px; z-index: 999; }
+        #app-page nav ul { display: flex; justify-content: center; list-style: none; }
+        #app-page nav a { display: flex; align-items: center; gap: 8px; padding: 10px 20px; text-decoration: none; color: var(--text-muted-color); font-weight: 600; border-bottom: 3px solid transparent; transition: all 0.3s ease; }
+        #app-page nav a.active, #app-page nav a:hover { color: var(--primary-glow); border-bottom-color: var(--primary-glow); }
 
-        #app-page nav a {
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
-            border-bottom: 3px solid transparent;
-            transition: border-color 0.3s ease;
-        }
+       
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .stat-card { text-align: center; padding: 1.5rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+        .stat-card .icon { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-glow); }
+        .stat-card .value { font-size: 2.5rem; font-weight: 700; color: #fff; }
+        .stat-card .label { font-weight: 400; color: var(--text-muted-color); }
+        
+       
+        #progress-chart { width: 100%; height: 350px; background: transparent; }
+        #progress-chart .axis-label { fill: var(--text-muted-color); font-size: 12px; }
+        #progress-chart .grid-line { stroke: var(--border-color); stroke-dasharray: 2,2; }
+        #progress-chart .line { stroke: var(--primary-glow); stroke-width: 3; fill: none; stroke-linecap: round; }
+        #progress-chart .dot { fill: var(--primary-glow); stroke: var(--background-color); stroke-width: 2; }
+        #progress-chart .tooltip { fill: #fff; font-size: 14px; text-anchor: middle; }
+        #progress-chart .tooltip-bg { fill: rgba(0,0,0,0.7); }
 
-        #app-page nav a.active,
-        #app-page nav a:hover {
-            border-bottom-color: var(--primary-color);
-        }
+        
+        .workout-plan { border-left: 5px solid var(--primary-glow); padding-left: 1.5rem; }
+        .exercise { margin-left: 1rem; padding: 0.75rem; border-bottom: 1px solid var(--border-color); }
+        .exercise:last-child { border-bottom: none; }
+        .add-exercise-form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+        .add-exercise-form input { flex-grow: 1; padding: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 5px; }
+        
+       
+        .friend-list, .activity-feed { list-style: none; }
+        .friend-list li, .activity-feed li { padding: 0.75rem; border-bottom: 1px solid var(--border-color); transition: background-color 0.3s ease; }
+        .friend-list li:hover, .activity-feed li:hover { background-color: var(--surface-color); }
+        .friend-list li::before { content: '•'; color: var(--primary-glow); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
 
-        /* Dashboard Section */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .stat-card {
-            text-align: center;
-            padding: 1.5rem;
-        }
-        
-        .stat-card .value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
-        .stat-card .label {
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
 
-        /* Progress Section */
-        #progress-chart {
-            width: 100%;
-            height: 300px;
-            background: #f9f9f9;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-        }
-
-        /* Workout Section */
-        .workout-plan {
-            border-left: 5px solid var(--primary-color);
-            padding-left: 1rem;
-        }
-        
-        .exercise {
-            margin-left: 1.5rem;
-            padding: 0.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .exercise:last-child {
-            border-bottom: none;
-        }
-        
-        /* Social Section */
-        .friend-list, .activity-feed {
-            list-style: none;
-        }
-        
-        .friend-list li, .activity-feed li {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            #app-page header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            #app-page header .user-info {
-                margin-top: 0.5rem;
-            }
-
-            #app-page nav ul {
-                flex-wrap: wrap;
-            }
-
-            #app-page nav a {
-                padding: 10px 15px;
-            }
+            #app-page header { flex-direction: column; text-align: center; gap: 0.5rem; position: relative; }
+            #app-page nav { top: 115px; }
+            #app-page nav ul { flex-wrap: wrap; }
+            #app-page nav a { padding: 10px 15px; }
         }
     </style>
 </head>
@@ -287,8 +193,8 @@
 
     <div id="login-page">
         <div class="auth-container">
-            <div class="auth-form">
-                <h1>FitTracker Login</h1>
+            <div class="auth-form card">
+                <h1>FitTracker</h1>
                 <div id="login-error" class="error-message hidden"></div>
                 <form id="login-form">
                     <div class="form-group">
@@ -310,7 +216,7 @@
 
     <div id="register-page" class="hidden">
         <div class="auth-container">
-            <div class="auth-form">
+            <div class="auth-form card">
                 <h1>Create Account</h1>
                 <div id="register-error" class="error-message hidden"></div>
                 <form id="register-form">
@@ -340,16 +246,24 @@
             <h1>FitTracker</h1>
             <div class="user-info">
                 <span id="user-greeting"></span> | <span id="current-date"></span>
-                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem;">Logout</button>
+                <button id="logout-btn" class="btn btn-secondary" style="margin-left: 1rem; padding: 8px 16px;">Logout</button>
             </div>
         </header>
         <nav>
             <div class="container">
                 <ul>
-                    <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
-                    <li><a href="#workouts" class="nav-link">Workouts</a></li>
-                    <li><a href="#progress" class="nav-link">Progress</a></li>
-                    <li><a href="#social" class="nav-link">Social</a></li>
+                    <li><a href="#dashboard" class="nav-link active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        Dashboard</a></li>
+                    <li><a href="#workouts" class="nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M2 8L20 8"></path></svg>
+                        Workouts</a></li>
+                    <li><a href="#progress" class="nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Progress</a></li>
+                    <li><a href="#social" class="nav-link">
+                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        Social</a></li>
                 </ul>
             </div>
         </nav>
@@ -360,14 +274,17 @@
                     <h3>Today's Activity</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
+                            <div class="icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
                             <div class="value">8,450</div>
                             <div class="label">Steps</div>
                         </div>
                         <div class="stat-card">
+                            <div class="icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9C10.1 3.3 9.4 3 8.8 3.2s-1 1.2-.8 1.8L10.3 3.9zm5.4 0c.2-.6-.3-1.2-1-1.3s-1.2.3-1.3.9L15.7 3.9zM7.2 9.7c-.5-.4-.9-.2-1 .4s.2 1 .7 1.1L7.2 9.7zm9.6 0c.5-.2.8-.7.6-1.2s-.7-.8-1.2-.6L16.8 9.7zM12 21c-4 0-5-2-5-4 0-2 1-4 5-4s5 2 5 4c0 2-1 4-5 4z"></path></svg></div>
                             <div class="value">310</div>
                             <div class="label">Calories Burned</div>
                         </div>
                         <div class="stat-card">
+                            <div class="icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
                             <div class="value">45</div>
                             <div class="label">Active Minutes</div>
                         </div>
@@ -454,17 +371,17 @@
                 <div class="card">
                     <h3>Friends List</h3>
                     <ul class="friend-list">
-                        <li>Alice Johnson</li>
-                        <li>Bob Williams</li>
-                        <li>Charlie Brown</li>
+                        <li>Junu Chak.</li>
+                        <li>Lucky Chak.</li>
+                        <li>Tinku Chak.</li>
                     </ul>
                 </div>
                  <div class="card">
                     <h3>Activity Feed</h3>
                     <ul class="activity-feed">
-                        <li>Alice Johnson just completed a 5k run.</li>
-                        <li>Bob Williams logged a new PR in Bench Press.</li>
-                        <li>Charlie Brown completed the 'Full Body Strength' workout.</li>
+                        <li>Junu Chak. just completed a 2k run.</li>
+                        <li>Lucky Chak. logged a new PR in Skipping.</li>
+                        <li>Tinku Chak. completed the 'Full Body Strength' workout.</li>
                     </ul>
                 </div>
                 <div class="card">
@@ -477,350 +394,414 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- STATE MANAGEMENT ---
-            const state = {
-                currentUser: null,
-                currentPage: 'login', // 'login', 'register', 'app'
-                currentSection: 'dashboard', // 'dashboard', 'workouts', etc.
-                users: {
-                    // Dummy user for easy login
-                    "testuser": {
-                        username: "testuser",
-                        email: "test@example.com",
-                        password: "password",
-                        workoutPlans: [],
-                        progressLogs: [],
-                    }
+    document.addEventListener('DOMContentLoaded', () => {
+      
+        const state = {
+            currentUser: null,
+            currentPage: 'login',
+            currentSection: 'dashboard', 
+            users: {
+                
+                "testuser": {
+                    username: "testuser",
+                    email: "test@example.com",
+                    password: "password",
+                    workoutPlans: [],
+                    progressLogs: [
+                         { date: '2025-05-01T12:00:00.000Z', weight: 85.5, bodyfat: 22.1, notes: 'Starting point' },
+                         { date: '2025-05-08T12:00:00.000Z', weight: 85.1, bodyfat: 21.9, notes: 'Good week' },
+                         { date: '2025-05-15T12:00:00.000Z', weight: 84.5, bodyfat: 21.5, notes: 'Feeling stronger' },
+                         { date: '2025-05-22T12:00:00.000Z', weight: 84.6, bodyfat: 21.6, notes: 'Slight gain' },
+                         { date: '2025-05-29T12:00:00.000Z', weight: 83.9, bodyfat: 21.2, notes: 'Pushed hard' }
+                    ],
                 }
-            };
+            }
+        };
 
-            // --- DOM ELEMENT SELECTORS ---
-            const pages = {
-                login: document.getElementById('login-page'),
-                register: document.getElementById('register-page'),
-                app: document.getElementById('app-page')
-            };
-            const sections = {
-                dashboard: document.getElementById('dashboard-section'),
-                workouts: document.getElementById('workouts-section'),
-                progress: document.getElementById('progress-section'),
-                social: document.getElementById('social-section'),
-            };
-            const navLinks = document.querySelectorAll('.nav-link');
+        
+        const pages = {
+            login: document.getElementById('login-page'),
+            register: document.getElementById('register-page'),
+            app: document.getElementById('app-page')
+        };
+        const sections = {
+            dashboard: document.getElementById('dashboard-section'),
+            workouts: document.getElementById('workouts-section'),
+            progress: document.getElementById('progress-section'),
+            social: document.getElementById('social-section'),
+        };
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        
+        
+        function renderPage() {
+            for (const pageName in pages) {
+                pages[pageName].classList.add('hidden');
+            }
+            pages[state.currentPage].classList.remove('hidden');
+        }
+
+        function renderSection() {
+            let sectionHasChanged = false;
+            for (const sectionName in sections) {
+                const isHidden = sections[sectionName].classList.contains('hidden');
+                if (sectionName === state.currentSection && isHidden) {
+                    sectionHasChanged = true;
+                }
+                sections[sectionName].classList.add('hidden');
+            }
+
+            const activeSection = sections[state.currentSection];
+            activeSection.classList.remove('hidden');
             
-            // --- RENDER/VIEW FUNCTIONS ---
-            
-            /**
-             * Controls which main page is visible (login, register, or app)
-             */
-            function renderPage() {
-                for (const pageName in pages) {
-                    pages[pageName].classList.add('hidden');
-                }
-                pages[state.currentPage].classList.remove('hidden');
+           
+            if(sectionHasChanged) {
+                
+                activeSection.style.animation = 'none';
+                activeSection.offsetHeight; 
+                activeSection.style.animation = null; 
+                activeSection.style.animation = 'fadeIn 0.5s ease-out forwards';
             }
 
-            /**
-             * Controls which section within the main app is visible
-             */
-            function renderSection() {
-                for (const sectionName in sections) {
-                    sections[sectionName].classList.add('hidden');
-                }
-                sections[state.currentSection].classList.remove('hidden');
-                
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href') === `#${state.currentSection}`);
-                });
-            }
 
-            /**
-             * Initializes the main app view when a user logs in
-             */
-            function initializeApp() {
-                document.getElementById('user-greeting').textContent = `Welcome, ${state.currentUser.username}`;
-                document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-GB');
-                renderWorkoutPlans();
-                renderProgress();
-            }
-
-            /**
-             * Renders the user's workout plans
-             */
-            function renderWorkoutPlans() {
-                const container = document.getElementById('workout-plans-container');
-                const plans = state.currentUser.workoutPlans;
-
-                if (plans.length === 0) {
-                    container.innerHTML = '<p>No workout plans created yet.</p>';
-                    return;
-                }
-
-                container.innerHTML = '';
-                plans.forEach((plan, planIndex) => {
-                    const planEl = document.createElement('div');
-                    planEl.className = 'card workout-plan';
-                    
-                    let exercisesHTML = '';
-                    if (plan.exercises.length > 0) {
-                        exercisesHTML = plan.exercises.map(ex => `
-                            <div class="exercise">
-                                <strong>${ex.name}</strong> - ${ex.sets} sets, ${ex.reps} reps ${ex.weight ? `(${ex.weight} kg)` : ''}
-                            </div>
-                        `).join('');
-                    } else {
-                        exercisesHTML = '<p>No exercises added yet.</p>';
-                    }
-
-                    planEl.innerHTML = `
-                        <h3>${plan.name} <button class="btn btn-danger" style="float:right; font-size: 0.8rem; padding: 5px 10px;" data-plan-index="${planIndex}">Delete</button></h3>
-                        <p>${plan.description}</p>
-                        <hr style="margin: 1rem 0;">
-                        <h4>Exercises</h4>
-                        ${exercisesHTML}
-                        <hr style="margin: 1rem 0;">
-                        <h4>Add Exercise</h4>
-                        <form class="add-exercise-form" data-plan-index="${planIndex}">
-                            <input type="text" name="name" placeholder="Exercise Name" required>
-                            <input type="number" name="sets" placeholder="Sets" required>
-                            <input type="number" name="reps" placeholder="Reps" required>
-                            <input type="number" name="weight" placeholder="Weight (kg, optional)">
-                            <button type="submit" class="btn btn-secondary">Add</button>
-                        </form>
-                    `;
-                    container.appendChild(planEl);
-                });
-            }
-
-            /**
-             * Renders progress logs and the chart
-             */
-            function renderProgress() {
-                const logs = state.currentUser.progressLogs;
-                const container = document.getElementById('historical-data-container');
-                
-                if (logs.length === 0) {
-                    container.innerHTML = '<p>No data logged yet.</p>';
-                    document.getElementById('progress-chart').innerHTML = ''; // Clear chart
-                    return;
-                }
-                
-                // Render historical data list
-                container.innerHTML = logs.map(log => `
-                    <div class="card">
-                        <strong>${new Date(log.date).toLocaleDateString('en-GB')}</strong> - 
-                        Weight: ${log.weight} kg | 
-                        Body Fat: ${log.bodyfat || 'N/A'}% <br>
-                        <em>Notes: ${log.notes || 'None'}</em>
-                    </div>
-                `).join('');
-
-                // Render SVG Chart
-                renderWeightChart(logs);
-            }
-            
-            /**
-             * Renders an SVG line chart for weight progress
-             * @param {Array} logs - Array of progress log objects
-             */
-            function renderWeightChart(logs) {
-                const svg = document.getElementById('progress-chart');
-                svg.innerHTML = ''; // Clear previous chart
-
-                if (logs.length < 2) {
-                    svg.innerHTML = '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Log at least 2 entries to see a trend</text>';
-                    return;
-                }
-
-                const weights = logs.map(l => l.weight);
-                const maxWeight = Math.max(...weights);
-                const minWeight = Math.min(...weights);
-                const padding = 40;
-                const width = svg.clientWidth;
-                const height = svg.clientHeight;
-                const range = maxWeight - minWeight === 0 ? 1 : maxWeight - minWeight;
-
-                // Function to map data points to SVG coordinates
-                const getX = (index) => padding + (index / (logs.length - 1)) * (width - 2 * padding);
-                const getY = (value) => height - padding - ((value - minWeight) / range) * (height - 2 * padding);
-                
-                // Create polyline for the graph
-                const points = logs.map((log, i) => `${getX(i)},${getY(log.weight)}`).join(' ');
-                const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-                polyline.setAttribute('points', points);
-                polyline.setAttribute('fill', 'none');
-                polyline.setAttribute('stroke', 'var(--primary-color)');
-                polyline.setAttribute('stroke-width', '3');
-                svg.appendChild(polyline);
-
-                // Add circles for data points
-                logs.forEach((log, i) => {
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    circle.setAttribute('cx', getX(i));
-                    circle.setAttribute('cy', getY(log.weight));
-                    circle.setAttribute('r', '5');
-                    circle.setAttribute('fill', 'var(--primary-color)');
-                    svg.appendChild(circle);
-                });
-                
-                // Add Y-axis labels
-                const yAxisMax = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                yAxisMax.setAttribute('x', padding - 10);
-                yAxisMax.setAttribute('y', padding);
-                yAxisMax.setAttribute('text-anchor', 'end');
-                yAxisMax.textContent = `${maxWeight.toFixed(1)}kg`;
-                svg.appendChild(yAxisMax);
-
-                const yAxisMin = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                yAxisMin.setAttribute('x', padding - 10);
-                yAxisMin.setAttribute('y', height - padding + 5);
-                yAxisMin.setAttribute('text-anchor', 'end');
-                yAxisMin.textContent = `${minWeight.toFixed(1)}kg`;
-                svg.appendChild(yAxisMin);
-            }
-
-            // --- EVENT LISTENERS ---
-
-            // Page Navigation (Login/Register)
-            document.getElementById('show-register').addEventListener('click', () => {
-                state.currentPage = 'register';
-                renderPage();
-            });
-            document.getElementById('show-login').addEventListener('click', () => {
-                state.currentPage = 'login';
-                renderPage();
-            });
-
-            // Authentication Forms
-            document.getElementById('login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('login-username').value;
-                const password = document.getElementById('login-password').value;
-                const errorEl = document.getElementById('login-error');
-                
-                if (state.users[username] && state.users[username].password === password) {
-                    state.currentUser = state.users[username];
-                    state.currentPage = 'app';
-                    errorEl.classList.add('hidden');
-                    initializeApp();
-                    renderPage();
-                    renderSection();
-                } else {
-                    errorEl.textContent = 'Invalid username or password.';
-                    errorEl.classList.remove('hidden');
-                }
-            });
-
-            document.getElementById('register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('register-username').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                const errorEl = document.getElementById('register-error');
-
-                if (state.users[username]) {
-                    errorEl.textContent = 'Username already exists.';
-                    errorEl.classList.remove('hidden');
-                } else {
-                    state.users[username] = { username, email, password, workoutPlans: [], progressLogs: [] };
-                    alert('Registration successful! Please log in.');
-                    state.currentPage = 'login';
-                    errorEl.classList.add('hidden');
-                    renderPage();
-                }
-            });
-            
-            // Logout
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                state.currentUser = null;
-                state.currentPage = 'login';
-                state.currentSection = 'dashboard';
-                // Clear form fields on logout for better UX
-                document.getElementById('login-form').reset();
-                document.getElementById('register-form').reset();
-                renderPage();
-            });
-
-            // Main App Navigation
             navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    state.currentSection = e.target.getAttribute('href').substring(1);
-                    renderSection();
-                });
-            });
-
-            // Wearable Device Simulation
-            document.getElementById('connect-device-btn').addEventListener('click', () => {
-                document.getElementById('wearable-status').textContent = 'Connected';
-                document.getElementById('wearable-status').style.color = 'var(--success-color)';
-                document.getElementById('sync-data-btn').disabled = false;
-            });
-            document.getElementById('sync-data-btn').addEventListener('click', () => {
-                alert('Data synced successfully from your wearable device (simulated).');
+                link.classList.toggle('active', link.getAttribute('href') === `#${state.currentSection}`);
             });
             
-            // Workout Plan Creation
-            document.getElementById('new-plan-form').addEventListener('submit', e => {
-                e.preventDefault();
-                const name = document.getElementById('plan-name').value;
-                const description = document.getElementById('plan-desc').value;
+            
+            if (state.currentSection === 'progress' && state.currentUser.progressLogs.length > 0) {
+                 renderWeightChart(state.currentUser.progressLogs);
+            }
+        }
+
+        function initializeApp() {
+            document.getElementById('user-greeting').textContent = `Welcome, ${state.currentUser.username}`;
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            renderWorkoutPlans();
+            renderProgress();
+        }
+
+        function renderWorkoutPlans() {
+            const container = document.getElementById('workout-plans-container');
+            const plans = state.currentUser.workoutPlans;
+
+            if (plans.length === 0) {
+                container.innerHTML = '<p>No workout plans created yet.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            plans.forEach((plan, planIndex) => {
+                const planEl = document.createElement('div');
+                planEl.className = 'card workout-plan';
                 
-                state.currentUser.workoutPlans.push({ name, description, exercises: [] });
-                renderWorkoutPlans();
-                e.target.reset();
-            });
-            
-            // Add/Delete Exercises/Plans (using event delegation)
-            document.getElementById('workouts-section').addEventListener('submit', e => {
-                if (e.target.classList.contains('add-exercise-form')) {
-                    e.preventDefault();
-                    const planIndex = e.target.dataset.planIndex;
-                    const exercise = {
-                        name: e.target.elements.name.value,
-                        sets: e.target.elements.sets.value,
-                        reps: e.target.elements.reps.value,
-                        weight: e.target.elements.weight.value || null,
-                    };
-                    state.currentUser.workoutPlans[planIndex].exercises.push(exercise);
-                    renderWorkoutPlans();
+                let exercisesHTML = '';
+                if (plan.exercises.length > 0) {
+                    exercisesHTML = plan.exercises.map(ex => `
+                        <div class="exercise">
+                            <strong>${ex.name}</strong> - ${ex.sets} sets, ${ex.reps} reps ${ex.weight ? `(${ex.weight} kg)` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    exercisesHTML = '<p>No exercises added yet.</p>';
                 }
-            });
-            
-            document.getElementById('workouts-section').addEventListener('click', e => {
-                 if (e.target.matches('button[data-plan-index]')) {
-                    const planIndex = e.target.dataset.planIndex;
-                    if (confirm('Are you sure you want to delete this workout plan?')) {
-                        state.currentUser.workoutPlans.splice(planIndex, 1);
-                        renderWorkoutPlans();
-                    }
-                 }
-            });
-            
-            // Log Progress
-            document.getElementById('log-progress-form').addEventListener('submit', e => {
-                e.preventDefault();
-                const log = {
-                    date: new Date().toISOString(),
-                    weight: parseFloat(document.getElementById('log-weight').value),
-                    bodyfat: parseFloat(document.getElementById('log-bodyfat').value) || null,
-                    notes: document.getElementById('log-notes').value,
-                };
-                state.currentUser.progressLogs.push(log);
-                state.currentUser.progressLogs.sort((a,b) => new Date(a.date) - new Date(b.date)); // Keep logs sorted
-                renderProgress();
-                e.target.reset();
-            });
-            
-            // Share Progress Button
-            document.getElementById('share-progress-btn').addEventListener('click', () => {
-                alert('Mock Share Summary:\n\nJust finished a great week at FitTracker! \n- Completed 3 workouts \n- Hit a new weight goal!\n\n#FitTracker #FitnessJourney');
-            });
 
+                planEl.innerHTML = `
+                    <h3>${plan.name} <button class="btn" style="float:right; font-size: 0.8rem; padding: 5px 10px; background-color: var(--danger-color);" data-plan-index="${planIndex}">Delete</button></h3>
+                    <p>${plan.description}</p>
+                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
+                    <h4>Exercises</h4>
+                    ${exercisesHTML}
+                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
+                    <h4>Add Exercise</h4>
+                    <form class="add-exercise-form" data-plan-index="${planIndex}">
+                        <input type="text" name="name" placeholder="Exercise Name" required>
+                        <input type="number" name="sets" placeholder="Sets" required>
+                        <input type="number" name="reps" placeholder="Reps" required>
+                        <input type="number" name="weight" placeholder="Weight (kg, optional)">
+                        <button type="submit" class="btn btn-secondary" style="padding: 8px 16px;">Add</button>
+                    </form>
+                `;
+                container.appendChild(planEl);
+            });
+        }
 
+        function renderProgress() {
+            const logs = state.currentUser.progressLogs;
+            const container = document.getElementById('historical-data-container');
+            
+            if (logs.length === 0) {
+                container.innerHTML = '<p>No data logged yet.</p>';
+                document.getElementById('progress-chart').innerHTML = ''; 
+                return;
+            }
+            
+            
+            container.innerHTML = logs.slice().reverse().map(log => `
+                <div class="card">
+                    <strong>${new Date(log.date).toLocaleDateString('en-GB')}</strong> - 
+                    Weight: ${log.weight} kg | 
+                    Body Fat: ${log.bodyfat || 'N/A'}% <br>
+                    <em>Notes: ${log.notes || 'None'}</em>
+                </div>
+            `).join('');
+
+            
+        }
+        
+        function renderWeightChart(logs) {
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const svg = document.getElementById('progress-chart');
+            svg.innerHTML = ''; 
+
+            if (logs.length < 2) {
+                const text = document.createElementNS(svgNS, 'text');
+                text.setAttribute('x', '50%');
+                text.setAttribute('y', '50%');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('fill', 'var(--text-muted-color)');
+                text.textContent = 'Log at least 2 entries to see a trend';
+                svg.appendChild(text);
+                return;
+            }
+
+            const padding = 50;
+            const width = svg.clientWidth;
+            const height = svg.clientHeight;
+
+            const weights = logs.map(l => l.weight);
+            const maxWeight = Math.ceil(Math.max(...weights) / 2) * 2; 
+            const minWeight = Math.floor(Math.min(...weights) / 2) * 2; 
+            const range = maxWeight - minWeight === 0 ? 1 : maxWeight - minWeight;
+
+            const getX = (index) => padding + (index / (logs.length - 1)) * (width - 2 * padding);
+            const getY = (value) => height - padding - ((value - minWeight) / range) * (height - 2 * padding);
+
+            
+            const numGridLines = 5;
+            for (let i = 0; i <= numGridLines; i++) {
+                const value = minWeight + (range / numGridLines) * i;
+                const y = getY(value);
+                const line = document.createElementNS(svgNS, 'line');
+                line.setAttribute('x1', padding);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                svg.appendChild(line);
+
+                const label = document.createElementNS(svgNS, 'text');
+                label.setAttribute('x', padding - 10);
+                label.setAttribute('y', y + 4);
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('class', 'axis-label');
+                label.textContent = `${value.toFixed(1)}kg`;
+                svg.appendChild(label);
+            }
+
+            
+            const points = logs.map((log, i) => `${getX(i)},${getY(log.weight)}`).join(' ');
+            const polyline = document.createElementNS(svgNS, 'polyline');
+            polyline.setAttribute('points', points);
+            polyline.setAttribute('class', 'line');
+            
+            
+            const totalLength = polyline.getTotalLength ? polyline.getTotalLength() : 1000;
+            polyline.style.strokeDasharray = totalLength;
+            polyline.style.strokeDashoffset = totalLength;
+            setTimeout(() => {
+                polyline.style.transition = 'stroke-dashoffset 2s ease-out';
+                polyline.style.strokeDashoffset = '0';
+            }, 100);
+
+            svg.appendChild(polyline);
+
+            
+            logs.forEach((log, i) => {
+                const circle = document.createElementNS(svgNS, 'circle');
+                circle.setAttribute('cx', getX(i));
+                circle.setAttribute('cy', getY(log.weight));
+                circle.setAttribute('r', '5');
+                circle.setAttribute('class', 'dot');
+                svg.appendChild(circle);
+
+                
+                const tooltipGroup = document.createElementNS(svgNS, 'g');
+                tooltipGroup.style.visibility = 'hidden';
+                tooltipGroup.style.transition = 'visibility 0.2s';
+                
+                const tooltipText = document.createElementNS(svgNS, 'text');
+                tooltipText.setAttribute('x', getX(i));
+                tooltipText.setAttribute('y', getY(log.weight) - 20);
+                tooltipText.setAttribute('class', 'tooltip');
+                tooltipText.textContent = `${log.weight.toFixed(1)}kg on ${new Date(log.date).toLocaleDateString()}`;
+
+                
+                const textLength = tooltipText.getComputedTextLength();
+                const tooltipBg = document.createElementNS(svgNS, 'rect');
+                tooltipBg.setAttribute('x', getX(i) - textLength / 2 - 5);
+                tooltipBg.setAttribute('y', getY(log.weight) - 35);
+                tooltipBg.setAttribute('width', textLength + 10);
+                tooltipBg.setAttribute('height', '20');
+                tooltipBg.setAttribute('rx', '5');
+                tooltipBg.setAttribute('class', 'tooltip-bg');
+
+                tooltipGroup.appendChild(tooltipBg);
+                tooltipGroup.appendChild(tooltipText);
+                svg.appendChild(tooltipGroup);
+
+                circle.addEventListener('mouseover', () => { tooltipGroup.style.visibility = 'visible'; });
+                circle.addEventListener('mouseout', () => { tooltipGroup.style.visibility = 'hidden'; });
+            });
+        }
+        
+     
+
+        
+        document.getElementById('show-register').addEventListener('click', () => {
+            state.currentPage = 'register';
             renderPage();
         });
+        document.getElementById('show-login').addEventListener('click', () => {
+            state.currentPage = 'login';
+            renderPage();
+        });
+
+        
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            
+            if (state.users[username] && state.users[username].password === password) {
+                state.currentUser = state.users[username];
+                state.currentPage = 'app';
+                errorEl.classList.add('hidden');
+                initializeApp();
+                renderPage();
+                renderSection();
+            } else {
+                errorEl.textContent = 'Invalid username or password.';
+                errorEl.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const errorEl = document.getElementById('register-error');
+
+            if (state.users[username]) {
+                errorEl.textContent = 'Username already exists.';
+                errorEl.classList.remove('hidden');
+            } else {
+                state.users[username] = { username, email, password, workoutPlans: [], progressLogs: [] };
+                alert('Registration successful! Please log in.');
+                state.currentPage = 'login';
+                errorEl.classList.add('hidden');
+                document.getElementById('register-form').reset();
+                renderPage();
+            }
+        });
+        
+        
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            state.currentUser = null;
+            state.currentPage = 'login';
+            state.currentSection = 'dashboard';
+            document.getElementById('login-form').reset();
+            renderPage();
+        });
+
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                state.currentSection = e.currentTarget.getAttribute('href').substring(1);
+                renderSection();
+            });
+        });
+
+        
+        document.getElementById('connect-device-btn').addEventListener('click', () => {
+            const statusEl = document.getElementById('wearable-status');
+            statusEl.textContent = 'Connected';
+            statusEl.style.color = 'var(--success-color)';
+            statusEl.style.textShadow = '0 0 5px var(--success-color)';
+            document.getElementById('sync-data-btn').disabled = false;
+        });
+        document.getElementById('sync-data-btn').addEventListener('click', () => {
+            alert('Data synced successfully from your wearable device (simulated).');
+        });
+        
+        
+        document.getElementById('new-plan-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('plan-name').value;
+            const description = document.getElementById('plan-desc').value;
+            
+            state.currentUser.workoutPlans.push({ name, description, exercises: [] });
+            renderWorkoutPlans();
+            e.target.reset();
+        });
+        
+        
+        document.getElementById('workouts-section').addEventListener('submit', e => {
+            if (e.target.classList.contains('add-exercise-form')) {
+                e.preventDefault();
+                const planIndex = e.target.dataset.planIndex;
+                const exercise = {
+                    name: e.target.elements.name.value,
+                    sets: e.target.elements.sets.value,
+                    reps: e.target.elements.reps.value,
+                    weight: e.target.elements.weight.value || null,
+                };
+                state.currentUser.workoutPlans[planIndex].exercises.push(exercise);
+                renderWorkoutPlans();
+            }
+        });
+        
+        document.getElementById('workouts-section').addEventListener('click', e => {
+             if (e.target.matches('button[data-plan-index]')) {
+                 const planIndex = e.target.dataset.planIndex;
+                 if (confirm('Are you sure you want to delete this workout plan?')) {
+                     state.currentUser.workoutPlans.splice(planIndex, 1);
+                     renderWorkoutPlans();
+                 }
+             }
+        });
+        
+        
+        document.getElementById('log-progress-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const log = {
+                date: new Date().toISOString(),
+                weight: parseFloat(document.getElementById('log-weight').value),
+                bodyfat: parseFloat(document.getElementById('log-bodyfat').value) || null,
+                notes: document.getElementById('log-notes').value,
+            };
+            state.currentUser.progressLogs.push(log);
+            state.currentUser.progressLogs.sort((a,b) => new Date(a.date) - new Date(b.date)); 
+            renderProgress();
+           
+            if(state.currentSection === 'progress') {
+                renderWeightChart(state.currentUser.progressLogs);
+            }
+            e.target.reset();
+        });
+        
+      
+        document.getElementById('share-progress-btn').addEventListener('click', () => {
+            alert('Mock Share Summary:\n\nJust finished a great week at FitTracker! \n- Completed 3 workouts \n- Hit a new weight goal!\n\n#FitTracker #FitnessJourney');
+        });
+
+        
+        renderPage();
+    });
     </script>
 </body>
 </html>

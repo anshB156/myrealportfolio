@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURAA Pro Checkout</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #1a1a1f;
+            --secondary-color: #555;
+            --background-color: #f4f7fc;
+            --container-bg: #ffffff;
+            --accent-color: #ff47a6;
+            --border-color: #e1e1e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .checkout-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .summary-section {
+            background-color: #fcfdff;
+            padding: 2.5rem;
+            width: 45%;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .summary-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+        
+        .item-name span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .item-price {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .total-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border-color);
+        }
+        
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .total-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .payment-section {
+            padding: 2.5rem;
+            width: 55%;
+        }
+        
+        .payment-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .payment-form .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .payment-form label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .payment-form input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .payment-form input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(255, 71, 166, 0.3);
+        }
+        
+        .card-details-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .pay-button:hover {
+            background-color: #e63995;
+            transform: scale(1.02);
+        }
+
+        .secure-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        #confirmation-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        #confirmation-message h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        #confirmation-message p {
+            font-size: 1.1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <div class="summary-section">
+            <h2>Order Summary</h2>
+            <div class="item-details">
+                <div class="item-name">
+                    AURAA Pro
+                    <span>Billed Monthly</span>
+                </div>
+                <div class="item-price">1200 BDT</div>
+            </div>
+            
+            <div class="total-section">
+                <div class="total-line">
+                    <p>Total Due Today</p>
+                    <p class="total-price">1200 BDT</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-section" id="payment-section">
+            <h2>Payment Details</h2>
+            <form class="payment-form" id="payment-form" onsubmit="handlePayment(event)">
+                <div class="form-group">
+                    <label for="card-holder">Card Holder Name</label>
+                    <input type="text" id="card-holder" placeholder="e.g. A. Chowdhury" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="**** **** **** ****" required>
+                </div>
+                <div class="card-details-row">
+                    <div class="form-group" style="width: 50%;">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" placeholder="MM / YY" required>
+                    </div>
+                    <div class="form-group" style="width: 50%;">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="***" required>
+                    </div>
+                </div>
+                <button type="submit" class="pay-button">Pay 1200 BDT Securely</button>
+            </form>
+            <p class="secure-info">🔒 Your payment information is encrypted and secure.</p>
+        </div>
+
+        <div id="confirmation-message">
+            <h3>Payment Successful!</h3>
+            <p>Welcome to <strong>AURAA Pro</strong>. Your journey into an enhanced reality begins now.</p>
+            <p style="font-size: 0.9rem; margin-top: 1.5rem; color: #777;">This is a prank no need to worry!</p>
+        </div>
+
+    </div>
+
+    <script>
+        function handlePayment(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('payment-form');
+            if (form.checkValidity()) {
+                const paymentSection = document.getElementById('payment-section');
+                const confirmationMessage = document.getElementById('confirmation-message');
+
+               
+                const payButton = document.querySelector('.pay-button');
+                payButton.innerText = 'Processing...';
+                payButton.disabled = true;
+
+                setTimeout(() => {
+                    paymentSection.style.display = 'none';
+                    confirmationMessage.style.display = 'block';
+                }, 1500); 
+            } else {
+                form.reportValidity(); 
+            }
+        }
+    </script>
+</body>
+</html>

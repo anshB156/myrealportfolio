@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURAA - The Future of AI Interaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <style>
-        
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
         :root {
@@ -16,6 +16,8 @@
             --accent-color-2: #ff47a6;
             --card-background: #111115;
             --border-color: rgba(255, 255, 255, 0.1);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
 
         * {
@@ -34,6 +36,15 @@
             color: var(--primary-text-color);
             overflow-x: hidden;
         }
+    
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
         .container {
             max-width: 1200px;
@@ -41,7 +52,6 @@
             padding: 0 2rem;
         }
 
-        
         .header {
             position: fixed;
             top: 0;
@@ -49,12 +59,13 @@
             width: 100%;
             padding: 1.5rem 0;
             z-index: 1000;
-            transition: background-color 0.4s ease, padding 0.4s ease;
+            transition: background-color 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
         }
         
         .header.scrolled {
             background-color: rgba(5, 5, 7, 0.85);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 1rem 0;
             border-bottom: 1px solid var(--border-color);
         }
@@ -77,6 +88,7 @@
             background: linear-gradient(90deg, var(--accent-color-2), var(--accent-color-1));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .nav-links {
@@ -112,7 +124,6 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-
         
         .hero {
             height: 100vh;
@@ -122,7 +133,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+  
         .hero::before {
              content: '';
              position: absolute;
@@ -130,20 +141,16 @@
              left: 0;
              width: 100%;
              height: 100%;
-             background: radial-gradient(ellipse at 50% 50%, rgba(0, 170, 255, 0.1), transparent 70%);
+             background: radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), rgba(0, 170, 255, 0.15), transparent 80%);
              z-index: -1;
-             animation: pulse 5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.7; }
+             transition: background 0.1s linear;
         }
 
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -153,11 +160,32 @@
             line-height: 1.2;
         }
 
+        .typing-text {
+            background: linear-gradient(90deg, var(--accent-color-2), var(--accent-color-1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cursor {
+            display: inline-block;
+            background-color: var(--accent-color-1);
+            width: 3px;
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+        @keyframes blink {
+            0%, 100% { background-color: var(--accent-color-1); }
+            50% { background-color: transparent; }
+        }
+
         .hero p {
             font-size: 1.3rem;
             color: var(--secondary-text-color);
             margin-bottom: 2.5rem;
             font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-button {
@@ -170,6 +198,7 @@
             border-radius: 50px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: none;
+            cursor: pointer;
         }
 
         .cta-button:hover {
@@ -177,9 +206,9 @@
             box-shadow: 0 10px 20px rgba(0, 170, 255, 0.2), 0 10px 20px rgba(255, 71, 166, 0.2);
         }
 
-       
         .section {
             padding: 6rem 0;
+            position: relative;
         }
 
         .section-title {
@@ -196,18 +225,17 @@
         .section-title p {
             font-size: 1.1rem;
             color: var(--secondary-text-color);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-      
         #about .about-content {
             display: flex;
             align-items: center;
-            gap: 3rem;
+            gap: 4rem;
         }
         
-        #about .about-text {
-            flex: 1;
-        }
+        #about .about-text { flex: 1; }
         
         #about h3 {
             font-size: 2rem;
@@ -219,19 +247,19 @@
             color: var(--secondary-text-color);
         }
         
-        #about .about-image {
-            flex: 1;
-            text-align: center;
-        }
+        #about .about-image { flex: 1; text-align: center; }
         
         #about img {
             max-width: 400px;
             width: 100%;
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: transform 0.4s ease;
+        }
+        #about img:hover {
+            transform: scale(1.05);
         }
         
-    
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -243,32 +271,35 @@
             padding: 2.5rem;
             border-radius: 15px;
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-
         .feature-card:hover {
             transform: translateY(-10px);
             border-color: var(--accent-color-1);
+            box-shadow: 0 15px 30px rgba(0, 170, 255, 0.1);
         }
         
         .feature-card .icon {
-            font-size: 2.5rem;
             margin-bottom: 1.5rem;
-            background: -webkit-linear-gradient(45deg, var(--accent-color-2), var(--accent-color-1));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent-color-1);
+        }
+        .feature-card .icon svg {
+            width: 40px;
+            height: 40px;
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+            color: #fff;
         }
         
         .feature-card p {
             color: var(--secondary-text-color);
             line-height: 1.7;
         }
-        
 
         #contact .contact-form {
             max-width: 600px;
@@ -281,7 +312,6 @@
             color: var(--secondary-text-color);
         }
         
-     
         .footer {
             background-color: var(--card-background);
             padding: 3rem 0;
@@ -290,13 +320,103 @@
             border-top: 1px solid var(--border-color);
         }
         
-        .footer p {
+        .footer p { color: var(--secondary-text-color); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card-background);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .modal-content p {
             color: var(--secondary-text-color);
+            margin-bottom: 2rem;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .modal-button {
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .modal-button.primary {
+            background: linear-gradient(90deg, var(--accent-color-2), var(--accent-color-1));
+            color: #fff;
+            border: none;
+        }
+        .modal-button.secondary {
+            background: transparent;
+            color: var(--primary-text-color);
+        }
+        .modal-button.secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } 
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.1rem; }
+            .section-title h2 { font-size: 2.2rem; }
+            #about .about-content { flex-direction: column; }
         }
 
     </style>
 </head>
 <body>
+
+    <div id="particles-js"></div>
 
     <header class="header" id="header">
         <div class="container navbar">
@@ -308,86 +428,100 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="subsauraa.html">Pricing</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="https://anshb156.github.io/auraa-chatbot-frontend/" onclick="showDemoAlert(event)">Demo</a></li>
+                    <li><a href="https://anshb156.github.io/auraa-chatbot-frontend/" class="demo-link">Demo</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>Meet AURAA. Your Personal AI Companion.</h1>
-            <p>Experience the next generation of artificial intelligence, designed to understand, assist, and inspire. AURAA is more than a tool—it's your partner in creativity and productivity.</p>
-            <a href="subsauraa.html" class="cta-button">Unlock Your Potential</a>
-        </div>
-    </section>
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-content">
+                <h1>Meet AURAA. <br>Your <span id="typing-text" class="typing-text"></span><span class="cursor"></span></h1>
+                <p>Experience the next generation of artificial intelligence, designed to understand, assist, and inspire. AURAA is more than a tool—it's your partner in creativity and productivity.</p>
+                <a href="subsauraa.html" class="cta-button">Unlock Your Potential</a>
+            </div>
+        </section>
 
-    <section class="section" id="about">
-        <div class="container about-content">
-            <div class="about-text">
-                 <div class="section-title" style="text-align: left; margin-bottom: 2rem;">
-                    <h2>Engineered for Humanity</h2>
+        <section class="section" id="about">
+            <div class="container about-content reveal">
+                <div class="about-text">
+                     <div class="section-title" style="text-align: left; margin-bottom: 2rem;">
+                         <h2>Engineered for Humanity</h2>
+                     </div>
+                    <p>AURAA was created by @Sarnab & it was born from a simple idea: technology should feel less artificial and more intelligent. It's built on a sophisticated neural network that not only processes language but understands context, emotion, and intent. Our mission is to bridge the gap between human thought and digital capability, creating a seamless conversational experience that feels natural and empowering.</p>
                 </div>
-                <p>AURAA was created by @Sarnab & it was born from a simple idea: technology should feel less artificial and more intelligent. It's built on a sophisticated neural network that not only processes language but understands context, emotion, and intent. Our mission is to bridge the gap between human thought and digital capability, creating a seamless conversational experience that feels natural and empowering.</p>
+                <div class="about-image">
+                     <img src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=1974&auto=format&fit=crop" alt="Abstract AI representation">
+                </div>
             </div>
-            <div class="about-image">
-                 <img src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=1974&auto=format&fit=crop" alt="Abstract AI representation">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why AURAA is Different</h2>
-                <p>Explore the core features that make AURAA a revolutionary AI.</p>
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Why AURAA is Different</h2>
+                    <p>Explore the core features that make AURAA a revolutionary AI.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card reveal">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <h3>Contextual Understanding</h3>
+                        <p>AURAA remembers past conversations, allowing for deeper, more meaningful interactions that evolve over time.</p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+                        </div>
+                        <h3>Creative Generation</h3>
+                        <p>From writing poetry and code to composing music and brainstorming ideas, AURAA is your creative catalyst.</p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="icon">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </div>
+                        <h3>Lightning-Fast Processing</h3>
+                        <p>Get instant responses powered by optimized cloud infrastructure, ensuring no break in your flow of thought.</p>
+                    </div>
+                     <div class="feature-card reveal">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                        </div>
+                        <h3>Voice & Multimodality</h3>
+                        <p>Seamlessly switch between text and voice. AURAA can listen, understand, and speak back to you naturally.</p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <h3>Privacy First</h3>
+                        <p>Your conversations are yours alone. We employ end-to-end encryption and a strict user-first privacy policy.</p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <h3>Seamless Integration</h3>
+                        <p>Connect AURAA with your favorite apps and workflows to automate tasks and boost productivity effortlessly.</p>
+                    </div>
+                </div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="icon">✧</div>
-                    <h3>Contextual Understanding</h3>
-                    <p>AURAA remembers past conversations, allowing for deeper, more meaningful interactions that evolve over time.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">✎</div>
-                    <h3>Creative Generation</h3>
-                    <p>From writing poetry and code to composing music and brainstorming ideas, AURAA is your creative catalyst.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">⚡</div>
-                    <h3>Lightning-Fast Processing</h3>
-                    <p>Get instant responses powered by my optimized cloud infrastructure, ensuring no break in your flow of thought.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">☊</div>
-                    <h3>Voice & Multimodality</h3>
-                    <p>Seamlessly switch between text and voice. AURAA can listen, understand, and speak back to you naturally.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">🔒</div>
-                    <h3>Privacy First</h3>
-                    <p>Your conversations are yours alone. I employ end-to-end encryption and a strict user-first privacy policy.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">⌬</div>
-                    <h3>Seamless Integration</h3>
-                    <p>Connect AURAA with your favorite apps and workflows to automate tasks and boost productivity effortlessly.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="contact">
-         <div class="container">
-             <div class="section-title">
-                <h2>Get in Touch</h2>
-            </div>
-             <div class="contact-form">
-                 <p>Have a question, a partnership proposal, or just want to say hello? I'd love to hear from you. Reach out and i'll get back to you soon.</p>
-                 <a href="mailto:contact@auraa.ai" class="cta-button">bansh8561@gmail.com</a>
+        <section class="section" id="contact">
+             <div class="container reveal">
+                 <div class="section-title">
+                     <h2>Get in Touch</h2>
+                 </div>
+                 <div class="contact-form">
+                     <p>Have a question, a partnership proposal, or just want to say hello? We'd love to hear from you. Reach out and we'll get back to you soon.</p>
+                     <a href="mailto:bansh8561@gmail.com" class="cta-button">bansh8561@gmail.com</a>
+                 </div>
              </div>
-        </div>
-    </section>
+        </section>
+    </main>
     
     <footer class="footer">
         <div class="container">
@@ -395,28 +529,123 @@
         </div>
     </footer>
 
-    <script>
-       
-        function showDemoAlert(event) {
-           
-            event.preventDefault(); 
-            
-            
-            alert("Note: Dear user are currently being directed to AURAA's demo version.");
-            
-           
-            window.location.href = event.currentTarget.href;
-        }
+    <div id="demo-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Entering Demo Mode</h3>
+            <p>You are about to be redirected to a demonstration version of the AURAA chatbot. Functionality may be limited. Do you wish to proceed?</p>
+            <div class="modal-buttons">
+                <button id="modal-cancel" class="modal-button secondary">Cancel</button>
+                <a id="modal-proceed" href="#" class="modal-button primary">Proceed</a>
+            </div>
+        </div>
+    </div>
 
-        
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+        tsParticles.load("particles-js", {
+            fpsLimit: 60,
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 2, random: true, anim: { enable: false } },
+                line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out", attract: { enable: false } }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_opacity: 1 },
+                    push: { particles_nb: 4 },
+                }
+            },
+            retina_detect: true
+        });
+      
+        const header = document.getElementById('header');
         window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
         });
+      
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        revealElements.forEach(el => revealObserver.observe(el));
+        const typingTextElement = document.getElementById('typing-text');
+        const words = ["Personal AI Companion.", "Creative Catalyst.", "Productivity Partner."];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typingTextElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                }
+            } else {
+                typingTextElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === currentWord.length) {
+                    isDeleting = true;
+                    setTimeout(type, 2000); 
+                    return;
+                }
+            }
+            const typeSpeed = isDeleting ? 75 : 150;
+            setTimeout(type, typeSpeed);
+        }
+        type();
+
+        document.addEventListener('mousemove', e => {
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        const demoModal = document.getElementById('demo-modal');
+        const demoLink = document.querySelector('.demo-link');
+        const modalProceed = document.getElementById('modal-proceed');
+        const modalCancel = document.getElementById('modal-cancel');
+
+        demoLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            modalProceed.href = this.href;
+            demoModal.classList.add('active');
+        });
+
+        function closeModal() {
+            demoModal.classList.remove('active');
+        }
+
+        modalCancel.addEventListener('click', closeModal);
+        demoModal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+    });
     </script>
 </body>
 </html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info you need to know if you're a teen like me.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-dark: #000000;
+            --color-light: #FFFFFF;
+            --color-primary: #39FF14;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            overflow: auto;
+        }
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .glitch-header {
+            font-size: 5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            color: var(--color-light);
+            text-shadow: 0 0 5px var(--color-primary);
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        .glitch-header::before, .glitch-header::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-dark);
+            overflow: hidden;
+        }
+        .glitch-header::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch-header::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim-1 { 0% { clip-path: inset(15% 0 86% 0); } 100% { clip-path: inset(80% 0 3% 0); } }
+        @keyframes glitch-anim-2 { 0% { clip-path: inset(78% 0 15% 0); } 100% { clip-path: inset(10% 0 80% 0); } }
+        @keyframes glitch-skew { 0% { transform: skewX(0deg); } 10% { transform: skewX(2deg); } 11% { transform: skewX(0deg); } 100% { transform: skewX(0deg); } }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 0 auto;
+        }
+        .chart-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="particle-canvas"></canvas>
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 text-center">
+        <div class="w-full max-w-4xl mx-auto">
+            <h1 class="glitch-header" data-text="Time Talks">Time Talks</h1>
+            <p class="text-xl text-gray-400 mt-4 max-w-2xl mx-auto">
+                Info you need to know if you're a teen like me.
+            </p>
+
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 mt-12">
+                <div class="w-full max-w-lg">
+                    <h2 class="text-2xl font-bold uppercase tracking-wider text-gray-300 mb-4">Time what we most likely use</h2>
+                    <div class="chart-container">
+                        <canvas id="time-chart"></canvas>
+                        <div id="info-time" class="chart-info">
+                            <h3 id="info-category-time" class="text-2xl font-bold transition-colors duration-300">Hover a Slice</h3>
+                            <p id="info-percentage-time" class="text-5xl font-bold my-2 text-primary">--%</p>
+                            <p id="info-description-time" class="text-sm text-gray-400 max-w-xs mx-auto">How time is spent</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full max-w-lg">
+                    <h2 class="text-2xl font-bold uppercase tracking-wider text-gray-300 mb-4">Success Potential</h2>
+                    <div class="chart-container">
+                        <canvas id="success-chart"></canvas>
+                        <div id="info-success" class="chart-info">
+                            <h3 id="info-category-success" class="text-2xl font-bold transition-colors duration-300">Hover a Slice</h3>
+                            <p id="info-percentage-success" class="text-5xl font-bold my-2 text-primary">--%</p>
+                            <p id="info-description-success" class="text-sm text-gray-400 max-w-xs mx-auto">Rate of valuable skill gain</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="mt-16 text-xs text-gray-600">
+            <p>&copy; 2025 Sarnab. All Rights Reserved.</p>
+            <p class="mt-1">Created by Sarnab Bhattacharjee, Chattogram, Bangladesh.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartData = {
+                labels: ['Gaming', 'Social Media', 'Hanging Out', 'Studying', 'Coding', 'Creative Hobbies'],
+                time: {
+                    percentages: [35, 25, 15, 12, 8, 5],
+                    descriptions: [
+                        'Time spent in immersive digital worlds, a primary form of entertainment and social interaction.',
+                        'Scrolling through feeds, messaging, and engaging with online content and communities.',
+                        'Real-world social activities, including time with friends and family outside of structured events.',
+                        'Dedicated time for homework, exam preparation, and academic learning outside of school hours.',
+                        'Learning and practicing programming, building projects, and developing technical skills.',
+                        'Engaging in artistic pursuits like drawing, music, writing, or other personal skill development.'
+                    ],
+                    colors: ['#ff00c1', '#9d00ff', '#00a2ff', '#00ff9d', '#39FF14', '#fffb00']
+                },
+                success: {
+                    percentages: [30, 15, 40, 75, 85, 70],
+                    descriptions: [
+                        'Develops strategic thinking and reflexes, but with a moderate rate of transferable skill gain.',
+                        'Low rate of tangible skill development, often linked to passive consumption and distraction.',
+                        'Develops crucial social skills, but with a lower rate of direct career-oriented skill growth.',
+                        'High potential for knowledge acquisition and achieving academic and professional goals.',
+                        'Extremely high rate of developing valuable, in-demand skills for future careers and innovation.',
+                        'High potential for developing unique talents, problem-solving, and personal fulfillment.'
+                    ],
+                    colors: ['#00a2ff', '#0052ff', '#00ff9d', '#fffb00', '#ff8c00', '#ff005d']
+                }
+            };
+
+            const timeSynth = new Tone.PolySynth(Tone.Synth, { oscillator: { type: 'fmsine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 }, volume: -12 }).toDestination();
+            const successSynth = new Tone.PolySynth(Tone.Synth, { oscillator: { type: 'amtriangle' }, envelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 1 }, volume: -12 }).toDestination();
+            const timeNotes = ['C4', 'D#4', 'G4', 'A#4', 'C5', 'D#5'];
+            const successNotes = ['C3', 'E3', 'G3', 'B3', 'C4', 'E4'];
+
+            function createChart(canvasId, infoContainerId, data, colors, descriptions, synth, notes) {
+                const infoCategory = document.querySelector(`#${infoContainerId} h3`);
+                const infoPercentage = document.querySelector(`#${infoContainerId} p:nth-child(2)`);
+                const infoDescription = document.querySelector(`#${infoContainerId} p:nth-child(3)`);
+                const defaultInfo = {
+                    category: infoCategory.textContent,
+                    percentage: infoPercentage.textContent,
+                    description: infoDescription.textContent
+                };
+
+                let lastPlayed = -1;
+
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{ data: data, backgroundColor: colors, borderColor: 'var(--color-dark)', borderWidth: 4, hoverOffset: 25 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        cutout: '70%',
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        animation: { duration: 1500, easing: 'easeInOutCubic' },
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                            if (chartElement.length > 0) {
+                                const index = chartElement[0].index;
+                                infoCategory.textContent = chartData.labels[index];
+                                infoCategory.style.color = colors[index];
+                                infoPercentage.textContent = `${data[index]}%`;
+                                infoDescription.textContent = descriptions[index];
+                                if (index !== lastPlayed) {
+                                    synth.triggerAttackRelease(notes[index], '8n');
+                                    lastPlayed = index;
+                                }
+                            } else {
+                                infoCategory.textContent = defaultInfo.category;
+                                infoCategory.style.color = 'var(--color-light)';
+                                infoPercentage.textContent = defaultInfo.percentage;
+                                infoDescription.textContent = defaultInfo.description;
+                                lastPlayed = -1;
+                            }
+                        }
+                    }
+                });
+            }
+
+            createChart('time-chart', 'info-time', chartData.time.percentages, chartData.time.colors, chartData.time.descriptions, timeSynth, timeNotes);
+            createChart('success-chart', 'info-success', chartData.success.percentages, chartData.success.colors, chartData.success.descriptions, successSynth, successNotes);
+
+            const canvas = document.getElementById('particle-canvas');
+            const p_ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+            window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
+            
+            class Particle {
+                constructor(x, y, size, color, speedX, speedY) { this.x = x; this.y = y; this.size = size; this.color = color; this.speedX = speedX; this.speedY = speedY; }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                    if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+                    this.x += this.speedX; this.y += this.speedY;
+                    if (mouse.x) {
+                        let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                        if (Math.sqrt(dx * dx + dy * dy) < 100) { this.x -= dx / 10; this.y -= dy / 10; }
+                    }
+                }
+                draw() { p_ctx.fillStyle = this.color; p_ctx.beginPath(); p_ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); p_ctx.fill(); }
+            }
+            function initParticles() {
+                for (let i = 0; i < 100; i++) {
+                    let size = Math.random() * 2 + 1, x = Math.random() * canvas.width, y = Math.random() * canvas.height;
+                    let speedX = (Math.random() * 0.4) - 0.2, speedY = (Math.random() * 0.4) - 0.2;
+                    particles.push(new Particle(x, y, size, 'rgba(57, 255, 20, 0.5)', speedX, speedY));
+                }
+            }
+            function animateParticles() {
+                p_ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+                requestAnimationFrame(animateParticles);
+            }
+            initParticles();
+            animateParticles();
+        });
+    </script>
+</body>
+</html>

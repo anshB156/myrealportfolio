@@ -3,232 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURAA - Subscription Plans</title>
+    <title>AURAA - Ascend Your Reality</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
         :root {
             --primary-color: #ffffff;
             --secondary-color: #d1d1d1;
             --background-color: #0c0c0f;
-            --card-background: #1a1a1f;
+            --card-background: rgba(26, 26, 31, 0.6);
+            --border-color: rgba(255, 255, 255, 0.1);
             --accent-color: #00aaff;
             --pro-accent-color: #ff47a6;
-            --glow-color: rgba(0, 170, 255, 0.5);
-            --pro-glow-color: rgba(255, 71, 166, 0.6);
+            --glow-color: rgba(0, 170, 255, 0.7);
+            --pro-glow-color: rgba(255, 71, 166, 0.8);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
             color: var(--primary-color);
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            padding: 2rem;
-            background-image: radial-gradient(circle at 10% 20%, rgba(31, 38, 87, 0.3), transparent 30%),
-                              radial-gradient(circle at 90% 80%, rgba(138, 51, 126, 0.3), transparent 40%);
+            padding: 4rem 2rem;
+            overflow-x: hidden;
+            position: relative;
         }
-
+        .particle-background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--background-color);
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: move-background 200s linear infinite;
+        }
+        @keyframes move-background {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 500px; }
+        }
         .main-container {
             max-width: 1000px;
             width: 100%;
             text-align: center;
         }
-
-        .header {
-            margin-bottom: 4rem;
-        }
-
+        .header { margin-bottom: 2rem; }
         .header h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: 4rem;
+            font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
             background: linear-gradient(90deg, #ff47a6, #00aaff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
+            animation: flicker 5s infinite alternate;
         }
-
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px var(--pro-accent-color), 0 0 80px var(--pro-accent-color), 0 0 90px var(--pro-accent-color), 0 0 100px var(--pro-accent-color), 0 0 150px var(--pro-accent-color); }
+            20%, 24%, 55% { text-shadow: none; }
+        }
         .header p {
             font-size: 1.2rem;
             color: var(--secondary-color);
             font-weight: 300;
         }
-
+        .plan-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+            gap: 1rem;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 26px; width: 26px; left: 4px; bottom: 3px;
+            background-image: linear-gradient(45deg, var(--accent-color), var(--pro-accent-color));
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--card-background); }
+        input:checked + .slider:before { transform: translateX(26px); }
         .subscription-wrapper {
             display: flex;
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
+            perspective: 1000px;
+            align-items: stretch;
         }
-
         .subscription-card {
             background-color: var(--card-background);
-            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 2.5rem;
             width: 380px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            transition: transform 0.1s ease;
             display: flex;
             flex-direction: column;
+            position: relative;
+            transform-style: preserve-3d;
+            overflow: hidden;
         }
-
-        .subscription-card:hover {
-            transform: translateY(-10px);
+        .subscription-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
         }
-
-        .subscription-card.free {
-            box-shadow: 0 0 20px var(--glow-color);
-            border-left: 5px solid var(--accent-color);
+        .subscription-card.free::before {
+             background: radial-gradient(circle at center, var(--glow-color), transparent 70%);
         }
-
-        .subscription-card.pro {
-            box-shadow: 0 0 35px var(--pro-glow-color);
-            border-left: 5px solid var(--pro-accent-color);
+        .subscription-card.pro::before {
+             background: radial-gradient(circle at center, var(--pro-glow-color), transparent 70%);
         }
-
-        .card-header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header h2 {
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        .subscription-card.pro .card-header h2 {
-            color: var(--pro-accent-color);
-        }
-
-        .price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .price span {
-            font-size: 1rem;
-            font-weight: 300;
-            color: var(--secondary-color);
-        }
-
-        .features {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-
-        .features li {
-            margin-bottom: 1rem;
+        .subscription-card:hover::before { opacity: 1; }
+        .card-content {
+            transform: translateZ(20px);
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            height: 100%;
         }
-
+        .card-header h2 { font-size: 2rem; font-weight: 600; }
+        .subscription-card.pro .card-header h2 { color: var(--pro-accent-color); }
+        .price { font-size: 3rem; font-weight: 700; margin: 1rem 0; position: relative;}
+        .price span { font-size: 1rem; font-weight: 300; color: var(--secondary-color); }
+        .features { list-style: none; text-align: left; margin-bottom: 2rem; flex-grow: 1; }
+        .features li { margin-bottom: 1rem; display: flex; align-items: center; }
         .features li::before {
-            content: '✓';
-            color: var(--accent-color);
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-right: 0.8rem;
+            content: '✓'; font-weight: bold; font-size: 1.2rem;
+            margin-right: 0.8rem; color: var(--accent-color);
         }
-
-        .subscription-card.pro .features li::before {
-            color: var(--pro-accent-color);
-        }
-
+        .subscription-card.pro .features li::before { color: var(--pro-accent-color); }
         .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            margin-top: auto;
+            display: inline-block; padding: 1rem 2rem;
+            text-decoration: none; font-size: 1.1rem; font-weight: 700;
+            border-radius: 8px; transition: all 0.3s ease;
+            border: none; cursor: pointer; width: 100%;
+            margin-top: auto; color: var(--background-color);
         }
-
         .button-free {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+            background-image: linear-gradient(45deg, #33bbff, #00aaff);
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.4);
         }
-
-        .button-free:hover {
-            background-color: #33bbff;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.5);
-        }
-
         .button-pro {
-            background-color: var(--pro-accent-color);
+            background-image: linear-gradient(45deg, #ff6ac1, #ff47a6);
+            box-shadow: 0 4px 20px rgba(255, 71, 166, 0.5);
             color: var(--primary-color);
-            box-shadow: 0 4px 15px rgba(255, 71, 166, 0.4);
         }
-
-        .button-pro:hover {
-            background-color: #ff6ac1;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 71, 166, 0.6);
+        .cta-button:hover { transform: translateY(-5px) scale(1.05); }
+        .price-value, .price-term { transition: opacity 0.3s ease, transform 0.3s ease; }
+        .yearly .price-value.monthly, .yearly .price-term.monthly,
+        .monthly .price-value.yearly, .monthly .price-term.yearly {
+            opacity: 0; position: absolute; top: 0; left: 0; right: 0; transform: translateY(10px);
+        }
+        .footer {
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
-
+    <div class="particle-background"></div>
     <div class="main-container">
         <div class="header">
             <h1>AURAA</h1>
             <p>Unlock Your Potential. Choose Your Reality.</p>
         </div>
 
-        <div class="subscription-wrapper">
+        <div class="plan-toggle">
+            <span class="monthly-label font-semibold">Monthly</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="billing-toggle">
+                <span class="slider"></span>
+            </label>
+            <span class="yearly-label text-gray-500 font-semibold">Yearly <span class="text-green-400">(Save 15%)</span></span>
+        </div>
+
+        <div class="subscription-wrapper" id="plan-container">
             <div class="subscription-card free">
-                <div class="card-header">
-                    <h2>Free</h2>
-                    <p class="price">0 BDT<span>/month</span></p>
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2>Free</h2>
+                        <div class="price">
+                            <span class="price-value monthly">0 BDT</span>
+                            <span class="price-term monthly">/month</span>
+                            <span class="price-value yearly">0 BDT</span>
+                            <span class="price-term yearly">/year</span>
+                        </div>
+                    </div>
+                    <ul class="features">
+                        <li>Basic AI Chatbot Access</li>
+                        <li>Standard Response Speed</li>
+                        <li>Limited Conversation History</li>
+                        <li>Community Forum Support</li>
+                        <li>Daily General Insight</li>
+                    </ul>
+                    <a href="https://anshb156.github.io/auraa-chatbot-frontend/" class="cta-button button-free">Continue with Free</a>
                 </div>
-                <ul class="features">
-                    <li>Basic AI Chatbot Access</li>
-                    <li>Standard Response Speed</li>
-                    <li>Limited Conversation History</li>
-                    <li>Community Forum Support</li>
-                    <li>Daily General Insight</li>
-                </ul>
-                <a href="https://anshb156.github.io/auraa-chatbot-frontend/" class="cta-button button-free">Continue with Free</a>
             </div>
 
             <div class="subscription-card pro">
-                <div class="card-header">
-                    <h2>Pro</h2>
-                    <p class="price">1200 BDT<span>/month</span></p>
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2>Pro</h2>
+                        <div class="price">
+                             <span class="price-value monthly">1200 BDT</span>
+                             <span class="price-term monthly">/month</span>
+                             <span class="price-value yearly">2,100 BDT</span>
+                             <span class="price-term yearly">/year</span>
+                        </div>
+                    </div>
+                    <ul class="features">
+                        <li>Advanced Contextual AI Assistant</li>
+                        <li>Lightning-Fast Priority Responses</li>
+                        <li>Unlimited Conversation History</li>
+                        <li>24/7 Priority Email & Chat Support</li>
+                        <li>Personalized, In-Depth Daily Insights</li>
+                        <li>Exclusive Access to Beta Features</li>
+                        <li>Voice-to-Text & Text-to-Voice</li>
+                    </ul>
+                    <a href="checkout.html" class="cta-button button-pro">Go Pro</a>
                 </div>
-                <ul class="features">
-                    <li>Advanced Contextual AI Assistant</li>
-                    <li>Lightning-Fast Priority Responses</li>
-                    <li>Unlimited Conversation History</li>
-                    <li>24/7 Priority Email & Chat Support</li>
-                    <li>Personalized, In-Depth Daily Insights</li>
-                    <li>Exclusive Access to Beta Features</li>
-                    <li>Voice-to-Text & Text-to-Voice</li>
-                </ul>
-                <a href="checkout.html" class="cta-button button-pro">Go Pro</a>
             </div>
+        </div>
+
+        <div class="footer">
+            <p>©2025 & Created by Sarnab Bhattacharjee, Bangladesh.</p>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.subscription-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    const rotateX = -y / 20;
+                    const rotateY = x / 20;
+
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+            const toggle = document.getElementById('billing-toggle');
+            const planContainer = document.getElementById('plan-container');
+            const monthlyLabel = document.querySelector('.monthly-label');
+            const yearlyLabel = document.querySelector('.yearly-label');
+
+            function updatePricing() {
+                if (toggle.checked) {
+                    planContainer.classList.remove('monthly');
+                    planContainer.classList.add('yearly');
+                    monthlyLabel.classList.add('text-gray-500');
+                    monthlyLabel.classList.remove('font-semibold');
+                    yearlyLabel.classList.remove('text-gray-500');
+                    yearlyLabel.classList.add('font-semibold');
+                } else {
+                    planContainer.classList.remove('yearly');
+                    planContainer.classList.add('monthly');
+                    yearlyLabel.classList.add('text-gray-500');
+                    yearlyLabel.classList.remove('font-semibold');
+                    monthlyLabel.classList.remove('text-gray-500');
+                    monthlyLabel.classList.add('font-semibold');
+                }
+            }
+            toggle.addEventListener('change', updatePricing);
+            updatePricing();
+        });
+    </script>
 </body>
 </html>

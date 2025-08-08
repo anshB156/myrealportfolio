@@ -3,268 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURAA Pro Checkout</title>
+    <title>Solara - Secure Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
         :root {
-            --primary-color: #1a1a1f;
-            --secondary-color: #555;
-            --background-color: #f4f7fc;
-            --container-bg: #ffffff;
-            --accent-color: #ff47a6;
-            --border-color: #e1e1e1;
+            --color-primary: #39FF14;
+            --color-dark: #000000;
+            --color-light: #FFFFFF;
+            --color-surface: rgba(17, 17, 17, 0.5);
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-text-muted: #aaaaaa;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .checkout-container {
-            display: flex;
-            width: 100%;
-            max-width: 900px;
-            background-color: var(--container-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-light);
             overflow: hidden;
-        }
-
-        .summary-section {
-            background-color: #fcfdff;
-            padding: 2.5rem;
-            width: 45%;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .summary-section h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .item-details {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            justify-content: center;
+            min-height: 100vh;
         }
-
-        .item-name {
-            font-weight: 500;
-        }
-        
-        .item-name span {
-            display: block;
-            font-weight: 400;
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-        }
-
-        .item-price {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .total-section {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 2px dashed var(--border-color);
-        }
-        
-        .total-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .total-price {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        .payment-section {
-            padding: 2.5rem;
-            width: 55%;
-        }
-        
-        .payment-section h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-        
-        .payment-form .form-group {
-            margin-bottom: 1.2rem;
-        }
-        
-        .payment-form label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .payment-form input {
+        .aurora-background {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(125deg, #0a011a, #1a0a24, #0a011a, #2c053c);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
         }
-        
-        .payment-form input:focus {
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .checkout-input {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--color-border);
+            color: var(--color-light);
+            transition: all 0.3s ease;
+        }
+        .checkout-input:focus {
             outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 5px rgba(255, 71, 166, 0.3);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
         }
-        
-        .card-details-row {
-            display: flex;
-            gap: 1rem;
+        .card-flipper {
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
         }
-
-        .pay-button {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            background-color: var(--accent-color);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 1.5rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        .card-flipper.flipped {
+            transform: rotateY(180deg);
         }
-        
-        .pay-button:hover {
-            background-color: #e63995;
-            transform: scale(1.02);
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
-
-        .secure-info {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: #888;
+        .card-back {
+            transform: rotateY(180deg);
         }
-
-        #confirmation-message {
-            display: none;
-            text-align: center;
-            padding: 2rem;
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-dark);
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
         }
-
-        #confirmation-message h3 {
-            font-size: 1.8rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
         }
-
-        #confirmation-message p {
-            font-size: 1.1rem;
+        .main-container {
+            opacity: 0;
+            transform: scale(0.95);
+            animation: fadeIn 1s forwards cubic-bezier(0.16, 1, 0.3, 1);
         }
-
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
-<body>
+<body class="antialiased">
+    <div class="aurora-background"></div>
 
-    <div class="checkout-container">
-        <div class="summary-section">
-            <h2>Order Summary</h2>
-            <div class="item-details">
-                <div class="item-name">
-                    AURAA Pro
-                    <span>Billed Monthly</span>
+    <div id="checkout-container" class="main-container bg-surface backdrop-blur-xl border border-border rounded-2xl shadow-2xl w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
+        <div id="payment-section" class="p-8 lg:p-12">
+            <h2 class="text-3xl font-bold tracking-tighter">Secure Checkout</h2>
+            <p class="text-sm text-text-muted mt-2">Complete your purchase for Solara Premium.</p>
+            <form id="payment-form" class="mt-8 space-y-6">
+                <div><label for="card-holder" class="text-sm font-medium text-text-muted">Cardholder Name</label><input type="text" id="card-holder" class="checkout-input w-full p-3 mt-1 rounded-md text-base" required></div>
+                <div><label for="card-number" class="text-sm font-medium text-text-muted">Card Number</label><input type="text" id="card-number" class="checkout-input w-full p-3 mt-1 rounded-md text-base" required></div>
+                <div class="flex gap-4">
+                    <div class="w-1/2"><label for="expiry-date" class="text-sm font-medium text-text-muted">Expiry Date</label><input type="text" id="expiry-date" placeholder="MM / YY" class="checkout-input w-full p-3 mt-1 rounded-md text-base" required></div>
+                    <div class="w-1/2"><label for="cvv" class="text-sm font-medium text-text-muted">CVV</label><input type="text" id="cvv" class="checkout-input w-full p-3 mt-1 rounded-md text-base" required></div>
                 </div>
-                <div class="item-price">1200 BDT</div>
-            </div>
-            
-            <div class="total-section">
-                <div class="total-line">
-                    <p>Total Due Today</p>
-                    <p class="total-price">1200 BDT</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="payment-section" id="payment-section">
-            <h2>Payment Details</h2>
-            <form class="payment-form" id="payment-form" onsubmit="handlePayment(event)">
-                <div class="form-group">
-                    <label for="card-holder">Card Holder Name</label>
-                    <input type="text" id="card-holder" placeholder="e.g. A. Chowdhury" required>
-                </div>
-                <div class="form-group">
-                    <label for="card-number">Card Number</label>
-                    <input type="text" id="card-number" placeholder="**** **** **** ****" required>
-                </div>
-                <div class="card-details-row">
-                    <div class="form-group" style="width: 50%;">
-                        <label for="expiry-date">Expiry Date</label>
-                        <input type="text" id="expiry-date" placeholder="MM / YY" required>
-                    </div>
-                    <div class="form-group" style="width: 50%;">
-                        <label for="cvv">CVV</label>
-                        <input type="text" id="cvv" placeholder="***" required>
-                    </div>
-                </div>
-                <button type="submit" class="pay-button">Pay 1200 BDT Securely</button>
+                <button type="submit" class="btn-primary w-full py-4 rounded-full text-lg uppercase tracking-wider">Pay $250.00 Securely</button>
             </form>
-            <p class="secure-info">🔒 Your payment information is encrypted and secure.</p>
+        </div>
+        
+        <div class="p-8 lg:p-12 bg-black/20 flex flex-col">
+            <h3 class="text-2xl font-bold tracking-tighter mb-6">Order Summary</h3>
+            <div class="space-y-4 mb-6 text-sm">
+                <div class="flex justify-between text-gray-300"><span class="font-medium">Terra Jacket (x1)</span><span>$250.00</span></div>
+            </div>
+            <div class="border-t border-border pt-4 flex justify-between font-bold text-lg"><p>Total</p><p>$250.00</p></div>
+            <div class="mt-auto pt-8" style="perspective: 1000px;">
+                <div id="checkout-card" class="card-flipper relative w-full max-w-sm mx-auto aspect-[1.586] text-white">
+                    <div class="card-face absolute inset-0 rounded-xl p-6 flex flex-col justify-between bg-gradient-to-br from-gray-800 to-gray-900 shadow-2xl">
+                        <div class="flex justify-between items-start"><span class="text-xl font-bold">SOLARA</span><svg class="w-12 h-12" viewBox="0 0 48 48"><rect width="48" height="48" rx="6" fill="#fff" fill-opacity="0.1"></rect><circle cx="16" cy="24" r="6" fill="#fff"></circle><circle cx="32" cy="24" r="6" fill="#fff" fill-opacity="0.5"></circle></svg></div>
+                        <div class="font-mono text-xl md:text-2xl tracking-widest" id="card-number-display">•••• •••• •••• ••••</div>
+                        <div class="flex justify-between text-sm"><div class="flex flex-col"><span class="text-xs text-text-muted">Card Holder</span><span id="card-holder-display">Your Name</span></div><div class="flex flex-col"><span class="text-xs text-text-muted">Expires</span><span id="card-expiry-display">MM/YY</span></div></div>
+                    </div>
+                    <div class="card-face card-back absolute inset-0 bg-gray-900 rounded-xl shadow-2xl"><div class="bg-black w-full h-12 mt-8"></div><div class="p-6 text-right"><span class="text-sm text-text-muted">CVV</span><div class="bg-white text-black font-mono w-full p-2 mt-1 rounded-md text-lg" id="card-cvv-display"></div></div></div>
+                </div>
+            </div>
         </div>
 
-        <div id="confirmation-message">
-            <h3>Payment Successful!</h3>
-            <p>Welcome to <strong>AURAA Pro</strong>. Your journey into an enhanced reality begins now.</p>
-            <p style="font-size: 0.9rem; margin-top: 1.5rem; color: #777;">This is a prank no need to worry!</p>
+        <div id="confirmation-section" class="absolute inset-0 bg-surface flex-col items-center justify-center text-center p-12 hidden">
+            <div class="main-container">
+                <svg class="w-20 h-20 text-primary mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 class="text-4xl font-bold mt-6">Payment Successful!</h3>
+                <p class="text-text-muted mt-2">Your order is confirmed. Thank you for your purchase.</p>
+                <p class="text-xs text-text-muted mt-12">©2025 created by Sarnab Bhattacharjee, Bangladesh.</p>
+            </div>
         </div>
-
     </div>
 
     <script>
-        function handlePayment(event) {
-            event.preventDefault();
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardHolderInput = document.getElementById('card-holder');
+            const cardNumberInput = document.getElementById('card-number');
+            const expiryDateInput = document.getElementById('expiry-date');
+            const cvvInput = document.getElementById('cvv');
+
+            const cardHolderDisplay = document.getElementById('card-holder-display');
+            const cardNumberDisplay = document.getElementById('card-number-display');
+            const cardExpiryDisplay = document.getElementById('card-expiry-display');
             
-            const form = document.getElementById('payment-form');
-            if (form.checkValidity()) {
-                const paymentSection = document.getElementById('payment-section');
-                const confirmationMessage = document.getElementById('confirmation-message');
+            const cardFlipper = document.getElementById('checkout-card');
+            const paymentForm = document.getElementById('payment-form');
+            const checkoutContainer = document.getElementById('checkout-container');
+            const confirmationSection = document.getElementById('confirmation-section');
 
-               
-                const payButton = document.querySelector('.pay-button');
-                payButton.innerText = 'Processing...';
-                payButton.disabled = true;
+            cardHolderInput.addEventListener('input', () => {
+                cardHolderDisplay.textContent = cardHolderInput.value.trim() || 'Your Name';
+            });
 
+            cardNumberInput.addEventListener('input', () => {
+                let value = cardNumberInput.value.replace(/\D/g, '').substring(0, 16);
+                value = value.replace(/(.{4})/g, '$1 ').trim();
+                cardNumberInput.value = value;
+                cardNumberDisplay.textContent = value || '•••• •••• •••• ••••';
+            });
+
+            expiryDateInput.addEventListener('input', () => {
+                let value = expiryDateInput.value.replace(/\D/g, '').substring(0, 4);
+                if (value.length > 2) {
+                    value = value.slice(0, 2) + ' / ' + value.slice(2);
+                }
+                expiryDateInput.value = value;
+                cardExpiryDisplay.textContent = value || 'MM/YY';
+            });
+
+            cvvInput.addEventListener('focus', () => cardFlipper.classList.add('flipped'));
+            cvvInput.addEventListener('blur', () => cardFlipper.classList.remove('flipped'));
+
+            paymentForm.addEventListener('submit', e => {
+                e.preventDefault();
+                checkoutContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                checkoutContainer.style.opacity = '0';
+                checkoutContainer.style.transform = 'scale(0.95)';
                 setTimeout(() => {
-                    paymentSection.style.display = 'none';
-                    confirmationMessage.style.display = 'block';
-                }, 1500); 
-            } else {
-                form.reportValidity(); 
-            }
-        }
+                    checkoutContainer.classList.add('hidden');
+                    confirmationSection.classList.remove('hidden');
+                    confirmationSection.classList.add('flex');
+                }, 500);
+            });
+        });
     </script>
 </body>
 </html>

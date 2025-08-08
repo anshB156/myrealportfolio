@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solara </title>
+    <title>Solara</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,7 +139,7 @@
             </div>
             <div class="absolute bottom-6 left-0 right-0 text-xs text-gray-600">
                 <p>&copy; 2025 Solara. All Rights Reserved.</p>
-                <p class="mt-1">Created by Sarnab Bhattacharjee, Bangladesh.</p>
+                <p class="mt-1">Friday, August 8, 2025, 2:18 PM. Chattogram, Bangladesh.</p>
             </div>
         </footer>
     </div>
@@ -229,7 +229,7 @@
                         <div class="p-6 flex-grow overflow-y-auto">${itemsHTML}</div>
                         <div class="p-6 border-t border-border">
                             <div class="flex justify-between font-bold mb-4"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
-                            <button class="btn-primary w-full py-3 rounded-full" ${this.cart.length === 0 ? 'disabled' : ''}>Proceed to Checkout</button>
+                            <a href="checkout.html" id="proceed-to-checkout-btn" class="text-center block btn-primary w-full py-3 rounded-full ${this.cart.length === 0 ? 'pointer-events-none bg-gray-600' : ''}">Proceed to Checkout</a>
                         </div>`;
                     this.openDrawer(drawer);
                 },

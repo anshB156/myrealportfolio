@@ -3,590 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamChat - Real-Time Messaging Platform</title>
+    <title>StreamChat_ by Sarnab Bhattacharjee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
         :root {
-            --primary-color: #00A8E8;
-            --secondary-color: #007EA7;
-            --dark-bg: #1a1a1a;
-            --light-bg: #2c2c2c;
-            --text-color: #ffffff;
-            --text-secondary-color: #a0a0a0;
-            --border-color: #404040;
-            --success-color: #28a745;
-            --error-color: #dc3545;
+            --primary-color: #00f6ff;
+            --secondary-color: #ff00c1;
+            --dark-bg: #0a0a10;
+            --surface-bg: rgba(10, 10, 16, 0.5);
+            --glass-border: rgba(0, 246, 255, 0.2);
+            --text-color: #e0e0e0;
+            --text-secondary-color: #8a8a9e;
+            --glow-primary: rgba(0, 246, 255, 0.7);
         }
-
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 3px; }
         body, html {
             height: 100%;
             margin: 0;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-color);
             overflow: hidden;
         }
-
-        #app-container {
-            display: flex;
-            height: 100%;
+        #background-grid {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+            background-image:
+                linear-gradient(to right, var(--glass-border) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--glass-border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: pan-grid 60s linear infinite;
         }
-
+        @keyframes pan-grid {
+            0% { background-position: 0 0; }
+            100% { background-position: 1200px 1200px; }
+        }
+        #app-container {
+            display: flex; height: 100%;
+            background-color: var(--surface-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            margin: 1rem;
+            border-radius: 10px;
+            height: calc(100% - 2rem);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
         #sidebar {
             width: 280px;
-            background-color: var(--light-bg);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--border-color);
+            display: flex; flex-direction: column;
+            border-right: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.2);
         }
-
-        #sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-        }
-
-        #sidebar-header h2 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        #team-switcher {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        #team-switcher select {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-        }
-
-        #channels, #direct-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        #channels h3, #direct-messages h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-            font-size: 16px;
+        #sidebar-header h2 { text-shadow: 0 0 10px var(--glow-primary); }
+        .sidebar-section { padding: 20px; }
+        .sidebar-section h3 {
+            color: var(--primary-color); text-transform: uppercase;
+            font-size: 14px; font-weight: 700; letter-spacing: 1px;
             margin-bottom: 15px;
         }
-
-        .channel-list, .dm-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
         .channel-list li, .dm-list li {
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
+            padding: 10px 15px; border-radius: 5px;
+            cursor: pointer; transition: all 0.3s;
+            position: relative; overflow: hidden;
         }
-        
-        .channel-list li i, .dm-list li i {
-            margin-right: 10px;
+        .channel-list li:before, .dm-list li:before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: var(--primary-color);
+            transition: left 0.4s ease; z-index: -1; opacity: 0.2;
         }
-
+        .channel-list li:hover:before, .dm-list li:hover:before { left: 0; }
         .channel-list li.active, .dm-list li.active {
             background-color: var(--primary-color);
-            color: var(--dark-bg);
-            font-weight: 700;
+            color: var(--dark-bg); font-weight: 700;
+            box-shadow: 0 0 20px var(--glow-primary);
         }
-
-        .channel-list li:hover, .dm-list li:hover {
-            background-color: var(--border-color);
-        }
-        
         #user-profile {
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
+            border-top: 1px solid var(--glass-border);
+            margin-top: auto;
         }
-        
-        #user-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-        
-        #user-profile .user-info {
-            flex: 1;
-        }
-        
-        #user-profile .user-info h4 {
-            margin: 0;
-            font-weight: 500;
-        }
-
-        #user-profile .user-info p {
-            margin: 0;
-            font-size: 14px;
-            color: var(--text-secondary-color);
-        }
-
-        #main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #chat-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #chat-header h3 {
-            margin: 0;
-            font-size: 20px;
-        }
-        
-        #chat-header .header-actions button {
-            background: none;
-            border: none;
-            color: var(--text-secondary-color);
-            font-size: 20px;
-            margin-left: 15px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        #chat-header .header-actions button:hover {
-            color: var(--primary-color);
-        }
-        
+        #user-profile img { border: 2px solid var(--primary-color); }
         #chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column-reverse;
+            padding-bottom: 0;
         }
-        
         .message {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            max-width: 80%;
+            margin-bottom: 20px; display: flex; align-items: flex-start;
+            max-width: 80%; opacity: 0;
+            animation: slideIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
-
-        .message .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .message .avatar { border: 2px solid var(--glass-border); }
         .message .message-content {
-            background-color: var(--light-bg);
-            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
             border-radius: 10px;
-            position: relative;
         }
-
-        .message.sent {
-            align-self: flex-end;
-        }
-
-        .message.sent .message-content {
-            background-color: var(--secondary-color);
-        }
-        
-        .message .author {
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--primary-color);
-        }
-        
-        .message .timestamp {
-            font-size: 12px;
-            color: var(--text-secondary-color);
-            margin-left: 10px;
-        }
-
-        #chat-input {
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-        }
-
+        .message.sent { align-self: flex-end; }
+        .message.sent .message-content { background: rgba(0, 246, 255, 0.1); border-color: var(--primary-color); }
+        .message .author { color: var(--primary-color); }
+        .typing-indicator { color: var(--text-secondary-color); font-style: italic; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         #chat-input input {
-            flex: 1;
-            padding: 15px;
-            background-color: var(--light-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            color: var(--text-color);
-            font-size: 16px;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
         }
-
+        #chat-input input:focus {
+            outline: none; border-color: var(--primary-color);
+            box-shadow: 0 0 20px var(--glow-primary);
+        }
         #chat-input button {
-            padding: 15px 20px;
-            margin-left: 10px;
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 5px;
-            color: var(--dark-bg);
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            background-color: var(--primary-color); color: var(--dark-bg);
+            transition: all 0.3s ease; box-shadow: 0 0 15px var(--glow-primary);
         }
-
-        #chat-input button:hover {
-            background-color: var(--secondary-color);
+        #chat-input button:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--glow-primary); }
+        .modal {
+            display: none; position: fixed;
+            z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(10, 10, 16, 0.5);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.4s ease;
         }
-        
-    
-        #video-call-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
+        .modal.visible { display: flex; opacity: 1; }
+        .modal-content {
+            background: var(--surface-bg); border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            transform: scale(0.95); opacity: 0;
+            transition: all 0.4s ease;
         }
-        
-        #video-call-container {
-            width: 80%;
-            height: 80%;
-            background-color: var(--dark-bg);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        #video-streams {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 10px;
-        }
-        
-        .video-participant {
-            background-color: #000;
-            border-radius: 5px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-secondary-color);
-        }
-        
-        .video-participant .name {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: rgba(0,0,0,0.5);
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        #video-controls {
-            padding: 15px;
-            background-color: var(--light-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #video-controls button {
-            background-color: var(--primary-color);
-            border: none;
-            color: var(--dark-bg);
-            font-size: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin: 0 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        #video-controls button.hang-up {
-            background-color: var(--error-color);
-        }
-        
-        #video-controls button:hover {
-            opacity: 0.8;
-        }
-        
-      
-        #file-share-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #file-share-container {
-            width: 500px;
-            background-color: var(--light-bg);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        #file-share-container h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        #drop-zone {
-            border: 2px dashed var(--border-color);
-            padding: 40px;
-            border-radius: 10px;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-        
-        #drop-zone:hover {
-            border-color: var(--primary-color);
-        }
-
-        #file-preview {
-            margin-top: 20px;
-            text-align: left;
-        }
+        .modal.visible .modal-content { transform: scale(1); opacity: 1; }
+        #drop-zone { border: 2px dashed var(--glass-border); }
+        #drop-zone:hover { border-color: var(--primary-color); }
     </style>
 </head>
 <body>
-
-    <div id="app-container">
+    <div id="background-grid"></div>
+    <div id="app-container" class="rounded-lg">
         <aside id="sidebar">
-            <div id="sidebar-header">
-                <h2><i class="fas fa-bolt"></i> StreamChat</h2>
+            <div id="sidebar-header" class="sidebar-section border-b border-b-[var(--glass-border)]">
+                <h2 class="text-2xl font-bold">StreamChat</h2>
             </div>
-            <div id="team-switcher">
-                <select>
-                    <option>Frontend Developers</option>
-                    <option>Backend Engineers</option>
-                    <option>Project Phoenix</option>
-                </select>
-            </div>
-            <div id="channels">
-                <h3><i class="fas fa-hashtag"></i> Channels</h3>
-                <ul class="channel-list">
-                    <li class="active"><i class="fas fa-bullhorn"></i> general</li>
-                    <li><i class="fas fa-code"></i> development</li>
-                    <li><i class="fas fa-random"></i> random</li>
-                    <li><i class="fas fa-file-alt"></i> documentation</li>
+            <div id="channels" class="sidebar-section flex-grow overflow-y-auto">
+                <h3>Channels</h3>
+                <ul class="channel-list space-y-2">
+                    <li data-name="# general"><span class="mr-3">#</span>general</li>
+                    <li data-name="# development"><span class="mr-3">#</span>development</li>
+                    <li data-name="# random"><span class="mr-3">#</span>random</li>
+                    <li data-name="# documentation"><span class="mr-3">#</span>documentation</li>
+                </ul>
+                <h3 class="mt-8">Direct Messages</h3>
+                <ul class="dm-list space-y-2">
+                    <li data-name="Alice"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Alice</li>
+                    <li data-name="Porag"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Porag</li>
+                    <li data-name="Charlie"><span class="w-2 h-2 bg-gray-500 rounded-full mr-3"></span>Charlie</li>
                 </ul>
             </div>
-            <div id="direct-messages">
-                <h3><i class="fas fa-at"></i> Direct Messages</h3>
-                <ul class="dm-list">
-                    <li><i class="fas fa-user-circle"></i> Alice</li>
-                    <li class="active"><i class="fas fa-user-circle"></i> Porag</li>
-                    <li><i class="fas fa-user-circle"></i> Charlie</li>
-                </ul>
-            </div>
-            <div id="user-profile">
-                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar">
-                <div class="user-info">
-                    <h4>Test Per1</h4>
-                    <p>Online</p>
+            <div id="user-profile" class="sidebar-section">
+                <div class="flex items-center">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" class="w-10 h-10 rounded-full mr-4">
+                    <div class="flex-1"><h4 class="font-bold">Sarah</h4><p class="text-sm text-green-400">Online</p></div>
+                    <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
-                <i class="fas fa-cog"></i>
             </div>
         </aside>
-        <main id="main-content">
-            <header id="chat-header">
-                <h3>#Hey So this a Demo of the project, i haven't uploaded the original here yet! </h3>
-                <div class="header-actions">
-                    <button id="start-video-call"><i class="fas fa-video"></i></button>
-                    <button id="share-file-button"><i class="fas fa-paperclip"></i></button>
-                    <button><i class="fas fa-search"></i></button>
-                    <button><i class="fas fa-ellipsis-v"></i></button>
+        <main id="main-content" class="flex-1 flex flex-col">
+            <header id="chat-header" class="p-5 border-b border-b-[var(--glass-border)] flex justify-between items-center">
+                <h3 id="chat-title" class="text-xl font-bold"></h3>
+                <div class="header-actions flex items-center gap-4 text-xl text-gray-400">
+                    <button id="start-video-call" class="hover:text-primary transition-colors"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                    <button id="share-file-button" class="hover:text-primary transition-colors"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg></button>
                 </div>
             </header>
-            <div id="chat-messages">
-                <div class="message received">
-                    <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="Avatar" class="avatar">
-                    <div class="message-content">
-                        <div class="author">Alice</div>
-                        <p>Hey everyone, the new designs for the dashboard are ready for review.</p>
-                        <span class="timestamp">10:00 AM</span>
-                    </div>
-                </div>
-                <div class="message sent">
-                    <div class="message-content">
-                        <div class="author">You</div>
-                        <p>Great! I'll take a look now.</p>
-                        <span class="timestamp">10:01 AM</span>
-                    </div>
-                </div>
-                 <div class="message received">
-                    <img src="https://loremflickr.com/250/250/dog" alt="Avatar" class="avatar">
-                    <div class="message-content">
-                        <div class="author">Bob</div>
-                        <p>Can someone push the latest backend changes? It's blocking my work.</p>
-                        <span class="timestamp">10:05 AM</span>
-                    </div>
-                </div>
+            <div id="chat-messages" class="flex-1 p-5 overflow-y-auto">
             </div>
-            <div id="chat-input">
-                <input type="text" id="message-input" placeholder="Type a message...">
-                <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+            <div id="chat-input" class="p-5 border-t border-t-[var(--glass-border)] flex items-center gap-4">
+                <input type="text" id="message-input" placeholder="Type a message..." class="w-full p-3 rounded-lg text-base">
+                <button id="send-button" class="px-5 py-3 rounded-lg"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
             </div>
         </main>
     </div>
 
-    <div id="video-call-modal">
-        <div id="video-call-container">
-            <div id="video-streams">
-                <div class="video-participant">
-                    <video autoplay muted loop style="width:100%; height: 100%; object-fit: cover;">
-                        <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
-                    </video>
-                    <div class="name">You</div>
-                </div>
-                <div class="video-participant">
-                    <i class="fas fa-user-astronaut fa-5x"></i>
-                    <div class="name">Bob</div>
-                </div>
+    <div id="video-call-modal" class="modal">
+        <div id="video-call-container" class="modal-content w-11/12 h-5/6 max-w-6xl flex flex-col">
+            <div class="p-4 border-b border-b-[var(--glass-border)] flex justify-between items-center"><h3 class="text-lg font-bold">Video Call</h3><button class="close-modal-btn text-2xl">&times;</button></div>
+            <div class="flex-1 p-4 grid grid-cols-2 gap-4">
+                <div class="bg-black rounded-lg relative flex items-center justify-center"><div class="absolute bottom-2 left-2 bg-black/50 px-2 py-1 rounded">You</div></div>
+                <div class="bg-black rounded-lg relative flex items-center justify-center"><div class="absolute bottom-2 left-2 bg-black/50 px-2 py-1 rounded">Bob</div></div>
             </div>
-            <div id="video-controls">
-                <button><i class="fas fa-microphone"></i></button>
-                <button><i class="fas fa-video-slash"></i></button>
-                <button class="hang-up" id="hang-up-call"><i class="fas fa-phone-slash"></i></button>
-                <button><i class="fas fa-desktop"></i></button>
+            <div class="p-4 bg-black/30 flex justify-center items-center gap-4">
+                <button class="w-14 h-14 bg-green-500 rounded-full text-white text-2xl flex items-center justify-center"><svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg></button>
+                <button class="w-14 h-14 bg-red-600 rounded-full text-white text-2xl flex items-center justify-center close-modal-btn"><svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8l2-2m0 0l2 2m-2-2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V6m0 0L6 8m2-2l2 2"></path></svg></button>
             </div>
         </div>
     </div>
     
-    <div id="file-share-modal">
-        <div id="file-share-container">
-            <h3>Share a File</h3>
-            <div id="drop-zone">
+    <div id="file-share-modal" class="modal">
+        <div id="file-share-container" class="modal-content w-full max-w-lg text-center p-8">
+            <h3 class="text-xl font-bold text-primary">Share a File</h3>
+            <div id="drop-zone" class="mt-6 p-10 rounded-lg cursor-pointer transition-colors">
                 <p>Drag & drop a file here or click to select</p>
                 <input type="file" id="file-input" hidden>
             </div>
-            <div id="file-preview"></div>
-            <button id="close-file-share">Close</button>
+            <div id="file-preview" class="mt-4 text-left"></div>
+            <button class="mt-6 px-6 py-2 bg-red-600 rounded-md close-modal-btn">Close</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const messageInput = document.getElementById('message-input');
-            const sendButton = document.getElementById('send-button');
-            const chatMessages = document.getElementById('chat-messages');
-
-            const startVideoCallBtn = document.getElementById('start-video-call');
-            const videoCallModal = document.getElementById('video-call-modal');
-            const hangUpCallBtn = document.getElementById('hang-up-call');
-
-            const shareFileBtn = document.getElementById('share-file-button');
-            const fileShareModal = document.getElementById('file-share-modal');
-            const closeFileShareBtn = document.getElementById('close-file-share');
-            const dropZone = document.getElementById('drop-zone');
-            const fileInput = document.getElementById('file-input');
-            const filePreview = document.getElementById('file-preview');
-
-            // Send message
-            const sendMessage = () => {
-                const messageText = messageInput.value.trim();
-                if (messageText) {
+            const App = {
+                $: (selector) => document.querySelector(selector),
+                $$: (selector) => document.querySelectorAll(selector),
+                init() {
+                    this.cacheDOMElements();
+                    this.addEventListeners();
+                    this.setActiveChannel(this.$('.channel-list li'));
+                    this.addMessage('Alice', 'Hey everyone, the new designs for the dashboard are ready for review.', '10:00 AM', 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250', 'received');
+                    this.addMessage('You', 'Great! I\'ll take a look now.', '10:01 AM', null, 'sent');
+                    this.addMessage('Bob', 'Can someone push the latest backend changes? It\'s blocking my work.', '10:05 AM', 'https://www.vets4pets.com/siteassets/species/dog/puppy/labrador-puppy-happy.jpg', 'received');
+                },
+                cacheDOMElements() {
+                    this.messageInput = this.$('#message-input');
+                    this.sendButton = this.$('#send-button');
+                    this.chatMessages = this.$('#chat-messages');
+                    this.chatTitle = this.$('#chat-title');
+                    this.videoCallModal = this.$('#video-call-modal');
+                    this.fileShareModal = this.$('#file-share-modal');
+                    this.dropZone = this.$('#drop-zone');
+                    this.fileInput = this.$('#file-input');
+                    this.filePreview = this.$('#file-preview');
+                },
+                addEventListeners() {
+                    this.sendButton.addEventListener('click', () => this.sendMessage());
+                    this.messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.sendMessage(); });
+                    this.$$('#sidebar li').forEach(li => li.addEventListener('click', () => this.setActiveChannel(li)));
+                    this.$('#start-video-call').addEventListener('click', () => this.videoCallModal.classList.add('visible'));
+                    this.$('#share-file-button').addEventListener('click', () => this.fileShareModal.classList.add('visible'));
+                    this.$$('.close-modal-btn').forEach(btn => btn.addEventListener('click', () => this.closeAllModals()));
+                    this.dropZone.addEventListener('click', () => this.fileInput.click());
+                    this.fileInput.addEventListener('change', (e) => this.handleFiles(e.target.files));
+                    this.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); this.dropZone.style.borderColor = 'var(--primary-color)'; });
+                    this.dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); this.dropZone.style.borderColor = 'var(--glass-border)'; });
+                    this.dropZone.addEventListener('drop', (e) => { e.preventDefault(); this.dropZone.style.borderColor = 'var(--glass-border)'; this.handleFiles(e.dataTransfer.files); });
+                },
+                sendMessage() {
+                    const messageText = this.messageInput.value.trim();
+                    if (messageText) {
+                        this.addMessage('You', messageText, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), null, 'sent');
+                        this.messageInput.value = '';
+                        this.simulateReply();
+                    }
+                },
+                addMessage(author, text, time, avatarUrl, type) {
                     const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', 'sent');
+                    messageElement.classList.add('message', type);
+                    const avatarHTML = type === 'received' ? `<img src="${avatarUrl}" alt="Avatar" class="avatar w-10 h-10 rounded-full mr-4">` : '';
                     messageElement.innerHTML = `
-                        <div class="message-content">
-                            <div class="author">You</div>
-                            <p>${messageText}</p>
-                            <span class="timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                    `;
-                    chatMessages.appendChild(messageElement);
-                    messageInput.value = '';
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                        ${avatarHTML}
+                        <div class="message-content p-4">
+                            <div class="flex items-baseline"><div class="author font-bold mb-1">${author}</div><span class="timestamp text-xs text-gray-500 ml-2">${time}</span></div>
+                            <p>${text}</p>
+                        </div>`;
+                    this.chatMessages.prepend(messageElement);
+                },
+                simulateReply() {
+                    const typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'message received typing-indicator';
+                    typingIndicator.innerHTML = '<span>A user is typing...</span>';
+                    this.chatMessages.prepend(typingIndicator);
+
+                    setTimeout(() => {
+                        typingIndicator.remove();
+                        const replies = ["Got it, thanks!", "On it.", "Interesting point, let me think about that.", "Haha, that's a good one.", "Could you elaborate?"];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        this.addMessage('Alice', randomReply, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250', 'received');
+                    }, Math.random() * 2000 + 1000);
+                },
+                setActiveChannel(el) {
+                    this.$$('#sidebar li.active').forEach(li => li.classList.remove('active'));
+                    el.classList.add('active');
+                    this.chatTitle.textContent = el.dataset.name;
+                },
+                closeAllModals() {
+                    this.$$('.modal.visible').forEach(modal => modal.classList.remove('visible'));
+                },
+                handleFiles(files) {
+                    if (files.length) this.filePreview.innerHTML = `<p><strong>Selected file:</strong> ${files[0].name}</p>`;
                 }
             };
-
-            sendButton.addEventListener('click', sendMessage);
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-
-            
-            startVideoCallBtn.addEventListener('click', () => {
-                videoCallModal.style.display = 'flex';
-            });
-
-            hangUpCallBtn.addEventListener('click', () => {
-                videoCallModal.style.display = 'none';
-            });
-            
-           
-            shareFileBtn.addEventListener('click', () => {
-                fileShareModal.style.display = 'flex';
-            });
-            
-            closeFileShareBtn.addEventListener('click', () => {
-                fileShareModal.style.display = 'none';
-            });
-
-            dropZone.addEventListener('click', () => fileInput.click());
-            
-            fileInput.addEventListener('change', (e) => {
-                handleFiles(e.target.files);
-            });
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.style.borderColor = 'var(--success-color)';
-            });
-            
-            dropZone.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                dropZone.style.borderColor = 'var(--border-color)';
-            });
-
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.style.borderColor = 'var(--border-color)';
-                handleFiles(e.dataTransfer.files);
-            });
-            
-            const handleFiles = (files) => {
-                if (files.length) {
-                    const file = files[0];
-                    filePreview.innerHTML = `<p><strong>Selected file:</strong> ${file.name}</p>`;
-                }
-            };
+            App.init();
         });
     </script>
 </body>

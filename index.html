@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarnab Bhattacharjee - Full Stack Developer & Data Entry Specialist</title>
-    <meta name="description" content="Multi-skilled professional specializing in Full Stack Development and Data Entry services. View my portfolio of innovative projects, technical expertise, and data management solutions.">
+    <meta name="description" content="Multi-skilled professional specializing in Full Stack Development, UI/UX Design, and Data Entry services. View my portfolio of innovative projects, technical expertise, and data management solutions.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -262,6 +262,9 @@
         .skill-dot.inactive {
             background: hsl(var(--muted-foreground) / 0.3);
         }
+        .skill-dot.half {
+            background: linear-gradient(to right, currentColor 50%, hsl(var(--muted-foreground) / 0.3) 50%);
+        }
         .filter-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -340,7 +343,7 @@
                         <span class="block text-gradient">Bhattacharjee</span>
                     </h1>
                     <p class="text-xl sm:text-2xl text-gray-400 mb-8 leading-relaxed">
-                        Full Stack Developer & Data Entry Specialist, delivering clean code and precise data solutions.
+                        Full Stack Developer, UI/UX Designer & Data Entry Specialist.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <button class="btn-primary" onclick="downloadResume()">
@@ -390,7 +393,7 @@
             <div class="text-center mb-16 animate-fadeInUp">
                 <h2 class="text-4xl sm:text-5xl font-bold mb-6">About Me</h2>
                 <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Passionate about creating exceptional digital experiences and providing precise data solutions.
+                    A multi-skilled professional passionate about creating exceptional digital experiences and providing precise data solutions.
                 </p>
             </div>
             <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -406,7 +409,7 @@
                     <div class="space-y-4">
                         <h3 class="text-2xl font-semibold text-blue-400">My Journey</h3>
                         <p class="text-gray-400 leading-relaxed">
-                            With over 1.5 year of experience in full-stack development, I've had the privilege of working to bring innovative ideas to life. My passion lies in creating scalable, user-centric applications. Alongside my journey in web development, I've also honed my skills as a data entry professional, completing an advanced course to deliver market-ready data management services with exceptional accuracy and efficiency.
+                            With over 1.5 year of experience in full-stack development, I've had the privilege of working to bring innovative ideas to life. My passion lies in creating scalable, user-centric applications. My journey has expanded to include UI/UX design, where I am certified, and data entry, where I've completed advanced training to deliver market-ready services with exceptional accuracy.
                         </p>
                         <p class="text-gray-400 leading-relaxed">
                             I believe in continuous learning and staying ahead of industry trends. My approach combines technical excellence with creative problem-solving, ensuring that every project delivers both functionality and a great user experience.
@@ -426,7 +429,7 @@
                             <div class="text-gray-400 text-sm">Focused</div>
                         </div>
                         <div class="bg-black/50 p-6 rounded-xl border border-blue-400/20">
-                            <div class="text-3xl font-bold text-blue-400 mb-2">10+</div>
+                            <div class="text-3xl font-bold text-blue-400 mb-2">15+</div>
                             <div class="text-gray-400 text-sm">Skills & Tools</div>
                         </div>
                     </div>
@@ -475,76 +478,100 @@
                     A comprehensive toolkit of modern technologies and professional skills that I use to deliver exceptional results.
                 </p>
             </div>
-            <div class="grid lg:grid-cols-2 xl:grid-cols-5 gap-8">
-                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group lg:col-span-1">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-keyboard text-white text-2xl"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4 text-blue-400">Data Entry & Admin</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Fast & Accurate Typing</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Data Mining & Scraping</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Data Cleansing</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">MS Excel / Google Sheets</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Web Research</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">CRM Data Entry</span></div>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Fast & Accurate Typing</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Data Mining & Scraping</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Data Cleansing</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">MS Excel / Google Sheets</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Web Research</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">CRM Data Entry</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group lg:col-span-1">
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-teal-400/10 hover:border-teal-400/30 transition-all duration-300 group">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-palette text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4 text-teal-400">UI/UX Design</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Figma</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Adobe XD</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Wireframing</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Prototyping</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">User Research</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Usability Testing</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/10 hover:border-blue-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-laptop-code text-white text-2xl"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4 text-blue-400">Frontend</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between"><span class="text-gray-400">React</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Next.js</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">TypeScript</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Tailwind CSS</span></div>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">React</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Next.js</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">TypeScript</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Tailwind CSS</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">HTML5</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">CSS3</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-green-400/10 hover:border-green-400/30 transition-all duration-300 group lg:col-span-1">
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-green-400/10 hover:border-green-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-server text-white text-2xl"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4 text-green-400">Backend</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Node.js</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Python</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Express.js</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">API</span></div>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Node.js</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Express.js</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Python</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">RESTful APIs</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">GraphQL</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Authentication</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-purple-400/10 hover:border-purple-400/30 transition-all duration-300 group lg:col-span-1">
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-purple-400/10 hover:border-purple-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-database text-white text-2xl"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4 text-purple-400">Database</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between"><span class="text-gray-400">SQL</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">MongoDB</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Redis</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Prisma</span></div>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">SQL</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">PostgreSQL</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">MongoDB</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Firebase</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Redis</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Prisma</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-orange-400/10 hover:border-orange-400/30 transition-all duration-300 group lg:col-span-1">
+                <div class="bg-black/30 backdrop-blur-sm p-8 rounded-2xl border border-orange-400/10 hover:border-orange-400/30 transition-all duration-300 group">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-tools text-white text-2xl"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4 text-orange-400">Tools & DevOps</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Docker</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">AWS</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Vercel</span></div>
-                            <div class="flex items-center justify-between"><span class="text-gray-400">Git</span></div>
+                        <div class="space-y-3 text-left">
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Git</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">GitHub</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Docker</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">AWS</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">Vercel</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
+                            <div class="flex items-center justify-between"><span class="text-gray-400">CI/CD</span><div class="flex space-x-1"><div class="skill-dot active"></div><div class="skill-dot half"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div><div class="skill-dot inactive"></div></div></div>
                         </div>
                     </div>
                 </div>
@@ -746,10 +773,10 @@
                     <h4 class="font-semibold mb-4">Services</h4>
                     <ul class="space-y-2">
                         <li class="text-gray-400">Web Development</li>
+                        <li class="text-gray-400">UI/UX Design</li>
                         <li class="text-gray-400">Data Entry Services</li>
                         <li class="text-gray-400">Mobile Apps</li>
                         <li class="text-gray-400">API Work</li>
-                        <li class="text-gray-400">Technical Consulting</li>
                     </ul>
                 </div>
             </div>
